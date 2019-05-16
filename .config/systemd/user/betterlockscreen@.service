@@ -1,0 +1,13 @@
+[Unit]
+Description=betterscreenlock for %I
+Before=sleep.target suspend.target
+
+[Service]
+User=%I
+Type=simple
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/betterlockscreen -l blur
+TimeoutSec=infinity
+
+[Install]
+WantedBy=sleep.target suspend.target

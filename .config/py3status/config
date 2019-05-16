@@ -1,0 +1,76 @@
+order += "sysdata"
+order += "conky disk"
+order += "volume master"
+order += "wifi"
+order += "battery_level"
+order += "clock"
+
+py3status {
+          markup = 'pango'
+          separator = True
+          separator_block_width = 9
+
+}
+
+general {
+        color = '#ffffff'
+        color_good = '#ffffff'
+        color_bad = '#777777'
+        color_degraded = '#aaaaaa'
+}
+
+
+sysdata {
+        cache_timeout = 1
+        # cpu
+        format = '[\?color=cpu_used_percent CPU: {cpu_used_percent}% ]'
+        # cpu temp
+        format += '[\?color=cpu_temp ({cpu_temp}{temp_unit})]  '
+        # memory
+        format += '[\?color=mem_used_percent RAM: {mem_used}/{mem_total} {mem_total_unit} ({mem_used_percent}%)]'
+        zone = '/sys/bus/platform/devices/coretemp.0/'
+}
+
+conky {
+      config = {
+             'update_interval': 5,
+             'format_human_readable': True,
+             'short_units': True,
+             'uppercase': True,
+	}
+}
+
+conky disk {
+      # root filesystem
+      format = '  [\?color=white {fs_used /}/{fs_size /}]  '
+      # home filesystem
+      format += ' [\?color=white {fs_used /home}/{fs_size /home}]'
+}
+
+volume master {
+       format = "墳 %volume"
+       format_muted = "ﱝ"
+}
+
+wifi {
+     cache_timeout = 1
+     format = " {ssid} {ip}|睊"
+}
+
+battery_level {
+              blocks = ""
+              cache_timeout = 1
+              charging_character = ""
+              format = "{icon} {percent}%"
+              format_notify_charging = "{percent}%"
+              format_notify_discharging = "{percent}%"
+              hide_when_full = True
+              sys_battery_path = "/sys/class/power_supply/CMB0/uevent"
+              threshold_bad = 5
+              threshold_degraded = 10
+              
+}
+
+clock {
+      format_time = "%Y/%m/%d %a %H:%M:%S"
+}

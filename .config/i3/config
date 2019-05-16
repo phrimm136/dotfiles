@@ -1,0 +1,197 @@
+# i3-gaps configure
+for_window [class="^.*"] border pixel 1
+smart_gaps on
+gaps inner 10
+gaps outer 10
+
+# set variables
+set $super Mod4
+set $alt Mod1
+
+# set font
+font pango: SFNS 8
+
+# Use Mouse+$super to drag floating windows to their wanted position
+floating_modifier $super
+
+# autostart
+exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
+exec --no-startup-id xsettingsd &
+exec --no-startup-id compton -bc
+exec --no-startup-id setxkbmap -option korean:ralt_rctrl -option ctrl:swapcaps
+exec --no-startup-id sleep 1
+exec --no-startup-id xcape -t 150 -e "Control_L=Escape"
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec --no-startup-id lxsession
+#exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
+exec --no-startup-id ~/.config/polybar/scripts/start.sh
+
+# start a terminal
+bindsym $super+Return exec termite -e 'zsh -c "neofetch && zsh"'
+
+# window menu
+bindsym $super+e exec ~/.config/rofi/menu/menu.sh
+
+# start a program launcher
+bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
+bindsym $super+d exec rofi -theme ~/.config/rofi/full.rasi -show drun
+
+# common apps keybinds
+bindsym Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -e 'feh $f'
+bindsym $super+Print scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 1-e 'feh $f'
+#bindsym $super+Ctrl+l exec i3lock -i ~/Downloads/238803.png
+bindsym $super+Shift+e exec emacs
+bindsym $super+Shift+c exec google-chrome-stable
+#bindsym $super+Shift+d exec discord
+bindsym $super+Shift+f exec thunar;workspace 3;focus
+
+# change volume
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
+bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
+bindsym XF86AudioMute exec amixer set Master toggle
+
+# music control
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioStop exec mpc stop
+
+# handle power button
+bindsym XF86PowerOff exec systemctl suspend
+
+# kill focused window
+bindsym $super+q kill
+bindsym $alt+F4 kill
+
+# change focus
+bindsym $super+Left focus left
+bindsym $super+Down focus down
+bindsym $super+Up focus up
+bindsym $super+Right focus right
+bindsym $super+h focus left
+bindsym $super+j focus down
+bindsym $super+k focus up
+bindsym $super+l focus right
+
+# move focused window
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+bindsym $super+Shift+h move left
+bindsym $super+Shift+j move down
+bindsym $super+Shift+k move up
+bindsym $super+Shift+l move right
+
+# split in horizontal orientation
+bindsym $super+g split h
+
+# split in vertical orientation
+bindsym $super+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $super+f fullscreen toggle
+
+# change container layout split
+bindsym $super+s layout toggle split
+
+# toggle tiling / floating
+bindsym $super+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $super+Shift+space focus mode_toggle
+
+# switch to workspace
+bindsym $super+Control+Right workspace next
+bindsym $super+Control+Left workspace prev
+bindsym $super+Ctrl+h workspace prev
+bindsym $super+Ctrl+l workspace next
+bindsym $super+1 workspace 1
+bindsym $super+2 workspace 2
+bindsym $super+3 workspace 3
+bindsym $super+4 workspace 4
+bindsym $super+5 workspace 5
+bindsym $super+6 workspace 6
+bindsym $super+7 workspace 7
+bindsym $super+8 workspace 8
+bindsym $super+9 workspace 9
+bindsym $super+0 workspace 0
+
+# move focused container to workspace
+bindsym $super+Shift+1 move container to workspace 1
+bindsym $super+Shift+2 move container to workspace 2
+bindsym $super+Shift+3 move container to workspace 3
+bindsym $super+Shift+4 move container to workspace 4
+bindsym $super+Shift+5 move container to workspace 5
+bindsym $super+Shift+6 move container to workspace 6
+bindsym $super+Shift+7 move container to workspace 7
+bindsym $super+Shift+8 move container to workspace 8
+bindsym $super+Shift+9 move container to workspace 9
+bindsym $super+Shift+0 move container to workspace 0
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $super+Shift+r restart
+
+# exit i3
+bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+	bindsym Escape mode "default"
+        bindsym Return mode "default"
+}
+bindsym $super+r mode "resize"
+
+# panel
+#bar {
+#	font pango: Noto Sans Nerd Font 8
+#	position top
+#	workspace_buttons no
+#	tray_output none
+#	colors {
+#        background #000000
+#        statusline #000000
+#        separator #4b5262
+#    }
+#        status_command py3status
+#}
+
+#bar {
+#	font pango: Noto Sans Nerd Font 8
+#	position bottom
+#	tray_output primary
+#	colors {
+#	background #000000
+#	statusline #000000
+#	separator #4b5262
+#
+#	# colour of border, background, and text
+#       focused_workspace	#2f343f	#112432	#d8dee8
+#      active_workspace	#2f343f	#2f343f	#d8dee8
+#        inactive_workspace	#2f343f	#2f343f	#d8dee8
+#        urgent_workspace	#2f343f	#ebcb06	#2f343f
+#    }
+#	
+#}
+
+# window rules, you can find the window class using xprop
+assign [class=Thunderbird] 0
+assign [class=Google-chrome] 1
+assign [class=Emacs] 2
+assign [class=Termite] 3
+assign [class=discord] 4
+assign [class=Audacity|Vlc|mpv|Ghb|Xfburn|Gimp*|Inkscape] 5
+for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick|Xfce4] floating enable
+for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord] focus
+
+# class				border	backgr.	text	indica.	child_border
+client.focused			#585858 #2f343f #d8dee8 #ffffff #585858
+client.focused_inactive	        #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused		#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent			#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder		#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background		#2f343f
