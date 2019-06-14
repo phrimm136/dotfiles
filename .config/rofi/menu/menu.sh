@@ -1,7 +1,9 @@
 #!/bin/sh
-menu=$(echo -e "program\nsearch\npower" | rofi -theme ~/.config/rofi/full.rasi -dmenu -i -p "menu ")
+menu=$(echo -e "display\nprogram\nsearch\npower" | rofi -theme ~/.config/rofi/full.rasi -dmenu -i -p "menu ")
 
 case $menu in
+	display)
+		exec ~/.config/rofi/menu/dispaly.sh ;;
 	program)
 		rofi -theme ~/.config/rofi/full.rasi -show drun ;;
 	search)

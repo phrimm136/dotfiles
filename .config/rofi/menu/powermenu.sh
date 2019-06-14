@@ -1,9 +1,10 @@
 #!/bin/sh
+
 menu=$(echo -e "lock\nlogout\nsuspend\nhibernate\nreboot\npoweroff" | rofi -theme ~/.config/rofi/full.rasi -dmenu -i -p "power ")
 
 case $menu in
 	lock)
-		betterlockscreen -l dimblur ;;
+		betterlockscreen -l ;;
 	logout)
 		i3-msg exit ;;
 	suspend)

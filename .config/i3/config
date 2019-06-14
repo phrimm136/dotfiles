@@ -1,5 +1,5 @@
 # i3-gaps configure
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 0
 smart_gaps on
 gaps inner 10
 gaps outer 10
@@ -30,7 +30,7 @@ exec --no-startup-id ~/.config/polybar/scripts/start.sh
 bindsym $super+Return exec termite -e 'zsh -c "neofetch && zsh"'
 
 # window menu
-bindsym $super+e exec ~/.config/rofi/menu/menu.sh
+bindcode 133 --release exec ~/.config/rofi/menu/menu.sh # $super
 
 # start a program launcher
 bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
@@ -44,6 +44,10 @@ bindsym $super+Shift+e exec emacs
 bindsym $super+Shift+c exec google-chrome-stable
 #bindsym $super+Shift+d exec discord
 bindsym $super+Shift+f exec thunar;workspace 3;focus
+
+# control external display
+bindsym XF84Display exec ~/.config/rofi/menu/display.sh
+bindsym $super+p exec ~/.config/rofi/menu/display.sh
 
 # change volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
@@ -115,7 +119,7 @@ bindsym $super+6 workspace 6
 bindsym $super+7 workspace 7
 bindsym $super+8 workspace 8
 bindsym $super+9 workspace 9
-bindsym $super+0 workspace 0
+bindsym $super+0 workspace 10
 
 # move focused container to workspace
 bindsym $super+Shift+1 move container to workspace 1
@@ -127,10 +131,10 @@ bindsym $super+Shift+6 move container to workspace 6
 bindsym $super+Shift+7 move container to workspace 7
 bindsym $super+Shift+8 move container to workspace 8
 bindsym $super+Shift+9 move container to workspace 9
-bindsym $super+Shift+0 move container to workspace 0
+bindsym $super+Shift+0 move container to workspace 10
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $super+Shift+r restart
+bindsym $super+Shift+r exec "i3 restart || ~/.config/polybar/scripts/start.sh"
 
 # exit i3
 bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
@@ -141,6 +145,10 @@ mode "resize" {
         bindsym Down resize grow height 5 px or 5 ppt
         bindsym Up resize shrink height 5 px or 5 ppt
         bindsym Right resize grow width 5 px or 5 ppt
+        bindsym h resize shrink width 5 px or 5 ppt
+        bindsym j resize grow height 5 px or 5 ppt
+        bindsym k resize shrink height 5 px or 5 ppt
+        bindsym l resize grow width 5 px or 5 ppt
 	bindsym Escape mode "default"
         bindsym Return mode "default"
 }
@@ -186,6 +194,7 @@ assign [class=Termite] 3
 assign [class=discord] 4
 assign [class=Audacity|Vlc|mpv|Ghb|Xfburn|Gimp*|Inkscape] 5
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick|Xfce4] floating enable
+for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
 for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord] focus
 
 # class				border	backgr.	text	indica.	child_border
