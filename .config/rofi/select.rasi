@@ -1,13 +1,15 @@
 configuration {
 	modi:				[window,run,ssh,drun];
-	width:				100;
-	lines:				10;
+	lines:				6;
 	font:				"SFNS 12";
 	auto-select:			true;
 	matching:			"fuzzy";
 	separator-style:		"solid";
 	hide-scrollbar:			true;
-	fullscreen:			true;
+	kb-remove-to-eol:		"";
+	kb-accept-entry:		"Return,KP_Enter";
+	kb-row-up:			"Up,Control+k";
+	kb-row-down:			"Down,Control+j";
 }
 
 * {
@@ -22,20 +24,19 @@ configuration {
 	text-color:			#ffffff;
 }
 
-#mainbox {
-	padding:			30%;
-	background-color:		rgba(0, 0, 0, 0.4);
+#window {
+	location:			center;
+	anchor:				center;
 }
 
-#inputbar {
-	padding:			10 0 10;
+#mainbox {
+	background-color:		rgba(0, 0, 0, 0.4);
+	children:			[listview];
 }
 
 #listview {
 	fixed-height: 			0;
-	border:       			2px 0px 0px;
-	border-color: 			#ffffff;
-	padding:			10 1% 10;
+	padding:			10;
 	spacing:			10;
 }
 

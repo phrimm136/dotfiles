@@ -1,8 +1,12 @@
+;;; package --- summary:
+;;; Commentary:
+;;; Code:
+
+
 ;;; cmake-ide and its deps.
 
 (require 'cl)
 (require 'company)
-(require 'flycheck)
 
 
 (unless (fboundp 'levenshtein-distance)
@@ -16,41 +20,16 @@
   :init (setq cmake-tab-width 4))
 
 
-;;; keymap
-
-;(evil-define-key 'normal 'rtags-)
-
-
 ;;; C common style
 
 (add-hook 'c-mode-common-hook '(lambda ()
-				 (setq c-default-style "bsd"
-				       indent-tabs-mode nil
-				       c-basic-offset 4)))
-
+                                 (setq c-default-style "bsd"
+                                       tab-width 4
+                                       indent-tabs-mode nil
+                                       indent-level 4
+                                       c-basic-offset 4)
+                                 (c-set-offset 'substatement-open 0)))
 (add-hook 'c-mode-common-hook 'highlight-numbers-mode)
-
-
-;;; ivy-rtags
-
-(use-package ivy-rtags
-  :ensure t
-  :config (setq rtags-display-result-backend 'ivy))
-
-
-;;; flycheck-clang-tidy
-
-(use-package flycheck-clang-tidy
-  :ensure t
-  :config (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
-
-
-;;; company
-
-(use-package company-rtags
-  :ensure t
-  :config (add-hook 'c-mode-common-hook (lambda ()
-					  (add-to-list 'company-backends 'company-c-headers))))
 
 
 ;;; rtags
@@ -60,15 +39,31 @@
   :ensure t
   :config (progn (setq rtags-autostart-diagnostics t)
                  (setq rtags-completions-enabled t)
-                 (setq rtags-path "~/.emacs.d/elpa/rtags-20190410.1615/rtags-2.22/bin")
+                 (setq rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags") ; Todo: use regex for path
                  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)))
 
 
-;;; eldoc
+;;; use ivy for frontend of rtags
 
-(use-package eldoc
+(use-package ivy-rtags
   :ensure t
-  :diminish eldoc-mode)
+  :config (setq rtags-display-result-backend 'ivy))
+
+
+;;; clang-tidy
+
+(use-package flycheck-clang-tidy
+  :ensure t
+  :config (progn (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup)))
+
+
+;;; completion for rtags
+
+(use-package company-rtags
+  :ensure t
+  :config (add-hook 'c-mode-common-hook (lambda ()
+                                          (add-to-list 'company-backends 'company-c-headers))))
+
 
 ;;; Rtags + Eldoc:
 ;; https://github.com/Andersbakken/rtags/issues/987
@@ -85,15 +80,14 @@
 
 (defun rtags-eldoc-function ()
   (let ((summary (rtags-get-summary-text)))
-    (and summary
-         (fontify-string
-          (replace-regexp-in-string
-           "{[^}]*$" ""
-           (mapconcat
-            (lambda (str) (if (= 0 (length str)) "//" (string-trim str)))
-            (split-string summary "\r?\n")
-            " "))
-          major-mode))))
+    (and summary (fontify-string (replace-regexp-in-string "{[^}]*$" ""
+                                                           (mapconcat (lambda (str)
+                                                                        (if (= 0 (length str))
+                                                                            "//"
+                                                                          (string-trim str)))
+                                                                      (split-string summary "\r?\n")
+                                                                      " "))
+                                 major-mode))))
 
 (defun rtags-eldoc-mode ()
   (interactive)
@@ -108,15 +102,16 @@
 (use-package cmake-ide
   :ensure t
   :config (progn (require 'rtags) ;; optional, must have rtags installed
-		 (cmake-ide-setup)
-		 ;;
-		 (defun cmake-ide-compile* ()
-		   (interactive)
-		   (let ((old-pw default-directory))
-		     (cd (cide--build-dir))
-		     (call-interactively 'compile)
-		     (cd old-pw)))
-		 (define-key c-mode-base-map (kbd "C-c b") (function cmake-ide-compile*))))
+                 (cmake-ide-setup)
+                 (setq cmake-ide-build-dir "./build")
+                 ;;
+                 (defun cmake-ide-compile* ()
+                   (interactive)
+                   (let ((old-pw default-directory))
+                     (cd (cide--build-dir))
+                     (call-interactively 'compile)
+                     (cd old-pw)))
+                 (define-key c-mode-base-map (kbd "C-c b") (function cmake-ide-compile*))))
 
 (defun cmake-ide-delete-build-dir ()
   (interactive)
@@ -145,71 +140,53 @@
                                  (insert (format "==========\n%s -- (%s) %s\n"
                                                  evt
                                                  (process-exit-status proc)
-                                                 evt (current-time-string)))))
+                                                 (current-time-string)))))
     ;;
     proc))
 
-(defun cmake-ide-find-exe-file ()
+(defun cmake-ide-find-exe-files ()
   (interactive)
   (let* ((exec-files (seq-filter 'file-executable-p
-                                 (directory-files-recursively
-                                  (cide--build-dir)
-                                  ".*")))
+                                 (directory-files-recursively (cide--build-dir)
+                                                              ".*")))
          (base-buffer-name (file-name-base (buffer-name)))
          (calc-dist (lambda (fn) (cons fn
-                                       (levenshtein-distance
-                                        base-buffer-name
-                                        (file-name-base fn)))))
-         (cdr-< (lambda (a b) (< (cdr a) (cdr b))))
-         (distances (sort (mapcar calc-dist exec-files) cdr-<))
+                                       (levenshtein-distance base-buffer-name
+                                                             (file-name-base fn)))))
+         (cdr-< (lambda (a b)
+                  (< (cdr a) (cdr b))))
+         (distances (sort (mapcar calc-dist exec-files)
+                          cdr-<))
          ;;(---- (message distances))
          (nearest (car (first distances))))
     (cons nearest exec-files)))
 
-(defun cmake-ide-gdb-files-source ()
-  "http://kitchingroup.cheme.cmu.edu/blog/2015/01/24/Anatomy-of-a-helm-source/"
+(defun cmake-ide-run-gdb ()
   (interactive)
-  (require 'seq)
-  `((name . "Executable file to debug")
-    (candidates . ,(cmake-ide-find-exe-file))
-    (action . (lambda (sel)
-                (gdb (read-from-minibuffer
-                      "Cmd: " (format "%s %s" gud-gdb-command-name sel)))))))
+  (ivy-read "Executable file to debug"
+            (cmake-ide-find-exe-files)
+            :action (lambda (sel)
+                      (gdb (concat gud-gdb-command-name " " sel)))))
 
-(defun cmake-ide-helm-run-gdb ()
+(defun cmake-ide-run-exe ()
   (interactive)
-  (helm :sources (cmake-ide-gdb-files-source)))
-
-(define-key c-mode-base-map (kbd "C-c d")
-  (function cmake-ide-helm-run-gdb))
-
-(defun cmake-ide-run-files-source ()
-  (interactive)
-  (require 'seq)
-  `((name . "Executable file")
-    (candidates . ,(cmake-ide-find-exe-file))
-    (action . (lambda (sel)
-                (run-process-in-comint (read-from-minibuffer "Cmd: " sel))))))
-
-(defun cmake-ide-helm-run-exe ()
-  (interactive)
-  (helm :sources (cmake-ide-run-files-source)))
-
-(define-key c-mode-base-map (kbd "C-c x")
-  (function cmake-ide-helm-run-exe))
+  (ivy-read "Executable file"
+            (cmake-ide-find-exe-files)
+            :action (lambda (sel)
+                      (run-process-in-comint sel))))
 
 
 ;;; clang-format
 
 (use-package clang-format
   :ensure t
-  :config (defun clang-format-auto ()
-            (interactive)
-            (if mark-active
-                (call-interactively 'clang-format-region)
-              (clang-format-buffer)))
-  (define-key c-mode-base-map (kbd "C-c C-f") (function clang-format))
-  (define-key c-mode-base-map (kbd "C-c f") (function clang-format-auto)))
+  :config (progn (defun clang-format-auto ()
+                   (interactive)
+                   (if mark-active
+                       (call-interactively 'clang-format-region)
+                     (clang-format-buffer)))
+                 (define-key c-mode-base-map (kbd "C-c C-f") (function clang-format))
+                 (define-key c-mode-base-map (kbd "C-c f") (function clang-format-auto))))
 
 
 ;;; disaster
@@ -233,69 +210,27 @@
                                   (cide--build-dir) ".+\.o[bj]?$")))
          (base-buffer-name (file-name-base (buffer-name)))
          (calc-dist (lambda (fn) (cons fn
-                                       (levenshtein-distance
-                                        base-buffer-name
-                                        (file-name-base fn)))))
+                                       (levenshtein-distance base-buffer-name
+                                                             (file-name-base fn)))))
          (cdr-< (lambda (a b) (< (cdr a) (cdr b))))
          (distances (sort (mapcar calc-dist exec-files) cdr-<)))
     (mapcar 'car distances)))
 
-(defun cmake-ide-obj-files-source ()
-  (interactive)
-  (require 'seq)
-  `((name . "Object file to objdump")
-    (candidates . ,(cmake-ide-find-obj-files))
-    (action . (lambda (sel) (cmake-ide-objdump-disaster sel)))))
-
 (defun cmake-ide-objdump ()
   (interactive)
-  (helm :sources (cmake-ide-obj-files-source)))
-
-;;;
-(when (fboundp 'general-create-definer)
-  (my-local-leader-def :keymaps 'c-mode-base-map
-    ;; Compile, CMake
-    "b" '(:ignore t :which-key "cmake+build")
-    "b c" 'cmake-ide-run-cmake
-    "b b" 'cmake-ide-compile
-    "b B" 'cmake-ide-compile*
-    "b D" 'cmake-ide-delete-build-dir
-    ;; RTags
-    "?" 'rtags-print-symbol-info
-    "." 'rtags-find-symbol-at-point
-    "," 'rtags-location-stack-back
-    ">" 'rtags-find-references-at-point
-    ";" 'rtags-find-file
-    "v" 'rtags-find-virtuals-at-point
-    "[" 'rtags-previous-match
-    "]" 'rtags-next-match
-    "!" 'rtags-fix-fixit-at-point
-    "r" '(:ignore t :which-key "more-rtags")
-    "r s" 'rtags-find-symbol
-    "r r" 'rtags-find-references
-    "r i" 'rtags-imenu
-    "r d" 'rtags-diagnostics
-    "r D" 'rtags-dependency-tree
-    "r R" 'rtags-references-tree
-    ;; Debugger
-    "d" 'cmake-ide-helm-run-gdb
-    "x" 'cmake-ide-helm-run-exe
-    ;; Formatting
-    "f" 'clang-format-auto
-    ;; Disassemble
-    "`" '(:ignore t :which-key "misc")
-    "` d" 'cmake-ide-objdump
-    ))
+  (ivy-read "Object file to objdump"
+            (cmake-ide-find-obj-files)
+            :action (lambda (sel)
+                      (cmake-ide-objdump-disaster sel))))
 
 
 ;; FILE ".dir-locals.el"
 ;; ((nil . ((cmake-ide-build-dir . "./_build")
-;;	 (flycheck-clang-tidy-build-path . "_build")
-;; 	 (cmake-ide-cmake-opts . "-DCMAKE_BUILD_TYPE=Debug -GNinja"))))
+;;         (flycheck-clang-tidy-build-path . "_build")
+;;         (cmake-ide-cmake-opts . "-DCMAKE_BUILD_TYPE=Debug -G"Unix Makefiles"))))
 
 ;; FILE ".clang-tidy"
 ;; Checks: '-*,clang-diagnostic-*,llvm-*,misc-*'
 
-(defconst agelmacs/layer/cmake-ide t)
 
-;;; EOF
+;;;

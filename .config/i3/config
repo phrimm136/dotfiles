@@ -25,29 +25,27 @@ exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
+exec --no-startup-id uim-toolbar-gtk3-systray
+exec --no-startup-id greenclip daemon
 
 # start a terminal
 bindsym $super+Return exec termite -e 'zsh -c "neofetch && zsh"'
 
-# window menu
+# start a launcher or menu
 bindcode 133 --release exec ~/.config/rofi/menu/menu.sh # $super
-
-# start a program launcher
 bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
-bindsym $super+d exec rofi -theme ~/.config/rofi/full.rasi -show drun
+bindsym $super+r exec rofi -theme ~/.config/rofi/menu.rasi -show drun
+bindsym $super+f exec find ${HOME} -not -path '*/\.*' | rofi -theme ~/.config/rofi/menu.rasi -dmenu +i -p "search " | xargs -r -0 xdg-open
+bindsym $super+p exec ~/.config/rofi/menu/display.sh # fn + <F7> is aligned to S-p. ...?
 
 # common apps keybinds
 bindsym Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -e 'feh $f'
-bindsym $super+Print scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 1-e 'feh $f'
+bindsym $super+Print scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 1 -e 'feh $f'
 #bindsym $super+Ctrl+l exec i3lock -i ~/Downloads/238803.png
 bindsym $super+Shift+e exec emacs
 bindsym $super+Shift+c exec google-chrome-stable
 #bindsym $super+Shift+d exec discord
 bindsym $super+Shift+f exec thunar;workspace 3;focus
-
-# control external display
-bindsym XF84Display exec ~/.config/rofi/menu/display.sh
-bindsym $super+p exec ~/.config/rofi/menu/display.sh
 
 # change volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
@@ -65,7 +63,7 @@ bindsym XF86PowerOff exec systemctl suspend
 
 # kill focused window
 bindsym $super+q kill
-bindsym $alt+F4 kill
+bindsym $alt+F4 exec ~/.config/i3/scripts/alt-f4.sh # kill a program or open power menu
 
 # change focus
 bindsym $super+Left focus left
@@ -87,23 +85,20 @@ bindsym $super+Shift+j move down
 bindsym $super+Shift+k move up
 bindsym $super+Shift+l move right
 
-# split in horizontal orientation
-bindsym $super+g split h
-
-# split in vertical orientation
-bindsym $super+v split v
-
-# enter fullscreen mode for the focused container
-bindsym $super+f fullscreen toggle
-
-# change container layout split
-bindsym $super+s layout toggle split
-
-# toggle tiling / floating
-bindsym $super+space floating toggle
-
 # change focus between tiling / floating windows
 bindsym $super+Shift+space focus mode_toggle
+
+# use workspaces on different monitors
+workspace "1: 1" output eDP1
+workspace "2: 2" output eDP1
+workspace "3: 3" output eDP1
+workspace "4: 4" output eDP1
+workspace "5: 5" output eDP1
+workspace "6: 6" output eDP1
+workspace "7: 7" output eDP1
+workspace "8: 8" output eDP1
+workspace "9: 9" output HDMI1
+workspace "10: 10" output eDP1
 
 # switch to workspace
 bindsym $super+Control+Right workspace next
@@ -139,8 +134,9 @@ bindsym $super+Shift+r exec "i3 restart || ~/.config/polybar/scripts/start.sh"
 # exit i3
 bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
-mode "resize" {
+# modify window settings
+mode "modify" {
+	# resize window (you can also use the mouse for that)
         bindsym Left resize shrink width 5 px or 5 ppt
         bindsym Down resize grow height 5 px or 5 ppt
         bindsym Up resize shrink height 5 px or 5 ppt
@@ -151,8 +147,18 @@ mode "resize" {
         bindsym l resize grow width 5 px or 5 ppt
 	bindsym Escape mode "default"
         bindsym Return mode "default"
+	# split in horizontal orientation
+	bindsym h split h
+	# split in vertical orientation
+	bindsym v split v
+	# enter fullscreen mode for the focused container
+	bindsym f fullscreen toggle
+	# change container layout split
+	bindsym s layout toggle split
+	# toggle tiling / floating
+	bindsym space floating toggle
 }
-bindsym $super+r mode "resize"
+bindsym $super+w mode "modify"
 
 # panel
 #bar {
@@ -187,20 +193,19 @@ bindsym $super+r mode "resize"
 #}
 
 # window rules, you can find the window class using xprop
-assign [class=Thunderbird] 0
 assign [class=Google-chrome] 1
 assign [class=Emacs] 2
 assign [class=Termite] 3
-assign [class=discord] 4
-assign [class=Audacity|Vlc|mpv|Ghb|Xfburn|Gimp*|Inkscape] 5
+assign [class=Gimp*|Libre*] 4
+assign [Class=Thunderbird] 10
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick|Xfce4] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
-for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord] focus
+for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp*] focus
 
 # class				border	backgr.	text	indica.	child_border
 client.focused			#585858 #2f343f #d8dee8 #ffffff #585858
 client.focused_inactive	        #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.unfocused		#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused		#2f343f #2f343f #d8dee8 #2f343f #2f343fInkscape
 client.urgent			#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.placeholder		#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.background		#2f343f

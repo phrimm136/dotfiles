@@ -4,7 +4,7 @@
 #bold_is_bright = true
 #clickable_url = true
 #dynamic_title = true
-font = DejaVuSansMono Nerd Font Mono 9
+font = DejaVuSansMono Nerd Font 7
 #fullscreen = true
 #icon_name = terminal
 mouse_autohide = true
@@ -64,7 +64,7 @@ color4 = #0080ff
 color5 = #ff00ff
 color6 = #00ffff
 color7 = #ffffff
-color8 = #585858
+color8 = #aaaaaa
 color9 = #ff0000
 color10 = #00ff00
 color11 = #ffff00
