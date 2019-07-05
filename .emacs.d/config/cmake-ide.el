@@ -10,11 +10,11 @@
 
 
 (unless (fboundp 'levenshtein-distance)
-  (use-package levenshtein
+  (leaf levenshtein
     :ensure t))
 
 
-(use-package cmake-mode
+(leaf cmake-mode
   :ensure t
   :mode ("CMakeLists.txt" . cmake-mode)
   :init (setq cmake-tab-width 4))
@@ -24,42 +24,39 @@
 
 (add-hook 'c-mode-common-hook '(lambda ()
                                  (setq c-default-style "bsd"
-                                       tab-width 4
                                        indent-tabs-mode nil
-                                       indent-level 4
-                                       c-basic-offset 4)
-                                 (c-set-offset 'substatement-open 0)))
+                                       c-basic-offset 4)))
 (add-hook 'c-mode-common-hook 'highlight-numbers-mode)
 
 
 ;;; rtags
 ;; Completion, Navigation.
 
-(use-package rtags
+(leaf rtags
   :ensure t
   :config (progn (setq rtags-autostart-diagnostics t)
                  (setq rtags-completions-enabled t)
-                 (setq rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags") ; Todo: use regex for path
+                 (setq rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags-2.33/bin") ; Todo: use regex for path
                  (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)))
 
 
 ;;; use ivy for frontend of rtags
 
-(use-package ivy-rtags
+(leaf ivy-rtags
   :ensure t
   :config (setq rtags-display-result-backend 'ivy))
 
 
 ;;; clang-tidy
 
-(use-package flycheck-clang-tidy
+(leaf flycheck-clang-tidy
   :ensure t
   :config (progn (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup)))
 
 
 ;;; completion for rtags
 
-(use-package company-rtags
+(leaf company-rtags
   :ensure t
   :config (add-hook 'c-mode-common-hook (lambda ()
                                           (add-to-list 'company-backends 'company-c-headers))))
@@ -99,7 +96,7 @@
 
 ;;; cmake-ide
 
-(use-package cmake-ide
+(leaf cmake-ide
   :ensure t
   :config (progn (require 'rtags) ;; optional, must have rtags installed
                  (cmake-ide-setup)
@@ -178,7 +175,7 @@
 
 ;;; clang-format
 
-(use-package clang-format
+(leaf clang-format
   :ensure t
   :config (progn (defun clang-format-auto ()
                    (interactive)
@@ -191,7 +188,7 @@
 
 ;;; disaster
 
-(use-package disaster
+(leaf disaster
   :ensure t)
 
 (defun cmake-ide-objdump-disaster (file-name)

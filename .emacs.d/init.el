@@ -16,11 +16,11 @@
 (package-initialize)
 
 
-(unless (package-installed-p 'use-package)
+(unless (package-installed-p 'leaf)
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'leaf))
 (eval-when-compile
-  (require 'use-package))
+  (require 'leaf))
 
 (require 'bind-key)
 
@@ -34,7 +34,6 @@
 (load-file "~/.emacs.d/config/markdown.el")
 (load-file "~/.emacs.d/config/org.el")
 (load-file "~/.emacs.d/config/keymap.el")
-(load-file "~/.emacs.d/config/modeline.el")
 
 
 (custom-set-variables
@@ -47,7 +46,7 @@
     ("8520b58ec652f478aea1de64acdfc1e8fd704bfce9e88f0817e12e4b722a6789" default)))
  '(package-selected-packages
    (quote
-    (company-quickhelp highlight-indent-guides evil-leader cmake-font-lock modern-cpp-font-lock dimmer dired-icon eldoc-cmake csv-mode rainbow-delimiters color-identifiers-mode highlight-function-calls ox-gfm evil-org company-cmake company-auctex auctex markdown-preview-mode markdown-mode quick-preview powerline-evil powerline mode-icons flycheck-pos-tip aggressive-indent projectile tabbar which-key evil-vimish-fold evil-nerd-commenter iedit auto-virtualenvwrapper ess flycheck-julia quelpa julia-mode evil-magit magit dired-subtree fasd counsel pdf-tools workgroups2 company-c-headers ein ipython surround evil-surround virtualenvwrapper project-explorer workgroups pyvirtualenv company-jedi bind-key jedi flycheck-clang-tidy flycheck-rtags flycheck highlight-numbers undo-tree evil highlight-parentheses company-rtags use-package smex ivy-rtags disaster company color-theme cmake-mode cmake-ide clang-format all-the-icons))))
+    (hide-mode-line leaf evil-collection benchstat benchmark-init company-quickhelp highlight-indent-guides evil-leader cmake-font-lock modern-cpp-font-lock dimmer dired-icon eldoc-cmake csv-mode rainbow-delimiters color-identifiers-mode highlight-function-calls ox-gfm evil-org company-cmake company-auctex auctex markdown-preview-mode markdown-mode quick-preview mode-icons flycheck-pos-tip aggressive-indent projectile tabbar which-key evil-vimish-fold evil-nerd-commenter iedit auto-virtualenvwrapper ess flycheck-julia quelpa julia-mode evil-magit magit dired-subtree fasd counsel pdf-tools workgroups2 company-c-headers ein ipython surround evil-surround virtualenvwrapper project-explorer workgroups pyvirtualenv company-jedi bind-key jedi flycheck-clang-tidy flycheck-rtags flycheck highlight-numbers undo-tree evil highlight-parentheses company-rtags smex ivy-rtags disaster company color-theme cmake-mode cmake-ide clang-format all-the-icons))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

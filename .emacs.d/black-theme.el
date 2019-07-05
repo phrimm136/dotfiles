@@ -76,7 +76,7 @@
    `(show-paren-matchface ((,class (:background ,warning))))
    `(isearch ((,class (:bold t :foreground ,bg1 :background ,fg1))))
    `(ivy-current-match ((,class (:foreground ,bg1 :background ,fg1))))
-   `(mode-line ((,class (:bold t :foreground ,fg1 :background ,bg1))))
+   `(mode-line ((,class (:bold t :foreground ,fg1 :background ,bg2))))
    `(mode-line-inactive ((,class (:foreground ,fg2 :background ,bg1 :weight normal))))
    `(mode-line-buffer-id ((,class (:bold t :background nil))))
    `(mode-line-highlight ((,class (:weight bold))))

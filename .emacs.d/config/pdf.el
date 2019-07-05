@@ -5,7 +5,7 @@
 
 ;;; pdf-tools config
 
-(use-package pdf-tools
+(leaf pdf-tools
   :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode)
   :config (progn (add-hook 'pdf-view-mode-hook (lambda ()

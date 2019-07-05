@@ -5,11 +5,11 @@
 
 ;;; evil keymap
 
-(use-package org
+(leaf org
   :ensure t
   :config (progn (setq org-table-convert-region-max-lines 1000000)))
 
-(use-package evil-org
+(leaf evil-org
   :ensure t
   :after org
   :config (progn (add-hook 'org-mode-hook 'evil-org-mode)
@@ -22,7 +22,7 @@
 
 ;;; like github flavor
 
-(use-package ox-gfm
+(leaf ox-gfm
   :ensure t
   :after org
   :config (progn (setq org-src-fontify-natively t)))

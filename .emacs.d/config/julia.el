@@ -5,13 +5,13 @@
 
 ;;; julia-mode config
 
-(use-package julia-mode
+(leaf julia-mode
   :ensure t)
 
 
 ;;; ESS config
 
-(use-package ess
+(leaf ess
   :init (require 'ess-site)
   :config (progn (setq inferior-julia-program "/bin/julia")))
 

@@ -5,7 +5,7 @@
 
 ;;; markdown mode settings
 
-(use-package markdown-mode
+(leaf markdown-mode
   :ensure t
   :config (progn :w))
 

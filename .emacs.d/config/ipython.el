@@ -5,10 +5,10 @@
 
 ;;; ein config
 
-(use-package ein
+(leaf ein
   :ensure t
   :init (setq ein:completion-backend 'ein:use-company-backend)
-  :mode ("\\.ipynb\\'" . 'ein:ipynb-mode-hook)
+  :mode ("\\.ipynb\\'" . ein:ipynb-mode-hook)
   :config (progn (add-hook 'ein:ipynb-mode-hook (lambda ()
                                                   (let ((buffer (current-buffer)))
                                                     (ein:jupyter-server-start (concat (file-name-directory buffer-file-name)
@@ -23,14 +23,14 @@
                  (undo-tree-mode nil)
                  (flycheck-mode nil)))
 
-(use-package ein-notebook)
+(leaf ein-notebook)
 
-(use-package ein-subpackages)
+(leaf ein-subpackages)
 
 
 ;;; jedi config
 
-(use-package jedi
+(leaf jedi
   :ensure t
   :config (progn (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)))
 

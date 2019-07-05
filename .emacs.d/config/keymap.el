@@ -76,6 +76,9 @@
          "gco" 'cmake-ide-objdump
          )
        ;; shell keymap custom
+       (evil-define-key 'normal eshell-mode-map
+         "\C-k" 'eshell-previous-input
+         "\C-j" 'eshell-next-input)
        (evil-define-key 'insert eshell-mode-map
          "\C-k" 'eshell-previous-input
          "\C-j" 'eshell-next-input)
