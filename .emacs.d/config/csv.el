@@ -4,8 +4,7 @@
 
 
 (leaf csv-mode
-  :ensure t
-  :config (progn (add-hook csv-mode-hook (lambda () (display-line-numbers-mode 0)))))
+  :ensure t)
 
 
-;;;
+;;; csv.el ends here

@@ -3,7 +3,7 @@
 ;;; Code:
 
 
-;;; attribute
+;;; attributes
 
 ;;; https://emacs.stackexchange.com/a/16658
 
@@ -32,47 +32,47 @@
 (defun reserve-middle/right (line)
   (length (format-mode-line line)))
 
-(defvar mode-line-align-left ;; file states
+(defvar mode-line-align-left ;; file status
   '((:properlize " %* ") ;; buffer current state - modified / read only / otherwise
-    (:properlize (:eval (if (ignore-errors vc-mode)
+    (:properlize (:eval (if (and (boundp 'vc-mode) vc-mode)
                             (concat " " (substring vc-mode 5) " ")
-                          ""))) ;; version control system
+                          ""))) ;; version control system; need to show more information.
     (:properlize " %b ") ;; file name
     ))
 
-(defvar mode-line-align-middle ;; variables
-  '((:properlize evil-mode-line-tag) ;; evil modal
-    (:properlize (:eval (if (ignore-errors flycheck-mode)
-                            (pcase flycheck-last-status-change
-                              (`not-checked "0/0/0")
-                              (`no-checker "-/-/-")
-                              (`running "*/*/*")
-                              (`errored "!/!/!")
-                              (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
-                                           (if (or .error .warning .info)
-                                               (format "%s/%s/%s"
-                                                       (or .error 0)
-                                                       (or .warning 0)
-                                                       (or .info 0))
-                                             "")))
-                              (`interrupted "././.")
-                              (`suspicious "?/?/?"))
+(defvar mode-line-align-middle ;; volatile states
+  '((:properlize evil-mode-line-tag) ;; evil state
+    (:properlize (:eval (if (and (boundp 'flycheck-mode) flycheck-mode)
+                            (concat " F " (pcase flycheck-last-status-change
+                                            (`not-checked " / / ")
+                                            (`no-checker "-/-/-")
+                                            (`running "*/*/*")
+                                            (`errored "!/!/!")
+                                            (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
+                                                         (if (or .error .warning .info)
+                                                             (format "%s/%s/%s" (or .error 0) (or .warning 0) (or .info 0))
+                                                           "0/0/0")))
+                                            (`interrupted "././.")
+                                            (`suspicious "?/?/?")))
                           ""))) ;; flycheck errors - error / warning / info
-    (:properlize (:eval (if (ignore-errors iedit-mode)
-                            (format " %s/%s "
-                                    iedit-occurrence-index
-                                    (iedit-counter))
+    (:properlize (:eval (if (and (boundp 'iedit-mode) iedit-mode)
+                            (concat "  I"
+                                    (format " %s/%s "
+                                            iedit-occurrence-index
+                                            (iedit-counter)))
                           ""))) ;; iedit candidates
     ))
 
-(defvar mode-line-align-right ;; miscellaneouses
-  '((:properlize " %4l : %3c ") ;; cursor position - row / column
+(defvar mode-line-align-right ;; positions, file system
+  '((:properlize (:eval (if (and (boundp 'pdf-view-mode) pdf-view-mode)
+                            'pdf-view-current-page))) ;; pdfview mode current page; not working.
+    (:properlize " %4l : %3c ") ;; cursor position - row / column
     (:properlize " %6p ") ;; percentage of the buffer text above the top of the window
     (:properlize (:eval (pcase (coding-system-eol-type buffer-file-coding-system)
                           (0 " LF ")
                           (1 " CRLF ")
-                          (2 " CR ")))) ;; return case
-    (:properlize (:eval ))
+                          (2 " CR ")))) ;; EoL type
+    (:properlize (:eval )) ;; Encoding; TODO
     (:properlize " %m ") ;; major mode
     ))
 
@@ -81,8 +81,7 @@
                     '(:eval (mode-line-fill-center 'mode-line (reserve-left/middle mode-line-align-middle)))
                     mode-line-align-middle
                     '(:eval (mode-line-fill-right 'mode-line (reserve-middle/right mode-line-align-right)))
-                    mode-line-align-right
-                    ))
+                    mode-line-align-right))
 
 
 ;;; clean major/minor mode
@@ -100,20 +99,21 @@
     (inferior-ess-julia-mode . "[Julia]")
     (pdf-view-mode . "PDF")
     (emacs-lisp-mode . "ELisp")
-    (lisp-interaction-mode . "[Lisp]")))
+    (lisp-interaction-mode . "[Lisp]")
+    (cider-repl-mode . "[Clojure]")))
 
 (defun clean-mode-line ()
   (interactive)
-  (loop for (mode . mode-str) in mode-line-cleaner-alist
-        do
-        (let ((old-mode-str (cdr (assq mode minor-mode-alist))))
-          (when old-mode-str
-            (setcar old-mode-str mode-str))
-          ;; major mode
-          (when (eq mode major-mode)
-            (setq mode-name mode-str)))))
+  (cl-loop for (mode . mode-str) in mode-line-cleaner-alist
+           do
+           (let ((old-mode-str (cdr (assq mode minor-mode-alist))))
+             (when old-mode-str
+               (setcar old-mode-str mode-str))
+             ;; major mode
+             (when (eq mode major-mode)
+               (setq mode-name mode-str)))))
 
-(add-hook 'emacs-startup-hook  'clean-mode-line)
+(add-hook 'after-change-major-mode-hook  'clean-mode-line)
 
 
-;;;
+;;; modeline.el ends here

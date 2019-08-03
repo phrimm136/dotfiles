@@ -3,8 +3,29 @@
 ;;; Code:
 
 
-;;; vim emulator
+;;; Transparency
 
+(set-frame-parameter (selected-frame) 'alpha 80)
+
+
+;;; color theme
+
+(load-theme 'black t)
+
+
+;;; font
+
+(add-to-list 'default-frame-alist '(font . "DejaVuSansMono Nerd Font-6"))
+
+
+;;; color numerics
+
+(leaf highlight-numbers
+  :ensure t
+  :hook (prog-mode-hook . highlight-numbers-mode))
+
+
+;;; vim emulator
 
 (leaf evil
   :ensure t
@@ -22,16 +43,6 @@
 
 ;;; minibuffer completion frontend
 
-(leaf ivy
-  :ensure t
-  :config (progn (ivy-mode 1)
-                 (recentf-mode t)
-                 (global-fasd-mode t)
-                 (setq ivy-wrap t)
-                 (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                                               (t . ivy--regex-fuzzy)))
-                 (setq ivy-count-format "%d/%d ")))
-
 (leaf counsel
   :ensure t
   :bind ("M-x" . counsel-M-x))
@@ -39,14 +50,24 @@
 (leaf swiper
   :ensure t)
 
+(leaf ivy
+  :ensure t
+  :config (progn (ivy-mode 1)
+                 (recentf-mode t)
+                 (global-fasd-mode t)
+                 (setq ivy-wrap t
+                       ivy-re-builders-alist '((swiper . ivy--regex-p)
+                                               (t . ivy--regex-fuzzy))
+                       ivy-count-format "%d/%d ")))
+
 
 ;;; M-x history
 
 (leaf smex
   :ensure t
   :config (progn (smex-initialize)
-                 (setq smex-save-file "~/.emacs.d/smex-items")
-                 (setq smex-history-length 10)))
+                 (setq smex-save-file "~/.emacs.d/smex-items"
+                       smex-history-length 10)))
 
 (leaf ivy-smex
   :url "https://github.com/purcell/ivy-smex")
@@ -62,8 +83,8 @@
 (leaf company-quickhelp
   :ensure t
   :hook (prog-mode-hook . company-quickhelp-mode)
-  :config (progn (setq pos-tip-background-color "#2b2b2b")
-                 (setq pos-tip-foreground-color "#ffffff")))
+  :config (progn (setq pos-tip-background-color "#2b2b2b"
+                       pos-tip-foreground-color "#ffffff")))
 
 
 ;;; syntax check
@@ -90,6 +111,13 @@
   :config (progn (global-eldoc-mode)))
 
 
+;;; tree structured undo
+
+(leaf undo-tree
+  :ensure t
+  :hook ((prog-mode-hook text-mode-hook) . undo-tree-mode))
+
+
 ;;; parentheses
 
 (leaf paren
@@ -111,9 +139,9 @@
   :ensure t
   :after dired
   :hook (dired-mode-hook . dired-hide-details-mode)
-  :config (progn (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
-                 (setq dired-subtree-use-backgrounds nil)
-                 (setq dired-auto-revert-buffer t)))
+  :config (progn (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s))
+                       dired-subtree-use-backgrounds nil
+                       dired-auto-revert-buffer t)))
 
 
 ;;; mode line
@@ -125,14 +153,36 @@
   :hook ((dired-mode-hook org-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
 
 
+;;; Line number + current line highlight
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+(leaf hl-line
+  :ensure t
+  :config (progn (global-hl-line-mode t)))
+
+
+;;; vertical indent line
+
+(leaf highlight-indent-guides
+  :ensure t
+  :hook (prog-mode-hook . highlight-indent-guides-mode)
+  :config (progn (setq highlight-indent-guides-method 'character
+                       highlight-indent-guides-responsive 'stack
+                       highlight-indent-guides-delay 0
+                       highlight-indent-guides-auto-character-face-perc 30
+                       highlight-indent-guides-auto-top-character-face-perc 60
+                       highlight-indent-guides-auto-stack-character-face-perc 45)))
+
+
 ;;; session manager
 
 (leaf workgroups2
   :ensure t
-  :config (progn (setq wg-session-file "/home/user/.emacs.d/workgroups")
-                 (setq wg-prefix-key (kbd "\C-c w"))
-                 (setq wg-emacs-exit-save-behavior nil)
-                 (setq wg-workgroups-mode-exit-save-behavior nil)
+  :config (progn (setq wg-session-file "/home/user/.emacs.d/workgroups"
+                       wg-prefix-key (kbd "\C-c w")
+                       wg-emacs-exit-save-behavior nil
+                       wg-workgroups-mode-exit-save-behavior nil)
                  (workgroups-mode 1)
                  (wg-open-session "/home/user/.emacs.d/workgroups")
                  ))
@@ -144,7 +194,8 @@
   :ensure t)
 
 (leaf evil-magit
-  :ensure t)
+  :ensure t
+  :config (progn (evil-magit-init)))
 
 
 ;;; replace all
@@ -196,15 +247,6 @@
 ;;   :config (progn (frame-bufs-mode t)))
 
 
-;;; Line number + current line highlight
-
-(global-display-line-numbers-mode)
-
-(leaf hl-line
-  :ensure t
-  :config (progn (global-hl-line-mode t)))
-
-
 ;;; dim inactive buffers
 
 (leaf dimmer
@@ -212,43 +254,13 @@
   :config (progn (dimmer-mode t)))
 
 
-;;; vertical indent line
-
-(leaf highlight-indent-guides
-  :ensure t
-  :hook (prog-mode-hook . highlight-indent-guides-mode)
-  :config (progn (setq highlight-indent-guides-method 'character)
-                 (setq highlight-indent-guides-character ?\┊)
-                 (setq highlight-indent-guides-responsive 'stack)
-                 (setq highlight-indent-guides-delay 0)
-                 (setq highlight-indent-guides-auto-character-face-perc 30)
-                 (setq highlight-indent-guides-auto-top-character-face-perc 60)
-                 (setq highlight-indent-guides-auto-stack-character-face-perc 45)))
-
-
 ;;; Remove unneccesary things
 
-(progn (setq-default scroll-bar-mode nil)
+(progn (setq-default scroll-bar-mode nil
+                     indent-tabs-mode nil)
        (menu-bar-mode 0)
        (tool-bar-mode 0)
-       (setq-default indent-tabs-mode nil)
        (setq inhibit-startup-screen 1))
 
 
-;;; Transparency
-
-(set-frame-parameter (selected-frame) 'alpha '(80 80))
-(add-to-list 'default-frame-alist '(alpha 80 80))
-
-
-;;; color theme
-
-(load-theme 'black t)
-
-
-;;; font
-
-(add-to-list 'default-frame-alist '(font . "DejaVuSansMono Nerd Font-6"))
-
-
-;;;
+;;; default.el ends here

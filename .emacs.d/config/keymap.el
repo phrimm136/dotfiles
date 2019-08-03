@@ -6,15 +6,14 @@
 ;;; Evil keymap settings.
 
 (progn (evil-mode 1)
-       (define-key evil-normal-state-map (kbd "g RET") (vconcat "g" [return]))
        ;; command mode keymap custom
        (evil-ex-define-cmd ":" 'eval-expression)
-       ;; leader-key mapped custom; function manipulating code
+       ;; leader-key mapped custom
        (evil-leader/set-key
          "e" 'iedit-mode
-         "r" 'revert-buffer
+         "<RET>" 'revert-buffer
          "s" 'counsel-imenu
-         ;; folding keymap
+         ;; folding codes
          "ff" 'vimish-fold
          "ft" 'vimish-fold-toggle
          "fT" 'vimish-fold-toggle-all
@@ -37,59 +36,101 @@
          ";k" 'evilnc-comment-and-kill-ring-save
          )
        ;; global keymap custom
-       (evil-define-key 'insert 'global
-         "\C-k" 'nil) ; for selecting in a floating box
-       (evil-define-key 'motion 'global
-         "gf" 'counsel-find-file
-         "gr" 'counsel-recentf
-         "gb" 'counsel-switch-buffer
-         "gk" 'kill-buffer
-         "\C-s" 'swiper)
-       (evil-define-key 'normal 'global
+       (evil-leader/set-key
          "\C-s" 'swiper
          "gf" 'counsel-find-file
          "gr" 'counsel-recentf
          "gb" 'counsel-switch-buffer
-         "gk" 'kill-buffer
-         )
-       ;; company keymap custom
-       (define-key company-active-map (kbd "C-j") #'company-select-next)
-       (define-key company-active-map (kbd "C-k") #'company-select-previous)
-       ;; c/cpp keymap custom
-       (evil-define-key 'normal c-mode-base-map
+         "gk" 'kill-buffer)
+       (evil-define-key 'normal 'global
+         "\C-s" 'swiper)
+       ;; c keymap custom
+       (evil-leader/set-key-for-mode 'c-mode
          ;; Compile, CMake
-         "gcr" 'cmake-ide-run-cmake
-         "gcc" 'cmake-ide-compile
-         "gcC" 'cmake-ide-compile*
-         "gcd" 'cmake-ide-delete-file
-         "gcD" 'cmake-ide-delete-build-dir
+         "cr" 'cmake-ide-run-cmake
+         "cc" 'cmake-ide-compile
+         "cC" 'cmake-ide-compile*
+         "cd" 'cmake-ide-delete-file
+         "cD" 'cmake-ide-delete-build-dir
          ;; RTags
-         "gcf" 'rtags-find-file
-         "gcF" 'rtags-diagnostics
-         "gcj" 'rtags-next-diag
-         "gck" 'rtags-previous-diag
-         "gct" 'rtags-dependency-tree
-         "gcT" 'rtags-references-tree
+         "rf" 'rtags-find-file
+         "rF" 'rtags-diagnostics
+         "rj" 'rtags-next-diag
+         "rk" 'rtags-previous-diag
+         "rt" 'rtags-dependency-tree
+         "rT" 'rtags-references-tree
          ;; Debugger
-         "gcb" 'cmake-ide-run-gdb
-         "gcx" 'cmake-ide-run-exe
-         "gco" 'cmake-ide-objdump
+         "db" 'cmake-ide-run-gdb
+         "dx" 'cmake-ide-run-exe
+         "do" 'cmake-ide-objdump
+         )
+       ;; cpp keymap custom
+       (evil-leader/set-key-for-mode 'c++-mode
+         ;; Compile, CMake
+         "cr" 'cmake-ide-run-cmake
+         "cc" 'cmake-ide-compile
+         "cC" 'cmake-ide-compile*
+         "cd" 'cmake-ide-delete-file
+         "cD" 'cmake-ide-delete-build-dir
+         ;; RTags
+         "rf" 'rtags-find-file
+         "rF" 'rtags-diagnostics
+         "rj" 'rtags-next-diag
+         "rk" 'rtags-previous-diag
+         "rt" 'rtags-dependency-tree
+         "rT" 'rtags-references-tree
+         ;; Debugger
+         "db" 'cmake-ide-run-gdb
+         "dx" 'cmake-ide-run-exe
+         "do" 'cmake-ide-objdump
          )
        ;; shell keymap custom
-       (evil-define-key 'normal eshell-mode-map
-         "\C-k" 'eshell-previous-input
-         "\C-j" 'eshell-next-input)
        (evil-define-key 'insert eshell-mode-map
          "\C-k" 'eshell-previous-input
          "\C-j" 'eshell-next-input)
        ;; python keymap custom
-       (evil-define-key 'normal python-mode-map
-         "gcc" 'python-shell-send-region
-         "gcf" 'python-shell-send-buffer)
+       (evil-leader/set-key-for-mode 'python-mode
+         ;; repl
+         "cc" 'python-shell-send-region
+         "cf" 'python-shell-send-buffer)
+       ;; ipython keymap custom
+       (evil-define-key 'normal ein:notebook-mode-map
+         "gg" 'evil-goto-first-line ; bug on default setting
+         )
        ;; julia keymap custom
-       (evil-define-key 'normal ess-julia-mode-map
-         "gcc" 'ess-eval-region
-         "gcf" 'ess-eval-buffer)
+       (evil-leader/set-key-for-mode 'ess-julia-mode
+         ;; repl
+         "cc" 'ess-eval-region
+         "cf" 'ess-eval-buffer
+         "cr" 'run-ess-julia
+         ;; debug
+         "ds" 'ess-debug-start
+         "dS" 'ess-debug-stop
+         "dc" 'ess-debug-command-continue
+         "dC" 'ess-debug-command-continue-multi
+         "de" 'ess-debug-command-next
+         "dE" 'ess-debug-command-next-multi
+         "du" 'ess-debug-command-up
+         "dq" 'ess-debug-command-quit
+         "db" 'ess-bp-set
+         "dB" 'ess-bp-set-conditional
+         "dd" 'ess-bp-kill
+         "dD" 'ess-bp-kill-all
+         "do" 'ess-bp-toggle-state
+         "dl" 'ess-bp-set-logger
+         "dj" 'ess-bp-next
+         "dk" 'ess-bp-previous
+         "dt" 'ess-show-traceback
+         "da" 'ess-show-call-stack
+         )
+       ;; clojure keymap custom
+       (evil-leader/set-key-for-mode 'clojure-mode
+         ;; repl
+         "cc" 'cider-eval-region
+         "cf" 'cider-eval-buffer
+         ;; debug
+         "dr" 'cider-eval-defun-at-point
+         )
        ;; file explorer keymap custom
        (evil-define-key 'normal dired-mode-map
          "gf" 'counsel-find-file
@@ -100,19 +141,21 @@
        ;; magit keymap custom
        (evil-define-key 'normal magit-mode-map
          "gk" 'kill-buffer
+         "gb" 'counsel-switch-buffer
          "j" 'magit-section-forward
          "k" 'magit-section-backward
-         [escape] 'nil)
+         (kbd "<escape>") 'nil)
+       (evil-leader/set-key-for-mode 'magit-mode
+         "r" 'magit-refresh)
        ;; pdf viewer keymap custom
        (evil-set-initial-state 'pdf-view-mode 'normal)
-       (evil-define-key 'normal pdf-view-mode-hook
-         "j" 'pdf-view-scroll-up-or-next-page
-         "k" 'pdf-view-scroll-down-or-previous-page)
-       ;; ipython keymap custom
-       (evil-define-key 'normal ein:notebook-mode-map
-         "gg" 'evil-goto-first-line ; bug on default setting
-         )
+       (evil-leader/set-key-for-mode 'pdf-view-mode
+         "g" 'goto-line)
        ;; minibuffer keymap custom
+       (define-key ivy-switch-buffer-map
+         "\C-j" 'ivy-next-line)
+       (define-key ivy-switch-buffer-map
+         "\C-k" 'ivy-previous-line)
        (define-key ivy-minibuffer-map
          "\C-j" 'ivy-next-line)
        (define-key ivy-minibuffer-map
@@ -130,4 +173,4 @@
                                         ;                 (evil-define-key 'normal 'org-mode)
        )
 
-;;;
+;;; keymap.el ends here

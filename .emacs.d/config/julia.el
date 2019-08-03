@@ -11,24 +11,30 @@
 
 ;;; ESS config
 
+(defun julia-auto-start ()
+  "Auto start julia kernal."
+  (run-ess-julia (buffer-file-name (current-buffer))))
+
 (leaf ess
   :init (require 'ess-site)
+  :hook (ess-julia-mode . julia-auto-start)
   :config (progn (setq inferior-julia-program "/bin/julia")))
 
 
 ;;; auto compleion config
 
-(setq ess-use-company t)
+(eval-after-load "company" (setq ess-use-company t))
 
 
 ;;; flycheck config
 
-(flycheck-julia-setup)
-                                        ;(add-to-list flycheck-global-modes 'julia-mode)
-                                        ;(add-to-list flycheck-global-modes 'ess-julia-mode)
+(leaf flycheck-julia
+  :ensure t
+  :config (progn (flycheck-julia-setup)))
+
 
 ;;; highlight numbers
 
 (add-hook 'ess-julia-mode-hook 'highlight-numbers-mode)
 
-;;;
+;;; julia.el ends here

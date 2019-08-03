@@ -7,6 +7,6 @@
 
 (leaf markdown-mode
   :ensure t
-  :config (progn :w))
+  :config (progn))
 
-;;;
+;;; markdown.el ends here

@@ -2,10 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; color number
-
-(add-hook 'python-mode-hook 'highlight-numbers-mode)
-
 
 ;;; jedi
 
@@ -32,4 +28,4 @@
   :config (progn (add-hook 'python-mode-hook #'auto-virtualenvwrapper-activate)))
 
 
-;;;
+;;; python.el ends here

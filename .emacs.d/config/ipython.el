@@ -32,7 +32,7 @@
 
 (leaf jedi
   :ensure t
-  :config (progn (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)))
+  :hook (ein:connect-mode-hook . ein:jedi-setup))
 
 
-;;;
+;;; ipython.el ends here

@@ -22,10 +22,10 @@
 
 ;;; C common style
 
-(add-hook 'c-mode-common-hook '(lambda ()
-                                 (setq c-default-style "bsd"
-                                       indent-tabs-mode nil
-                                       c-basic-offset 4)))
+(setq c-default-style "bsd"
+      indent-tabs-mode nil
+      c-basic-offset 4)
+
 (add-hook 'c-mode-common-hook 'highlight-numbers-mode)
 
 
@@ -34,10 +34,10 @@
 
 (leaf rtags
   :ensure t
-  :config (progn (setq rtags-autostart-diagnostics t)
-                 (setq rtags-completions-enabled t)
-                 (setq rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags-2.33/bin") ; Todo: use regex for path
-                 (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)))
+  :hook (c-mode-common-hook . rtags-start-process-unless-running)
+  :config (progn (setq rtags-autostart-diagnostics t
+                       rtags-completions-enabled t
+                       rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags-2.33/bin"))) ; Todo: use regex for path
 
 
 ;;; use ivy for frontend of rtags
@@ -51,15 +51,21 @@
 
 (leaf flycheck-clang-tidy
   :ensure t
-  :config (progn (add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup)))
+  :hook (flycheck-mode-hook . flycheck-clang-tidy-setup))
+
+
+;;; static analysis
+
+(leaf flycheck-clang-analyzer
+  :ensure t
+  :hook (flycheck-mode-hook . flycheck-clang-analyzer-setup))
 
 
 ;;; completion for rtags
 
 (leaf company-rtags
   :ensure t
-  :config (add-hook 'c-mode-common-hook (lambda ()
-                                          (add-to-list 'company-backends 'company-c-headers))))
+  :config (progn (add-hook 'c-mode-common-hook (add-to-list 'company-backends 'company-c-headers))))
 
 
 ;;; Rtags + Eldoc:
@@ -67,13 +73,11 @@
 
 (defun fontify-string (str mode)
   "Return STR fontified according to MODE."
-  (with-temp-buffer
-    (insert str)
-    (delay-mode-hooks (funcall mode))
-    (font-lock-default-function mode)
-    (font-lock-default-fontify-region
-     (point-min) (point-max) nil)
-    (buffer-string)))
+  (with-temp-buffer (insert str)
+                    (delay-mode-hooks (funcall mode))
+                    (font-lock-default-function mode)
+                    (font-lock-default-fontify-region (point-min) (point-max) nil)
+                    (buffer-string)))
 
 (defun rtags-eldoc-function ()
   (let ((summary (rtags-get-summary-text)))
@@ -100,15 +104,14 @@
   :ensure t
   :config (progn (require 'rtags) ;; optional, must have rtags installed
                  (cmake-ide-setup)
-                 (setq cmake-ide-build-dir "./build")
-                 ;;
-                 (defun cmake-ide-compile* ()
-                   (interactive)
-                   (let ((old-pw default-directory))
-                     (cd (cide--build-dir))
-                     (call-interactively 'compile)
-                     (cd old-pw)))
-                 (define-key c-mode-base-map (kbd "C-c b") (function cmake-ide-compile*))))
+                 (setq cmake-ide-build-dir "./build")))
+
+(defun cmake-ide-compile* ()
+  (interactive)
+  (let ((old-pw default-directory))
+    (cd (cide--build-dir))
+    (call-interactively 'compile)
+    (cd old-pw)))
 
 (defun cmake-ide-delete-build-dir ()
   (interactive)
@@ -154,7 +157,6 @@
                   (< (cdr a) (cdr b))))
          (distances (sort (mapcar calc-dist exec-files)
                           cdr-<))
-         ;;(---- (message distances))
          (nearest (car (first distances))))
     (cons nearest exec-files)))
 
@@ -230,4 +232,4 @@
 ;; Checks: '-*,clang-diagnostic-*,llvm-*,misc-*'
 
 
-;;;
+;;; cmake-ide.el ends here

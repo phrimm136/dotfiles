@@ -30,6 +30,7 @@
 (load-file "~/.emacs.d/config/python.el")
 (load-file "~/.emacs.d/config/ipython.el")
 (load-file "~/.emacs.d/config/julia.el")
+(load-file "~/.emacs.d/config/clojure.el")
 (load-file "~/.emacs.d/config/pdf.el")
 (load-file "~/.emacs.d/config/markdown.el")
 (load-file "~/.emacs.d/config/org.el")
@@ -46,7 +47,8 @@
     ("8520b58ec652f478aea1de64acdfc1e8fd704bfce9e88f0817e12e4b722a6789" default)))
  '(package-selected-packages
    (quote
-    (hide-mode-line leaf evil-collection benchstat benchmark-init company-quickhelp highlight-indent-guides evil-leader cmake-font-lock modern-cpp-font-lock dimmer dired-icon eldoc-cmake csv-mode rainbow-delimiters color-identifiers-mode highlight-function-calls ox-gfm evil-org company-cmake company-auctex auctex markdown-preview-mode markdown-mode quick-preview mode-icons flycheck-pos-tip aggressive-indent projectile tabbar which-key evil-vimish-fold evil-nerd-commenter iedit auto-virtualenvwrapper ess flycheck-julia quelpa julia-mode evil-magit magit dired-subtree fasd counsel pdf-tools workgroups2 company-c-headers ein ipython surround evil-surround virtualenvwrapper project-explorer workgroups pyvirtualenv company-jedi bind-key jedi flycheck-clang-tidy flycheck-rtags flycheck highlight-numbers undo-tree evil highlight-parentheses company-rtags smex ivy-rtags disaster company color-theme cmake-mode cmake-ide clang-format all-the-icons))))
+    (flycheck-clang-analyzer cider-decompile clj-refactor clojure-project-mode clojure-project flycheck-clojure clojure-mode counsel-tramp hide-mode-line leaf evil-collection company-quickhelp highlight-indent-guides evil-leader cmake-font-lock modern-cpp-font-lock dimmer dired-icon eldoc-cmake csv-mode rainbow-delimiters color-identifiers-mode highlight-function-calls ox-gfm evil-org company-cmake company-auctex auctex markdown-preview-mode markdown-mode quick-preview mode-icons flycheck-pos-tip aggressive-indent projectile tabbar which-key evil-vimish-fold evil-nerd-commenter iedit auto-virtualenvwrapper ess flycheck-julia quelpa julia-mode evil-magit magit dired-subtree fasd counsel pdf-tools workgroups2 company-c-headers ein ipython surround evil-surround virtualenvwrapper project-explorer workgroups pyvirtualenv company-jedi bind-key jedi flycheck-clang-tidy flycheck-rtags flycheck highlight-numbers undo-tree evil highlight-parentheses company-rtags smex ivy-rtags disaster company color-theme cmake-mode cmake-ide clang-format all-the-icons)))
+ '(smooth-scrolling-mode t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -55,4 +57,4 @@
  ;; If there is more than one, they won't work right.
  )
 
-;;;
+;;; init.el ends here
