@@ -33,12 +33,22 @@
 
 (leaf evil-collection
   :ensure t
-  :config (progn (evil-collection-init)))
+  :after evil)
 
 (leaf evil-leader
   :ensure t
+  :after evil
   :config (progn (global-evil-leader-mode)
                  (evil-leader/set-leader "<SPC>")))
+
+(leaf iedit
+  :ensure t)
+
+(defvar evil-multiedit-state-map (make-sparse-keymap)) ;; https://github.com/hlissner/evil-multiedit/issues/13
+(leaf evil-multiedit
+  :ensure t
+  :after evil iedit
+  :config (progn))
 
 
 ;;; minibuffer completion frontend
@@ -78,10 +88,24 @@
 (leaf company
   :ensure t
   :hook (prog-mode-hook . company-mode)
-  :config (progn (setq company-idle-delay 0.2)))
+  :config (progn (setq company-idle-delay 0.2
+                       company-backends '((company-files
+                                           company-keywords
+                                           company-capf
+                                           company-yasnippet
+                                           company-semantic)
+                                          (company-abbrev
+                                           company-dabbrev)))))
+
+;; (leaf company-tabnine
+;;   :ensure t
+;;   :after company
+;;   :config (progn (setf (car company-backends)
+;;                        (append '(company-tabnine) (car company-backends)))))
 
 (leaf company-quickhelp
   :ensure t
+  :after company
   :hook (prog-mode-hook . company-quickhelp-mode)
   :config (progn (setq pos-tip-background-color "#2b2b2b"
                        pos-tip-foreground-color "#ffffff")))
@@ -100,6 +124,7 @@
 
 (leaf flycheck-pos-tip
   :ensure t
+  :after flycheck
   :hook (prog-mode-hook . flycheck-pos-tip-mode)
   :config (progn (setq flycheck-pos-tip-timeout 0)))
 
@@ -143,6 +168,10 @@
                        dired-subtree-use-backgrounds nil
                        dired-auto-revert-buffer t)))
 
+(defvar speedbar-mode-map (make-sparse-keymap))
+(leaf sr-speedbar
+  :ensure t)
+
 
 ;;; mode line
 
@@ -184,8 +213,7 @@
                        wg-emacs-exit-save-behavior nil
                        wg-workgroups-mode-exit-save-behavior nil)
                  (workgroups-mode 1)
-                 (wg-open-session "/home/user/.emacs.d/workgroups")
-                 ))
+                 (wg-open-session "/home/user/.emacs.d/workgroups")))
 
 
 ;;; git
@@ -195,13 +223,8 @@
 
 (leaf evil-magit
   :ensure t
+  :after magit
   :config (progn (evil-magit-init)))
-
-
-;;; replace all
-
-(leaf iedit
-  :ensure t)
 
 
 ;;; comment lines
@@ -254,6 +277,17 @@
   :config (progn (dimmer-mode t)))
 
 
+;;; code templates
+
+(leaf yasnippet
+  :url "https://github.com/joaotavora/yasnippet"
+  :hook (prog-mode-hook . yas-minor-mode)
+  :config (progn (yas-reload-all)))
+
+(leaf sidebar
+  :url "https://github.com/sebastiencs/sidebar.el")
+
+
 ;;; Remove unneccesary things
 
 (progn (setq-default scroll-bar-mode nil
@@ -261,6 +295,11 @@
        (menu-bar-mode 0)
        (tool-bar-mode 0)
        (setq inhibit-startup-screen 1))
+
+
+;;; trim trailing whitespaces when saving files.
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
 ;;; default.el ends here

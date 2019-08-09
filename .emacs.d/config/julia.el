@@ -17,24 +17,23 @@
 
 (leaf ess
   :init (require 'ess-site)
-  :hook (ess-julia-mode . julia-auto-start)
+  :hook (ess-julia-mode . 'julia-auto-start)
   :config (progn (setq inferior-julia-program "/bin/julia")))
 
 
-;;; auto compleion config
+;;; auto compleion
 
-(eval-after-load "company" (setq ess-use-company t))
+(add-hook 'ess-julia-mode (lambda ()
+                            (add-to-list (make-local-variable 'company-backends)
+                                         '(ein:company-backend)))) ;; breaks locality when using ess-use-company.
 
 
-;;; flycheck config
+;;; linting
 
 (leaf flycheck-julia
   :ensure t
+  :after flycheck julia-mode
   :config (progn (flycheck-julia-setup)))
 
-
-;;; highlight numbers
-
-(add-hook 'ess-julia-mode-hook 'highlight-numbers-mode)
 
 ;;; julia.el ends here

@@ -6,18 +6,28 @@
 ;;; cmake-ide and its deps.
 
 (require 'cl)
-(require 'company)
 
 
 (unless (fboundp 'levenshtein-distance)
   (leaf levenshtein
     :ensure t))
 
+;;; cmake mode
 
 (leaf cmake-mode
   :ensure t
   :mode ("CMakeLists.txt" . cmake-mode)
   :init (setq cmake-tab-width 4))
+
+
+;;; auto completion for cmake
+
+(leaf company-cmake
+  :ensure t
+  :after company cmake
+  :config (progn (add-hook 'cmake-mode-hook (lambda ()
+                                              (add-to-list (make-local-variable 'company-backends)
+                                                           '(company-cmake))))))
 
 
 ;;; C common style
@@ -26,7 +36,18 @@
       indent-tabs-mode nil
       c-basic-offset 4)
 
-(add-hook 'c-mode-common-hook 'highlight-numbers-mode)
+
+;;; static analyzer
+
+(require 'semantic)
+(global-semanticdb-minor-mode 1)
+(global-semantic-idle-scheduler-mode 1)
+(global-semantic-highlight-func-mode 1)
+(semantic-mode 1)
+
+(leaf stickyfunc-enhance
+  :ensure t
+  :config (progn (global-semantic-stickyfunc-mode 1)))
 
 
 ;;; rtags
@@ -44,28 +65,46 @@
 
 (leaf ivy-rtags
   :ensure t
+  :after ivy rtags
   :config (setq rtags-display-result-backend 'ivy))
 
 
-;;; clang-tidy
+;;; clang format
 
 (leaf flycheck-clang-tidy
   :ensure t
+  :after flycheck
   :hook (flycheck-mode-hook . flycheck-clang-tidy-setup))
-
-
-;;; static analysis
 
 (leaf flycheck-clang-analyzer
   :ensure t
+  :after flycheck
   :hook (flycheck-mode-hook . flycheck-clang-analyzer-setup))
+
+(leaf clang-format
+  :ensure t
+  :config (progn (defun clang-format-auto ()
+                   (interactive)
+                   (if mark-active
+                       (call-interactively 'clang-format-region)
+                     (clang-format-buffer)))))
 
 
 ;;; completion for rtags
 
 (leaf company-rtags
   :ensure t
-  :config (progn (add-hook 'c-mode-common-hook (add-to-list 'company-backends 'company-c-headers))))
+  :after company rtags
+  :config (progn (add-hook 'c-mode-common-hook (lambda ()
+                                                 (add-to-list (make-local-variable 'company-backends)
+                                                              '(company-rtags))))))
+
+(leaf company-c-headers
+  :ensure t
+  :after company
+  :config (progn (add-hook 'c-mode-common-hook (lambda ()
+                                                 (add-to-list (make-local-variable 'company-backends)
+                                                              '(company-c-headers))))))
 
 
 ;;; Rtags + Eldoc:
@@ -98,12 +137,24 @@
 (add-hook 'c-mode-common-hook 'rtags-eldoc-mode)
 
 
+;;; hinting function arguments
+
+(leaf function-args
+  :ensure t
+  :config (progn (fa-config-default)
+                 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+                 (set-default 'semantic-case-fold t)
+                 (require 'semantic/bovine/c)
+                 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
+                              (concat "/usr/lib/gcc/x86_64-pc-linux-gnu/^[0-9\.0-9\.0-9]$/include/stddef.h"))))
+
+
 ;;; cmake-ide
 
 (leaf cmake-ide
   :ensure t
-  :config (progn (require 'rtags) ;; optional, must have rtags installed
-                 (cmake-ide-setup)
+  :after rtags
+  :config (progn (cmake-ide-setup)
                  (setq cmake-ide-build-dir "./build")))
 
 (defun cmake-ide-compile* ()
@@ -119,6 +170,12 @@
     (when (yes-or-no-p (format "Delete directory %s ?" dir-name))
       (delete-directory dir-name t)
       (message (format "DELETED %s" dir-name)))))
+
+
+;;; gdb configuration
+
+(setq gdb-many-windows t
+      gdb-show-main t)
 
 
 ;;; cmake-ide + gdb/exec.
@@ -175,20 +232,7 @@
                       (run-process-in-comint sel))))
 
 
-;;; clang-format
-
-(leaf clang-format
-  :ensure t
-  :config (progn (defun clang-format-auto ()
-                   (interactive)
-                   (if mark-active
-                       (call-interactively 'clang-format-region)
-                     (clang-format-buffer)))
-                 (define-key c-mode-base-map (kbd "C-c C-f") (function clang-format))
-                 (define-key c-mode-base-map (kbd "C-c f") (function clang-format-auto))))
-
-
-;;; disaster
+;;; object dump
 
 (leaf disaster
   :ensure t)

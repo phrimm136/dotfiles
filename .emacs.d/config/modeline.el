@@ -33,8 +33,8 @@
   (length (format-mode-line line)))
 
 (defvar mode-line-align-left ;; file status
-  '((:properlize " %* ") ;; buffer current state - modified / read only / otherwise
-    (:properlize (:eval (if (and (boundp 'vc-mode) vc-mode)
+  '((:properlize " %* ") ;; buffer R/W state - modified / read only / saved
+    (:properlize (:eval (if (bound-and-true-p vc-mode)
                             (concat " " (substring vc-mode 5) " ")
                           ""))) ;; version control system; need to show more information.
     (:properlize " %b ") ;; file name
@@ -42,7 +42,7 @@
 
 (defvar mode-line-align-middle ;; volatile states
   '((:properlize evil-mode-line-tag) ;; evil state
-    (:properlize (:eval (if (and (boundp 'flycheck-mode) flycheck-mode)
+    (:properlize (:eval (if (bound-and-true-p flycheck-mode)
                             (concat " F " (pcase flycheck-last-status-change
                                             (`not-checked " / / ")
                                             (`no-checker "-/-/-")
@@ -55,7 +55,7 @@
                                             (`interrupted "././.")
                                             (`suspicious "?/?/?")))
                           ""))) ;; flycheck errors - error / warning / info
-    (:properlize (:eval (if (and (boundp 'iedit-mode) iedit-mode)
+    (:properlize (:eval (if (bound-and-true-p iedit-mode)
                             (concat "  I"
                                     (format " %s/%s "
                                             iedit-occurrence-index
@@ -63,16 +63,17 @@
                           ""))) ;; iedit candidates
     ))
 
-(defvar mode-line-align-right ;; positions, file system
-  '((:properlize (:eval (if (and (boundp 'pdf-view-mode) pdf-view-mode)
-                            'pdf-view-current-page))) ;; pdfview mode current page; not working.
-    (:properlize " %4l : %3c ") ;; cursor position - row / column
-    (:properlize " %6p ") ;; percentage of the buffer text above the top of the window
-    (:properlize (:eval (pcase (coding-system-eol-type buffer-file-coding-system)
-                          (0 " LF ")
-                          (1 " CRLF ")
-                          (2 " CR ")))) ;; EoL type
-    (:properlize (:eval )) ;; Encoding; TODO
+(defvar mode-line-align-right ;; positions, file systems
+  '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s p " (pdf-view-current-page))) ;; pdfview mode current page
+                              (t (concat " %4l : %3c " ;; cursor position - row / column
+                                         " %6p " ;; percentage of the buffer text above the top of the window
+                                         (pcase (coding-system-eol-type buffer-file-coding-system)
+                                           (0 " LF ")
+                                           (1 " CRLF ")
+                                           (2 " CR ")) ;; EoL type
+                                         "" ;; Encoding; TODO
+                                         ) ;; code writing modes
+                                 ))))
     (:properlize " %m ") ;; major mode
     ))
 
@@ -90,16 +91,17 @@
   '(;; major-mode
     (c-mode . "C")
     (c++-mode . "C++")
+    (eshell-mode . "[Eshell]")
     (python-mode . "Python")
     (inferior-python-mode . "[Python]")
     (ein:notebook-multilang-mode . "iPython")
     (ein:notebooklist-mode . "iPython-notebooklist")
-    (eshell-mode . "[Eshell]")
     (ess-julia-mode . "Julia")
     (inferior-ess-julia-mode . "[Julia]")
     (pdf-view-mode . "PDF")
     (emacs-lisp-mode . "ELisp")
     (lisp-interaction-mode . "[Lisp]")
+    (inferiror-emacs-lisp-mode . "[ELisp]")
     (cider-repl-mode . "[Clojure]")))
 
 (defun clean-mode-line ()

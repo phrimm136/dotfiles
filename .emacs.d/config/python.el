@@ -12,10 +12,15 @@
                  (add-hook 'python-mode-hook (lambda ()
                                                (setq tab-width 4)))))
 
+
+;;; auto completion
+
 (leaf company-jedi
   :ensure t
+  :after company jedi
   :init (progn (add-hook 'python-mode-hook (lambda ()
-					     (add-to-list 'company-backends 'company-jedi)))))
+                                             (add-to-list (make-local-variable 'company-backends)
+                                                          '(company-jedi))))))
 
 
 ;;; virtual environment

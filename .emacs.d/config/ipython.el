@@ -32,6 +32,7 @@
 
 (leaf jedi
   :ensure t
+  :after ein
   :hook (ein:connect-mode-hook . ein:jedi-setup))
 
 

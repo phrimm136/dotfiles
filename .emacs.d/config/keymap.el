@@ -6,13 +6,18 @@
 ;;; Evil keymap settings.
 
 (progn (evil-mode 1)
-       ;; command mode keymap custom
-       (evil-ex-define-cmd ":" 'eval-expression)
-       ;; leader-key mapped custom
+       (evil-collection-init)
+       ;; global keymap custom
        (evil-leader/set-key
-         "e" 'iedit-mode
          "<RET>" 'revert-buffer
-         "s" 'counsel-imenu
+         "<SPC>" 'counsel-M-x
+         ":" 'eval-expression
+         ;; ivy keymap
+         "gf" 'counsel-find-file
+         "gr" 'counsel-recentf
+         "gb" 'counsel-switch-buffer
+         "gk" 'kill-buffer
+         "gs" 'counsel-imenu
          ;; folding codes
          "ff" 'vimish-fold
          "ft" 'vimish-fold-toggle
@@ -34,16 +39,54 @@
          ";v" 'evilnc-toggle-invert-comment-line-by-line
          ";o" 'evilnc-copy-and-comment-operator
          ";k" 'evilnc-comment-and-kill-ring-save
-         )
-       ;; global keymap custom
-       (evil-leader/set-key
-         "\C-s" 'swiper
-         "gf" 'counsel-find-file
-         "gr" 'counsel-recentf
-         "gb" 'counsel-switch-buffer
-         "gk" 'kill-buffer)
+         ;; narrowing
+         "nf" 'narrow-to-defun
+         "nr" 'narrow-to-region
+         "nw" 'widen
+         ;; function for functions
+         "[" 'beginning-of-defun
+         "]" 'end-of-defun
+         "v" 'mark-defun)
+       (global-unset-key "\C-j")
+       (global-unset-key "\C-k")
+       (evil-define-key 'insert 'global
+         "\C-j" 'nil
+         "\C-k" 'nil)
        (evil-define-key 'normal 'global
-         "\C-s" 'swiper)
+         "\C-s" 'swiper
+         "\C-j" 'forward-sexp
+         "\C-k" 'backward-sexp)
+       ;; multiedit custom
+       (define-key evil-multiedit-state-map
+         "j" 'evil-multiedit-next)
+       (define-key evil-multiedit-state-map
+         "k" 'evil-multiedit-prev)
+       (define-key evil-multiedit-state-map
+         "\C-j" 'evil-multiedit-match-and-next)
+       (define-key evil-multiedit-state-map
+         "\C-k" 'evil-multiedit-match-and-prev)
+       (evil-leader/set-key
+         "ea" 'evil-multiedit-match-all
+         "ee" 'evil-multiedit-match-and-next
+         "er" 'evil-multiedit-restore)
+       ;; speedbar custom
+       (global-set-key (kbd "<C-tab>") 'sr-speedbar-toggle)
+       (define-key speedbar-mode-map
+         (kbd "<tab>") 'speedbar-expand-line)
+       (define-key speedbar-mode-map
+         (kbd "<backtab>") 'speedbar-contract-line-descendants)
+       ;; company custom
+       (define-key company-active-map
+         (kbd "<tab>") 'company-complete)
+       (define-key company-active-map
+         "\C-j" 'company-select-next)
+       (define-key company-active-map
+         "\C-k" 'company-select-previous)
+       ;; flycheck custom
+       (define-key flycheck-command-map
+         "j" 'flycheck-next-error)
+       (define-key flycheck-command-map
+         "k" 'flycheck-previous-error)
        ;; c keymap custom
        (evil-leader/set-key-for-mode 'c-mode
          ;; Compile, CMake
@@ -54,16 +97,17 @@
          "cD" 'cmake-ide-delete-build-dir
          ;; RTags
          "rf" 'rtags-find-file
-         "rF" 'rtags-diagnostics
+         "rd" 'rtags-diagnostics
          "rj" 'rtags-next-diag
          "rk" 'rtags-previous-diag
+         "rr" 'rtags-find-references-at-point
+         "rR" 'rtags-find-references-current-dir
          "rt" 'rtags-dependency-tree
          "rT" 'rtags-references-tree
          ;; Debugger
          "db" 'cmake-ide-run-gdb
          "dx" 'cmake-ide-run-exe
-         "do" 'cmake-ide-objdump
-         )
+         "do" 'cmake-ide-objdump)
        ;; cpp keymap custom
        (evil-leader/set-key-for-mode 'c++-mode
          ;; Compile, CMake
@@ -74,16 +118,17 @@
          "cD" 'cmake-ide-delete-build-dir
          ;; RTags
          "rf" 'rtags-find-file
-         "rF" 'rtags-diagnostics
+         "rd" 'rtags-diagnostics
          "rj" 'rtags-next-diag
          "rk" 'rtags-previous-diag
+         "rr" 'rtags-find-references-at-point
+         "rR" 'rtags-find-references-current-dir
          "rt" 'rtags-dependency-tree
          "rT" 'rtags-references-tree
          ;; Debugger
          "db" 'cmake-ide-run-gdb
          "dx" 'cmake-ide-run-exe
-         "do" 'cmake-ide-objdump
-         )
+         "do" 'cmake-ide-objdump)
        ;; shell keymap custom
        (evil-define-key 'insert eshell-mode-map
          "\C-k" 'eshell-previous-input
@@ -121,16 +166,14 @@
          "dj" 'ess-bp-next
          "dk" 'ess-bp-previous
          "dt" 'ess-show-traceback
-         "da" 'ess-show-call-stack
-         )
+         "da" 'ess-show-call-stack)
        ;; clojure keymap custom
        (evil-leader/set-key-for-mode 'clojure-mode
          ;; repl
          "cc" 'cider-eval-region
          "cf" 'cider-eval-buffer
          ;; debug
-         "dr" 'cider-eval-defun-at-point
-         )
+         "dr" 'cider-eval-defun-at-point)
        ;; file explorer keymap custom
        (evil-define-key 'normal dired-mode-map
          "gf" 'counsel-find-file
@@ -140,8 +183,6 @@
          (kbd "<return>") 'dired-display-file)
        ;; magit keymap custom
        (evil-define-key 'normal magit-mode-map
-         "gk" 'kill-buffer
-         "gb" 'counsel-switch-buffer
          "j" 'magit-section-forward
          "k" 'magit-section-backward
          (kbd "<escape>") 'nil)
@@ -163,14 +204,6 @@
        (define-key minibuffer-local-map
          "\C-j" 'next-line-or-history-element)
        (define-key minibuffer-local-map
-         "\C-k" 'previous-line-or-history-element)
-       ;; flycheck keymap custom
-       (define-key flycheck-command-map
-         "j" 'flycheck-next-error)
-       (define-key flycheck-command-map
-         "k" 'flycheck-previous-error)
-       ;; org keymap custom
-                                        ;                 (evil-define-key 'normal 'org-mode)
-       )
+         "\C-k" 'previous-line-or-history-element))
 
 ;;; keymap.el ends here
