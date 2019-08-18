@@ -3,15 +3,14 @@ configuration {
 	width:				40;
 	lines:				10;
 	font:				"SFNS 12";
-	auto-select:			true;
 	matching:			"fuzzy";
-	separator-style:		"solid";
-	hide-scrollbar:			true;
+	separator-style:	"solid";
+	hide-scrollbar:		true;
 	yoffset:			-200;
-	kb-remove-to-eol:		"";
-	kb-accept-entry:		"Return,KP_Enter";
+	kb-remove-to-eol:	"";
+	kb-accept-entry:	"Return,KP_Enter";
 	kb-row-up:			"Up,Control+k";
-	kb-row-down:			"Down,Control+j";
+	kb-row-down:		"Down,Control+j";
 	terminal:			"termite";
 
 }
@@ -24,13 +23,13 @@ configuration {
 	select-bg:			#ffffff;
 	select-fg:			#000000;
 	
-	background-color:		rgba(0, 0, 0, 0);
+	background-color:	rgba(0, 0, 0, 0);
 	text-color:			#ffffff;
 }
 
 #mainbox {
 	padding:			10;
-	background-color:		rgba(0, 0, 0, 0.6);
+	background-color:	rgba(0, 0, 0, 0.6);
 }
 
 #inputbar {

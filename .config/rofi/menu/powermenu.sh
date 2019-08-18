@@ -4,15 +4,15 @@ menu=$(echo -e "lock\nlogout\nsuspend\nhibernate\nreboot\npoweroff" | rofi -them
 
 case $menu in
     lock)
-	betterlockscreen -l ;;
+	    betterlockscreen -l ;;
     logout)
-	i3-msg exit ;;
+	    i3-msg exit ;;
     suspend)
-	systemctl suspend ;;
+	    systemctl suspend ;;
     hibernate)
-	systemctl hibernate ;;
+	    systemctl hibernate ;;
     reboot)
-	reboot ;;
+	    reboot ;;
     poweroff)
-	poweroff ;;
+	    poweroff ;;
 esac
