@@ -12,4 +12,5 @@
                  (undo-tree-mode 0)))
 
 
+(provide 'init-pdf)
 ;;; pdf.el ends here

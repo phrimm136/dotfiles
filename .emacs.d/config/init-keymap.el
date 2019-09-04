@@ -17,19 +17,9 @@
          "gr" 'counsel-recentf
          "gb" 'counsel-switch-buffer
          "gk" 'kill-buffer
-         "gs" 'counsel-imenu
-         ;; folding codes
-         "ff" 'vimish-fold
-         "ft" 'vimish-fold-toggle
-         "fT" 'vimish-fold-toggle-all
-         "fd" 'vimish-fold-delete
-         "fD" 'vimish-fold-delete-all
-         "fw" 'vimish-fold-unfold
-         "fW" 'vimish-fold-unfold-all
-         "fr" 'vimish-fold-refold
-         "fR" 'vimish-fold-refold-all
-         "fj" 'vimish-fold-next-fold
-         "fk" 'vimish-fold-previous-fold
+         "gs" 'counsel-semantic-or-imenu
+         ;; undo tree
+         "u" 'undo-tree-visualize
          ;; commenting lines
          ";i" 'evilnc-comment-or-uncomment-lines
          ";l" 'evilnc-quick-comment-or-uncomment-to-the-line
@@ -58,9 +48,9 @@
          "\C-k" 'backward-sexp)
        ;; multiedit custom
        (define-key evil-multiedit-state-map
-         "j" 'evil-multiedit-next)
+         "j" 'iedit-next-occurrence)
        (define-key evil-multiedit-state-map
-         "k" 'evil-multiedit-prev)
+         "k" 'iedit-prev-occurrence)
        (define-key evil-multiedit-state-map
          "\C-j" 'evil-multiedit-match-and-next)
        (define-key evil-multiedit-state-map
@@ -72,9 +62,7 @@
        ;; speedbar custom
        (global-set-key (kbd "<C-tab>") 'sr-speedbar-toggle)
        (define-key speedbar-mode-map
-         (kbd "<tab>") 'speedbar-expand-line)
-       (define-key speedbar-mode-map
-         (kbd "<backtab>") 'speedbar-contract-line-descendants)
+         (kbd "<tab>") 'speedbar-toggle-line-expansion)
        ;; company custom
        (define-key company-active-map
          (kbd "<tab>") 'company-complete)
@@ -96,14 +84,23 @@
          "cd" 'cmake-ide-delete-file
          "cD" 'cmake-ide-delete-build-dir
          ;; RTags
-         "rf" 'rtags-find-file
-         "rd" 'rtags-diagnostics
-         "rj" 'rtags-next-diag
-         "rk" 'rtags-previous-diag
-         "rr" 'rtags-find-references-at-point
-         "rR" 'rtags-find-references-current-dir
+         "rff" 'rtags-find-file
+         "rfr" 'rtags-find-references-at-point
+         "rfR" 'rtags-find-references-current-dir
+         "rfs" 'rtags-find-symbol-at-point
+         "rfS" 'rtags-find-symbol-current-dir
+         "rfv" 'rtags-find-virtuals-at-point
+         "rdd" 'rtags-diagnostics
+         "rdj" 'rtags-next-diag
+         "rdk" 'rtags-previous-diag
          "rt" 'rtags-dependency-tree
          "rT" 'rtags-references-tree
+         "rv" 'rtags-print-enum-value-at-point
+         "rj" 'rtags-location-stack-forward
+         "rk" 'rtags-location-stack-back
+         "rp" 'rtags-reparse-file
+         "rP" 'rtags-preprocess-file
+         "rr" 'rtags-rename-symbol
          ;; Debugger
          "db" 'cmake-ide-run-gdb
          "dx" 'cmake-ide-run-exe
@@ -117,14 +114,23 @@
          "cd" 'cmake-ide-delete-file
          "cD" 'cmake-ide-delete-build-dir
          ;; RTags
-         "rf" 'rtags-find-file
-         "rd" 'rtags-diagnostics
-         "rj" 'rtags-next-diag
-         "rk" 'rtags-previous-diag
-         "rr" 'rtags-find-references-at-point
-         "rR" 'rtags-find-references-current-dir
+         "rff" 'rtags-find-file
+         "rfr" 'rtags-find-references-at-point
+         "rfR" 'rtags-find-references-current-dir
+         "rfs" 'rtags-find-symbol-at-point
+         "rfS" 'rtags-find-symbol-current-dir
+         "rfv" 'rtags-find-virtuals-at-point
+         "rdd" 'rtags-diagnostics
+         "rdj" 'rtags-next-diag
+         "rdk" 'rtags-previous-diag
          "rt" 'rtags-dependency-tree
          "rT" 'rtags-references-tree
+         "rv" 'rtags-print-enum-value-at-point
+         "rj" 'rtags-location-stack-forward
+         "rk" 'rtags-location-stack-back
+         "rp" 'rtags-reparse-file
+         "rP" 'rtags-preprocess-file
+         "rr" 'rtags-rename-symbol
          ;; Debugger
          "db" 'cmake-ide-run-gdb
          "dx" 'cmake-ide-run-exe
@@ -191,7 +197,7 @@
        ;; pdf viewer keymap custom
        (evil-set-initial-state 'pdf-view-mode 'normal)
        (evil-leader/set-key-for-mode 'pdf-view-mode
-         "g" 'goto-line)
+         "p" 'goto-line-preview)
        ;; minibuffer keymap custom
        (define-key ivy-switch-buffer-map
          "\C-j" 'ivy-next-line)
@@ -206,4 +212,6 @@
        (define-key minibuffer-local-map
          "\C-k" 'previous-line-or-history-element))
 
+
+(provide 'init-keymap)
 ;;; keymap.el ends here

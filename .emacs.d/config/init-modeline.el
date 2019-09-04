@@ -34,37 +34,37 @@
 
 (defvar mode-line-align-left ;; file status
   '((:properlize " %* ") ;; buffer R/W state - modified / read only / saved
-    (:properlize (:eval (if (bound-and-true-p vc-mode)
-                            (concat " " (substring vc-mode 5) " ")
-                          ""))) ;; version control system; need to show more information.
     (:properlize " %b ") ;; file name
+    (:properlize (:eval (if (bound-and-true-p vc-mode)
+                            (concat " git: " (substring vc-mode 5) " ")
+                          ""))) ;; version control system; need to show more information.
     ))
 
 (defvar mode-line-align-middle ;; volatile states
   '((:properlize evil-mode-line-tag) ;; evil state
     (:properlize (:eval (if (bound-and-true-p flycheck-mode)
                             (concat " F " (pcase flycheck-last-status-change
-                                            (`not-checked " / / ")
-                                            (`no-checker "-/-/-")
-                                            (`running "*/*/*")
-                                            (`errored "!/!/!")
+                                            (`not-checked " / /  ")
+                                            (`no-checker "-/-/- ")
+                                            (`running "*/*/* ")
+                                            (`errored "!/!/! ")
                                             (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
                                                          (if (or .error .warning .info)
-                                                             (format "%s/%s/%s" (or .error 0) (or .warning 0) (or .info 0))
-                                                           "0/0/0")))
-                                            (`interrupted "././.")
-                                            (`suspicious "?/?/?")))
+                                                             (format "%s/%s/%s " (or .error 0) (or .warning 0) (or .info 0))
+                                                           "0/0/0 ")))
+                                            (`interrupted "././. ")
+                                            (`suspicious "?/?/? ")))
                           ""))) ;; flycheck errors - error / warning / info
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
-                            (concat "  I"
-                                    (format " %s/%s "
+                            (concat " I "
+                                    (format "%s/%s "
                                             iedit-occurrence-index
                                             (iedit-counter)))
                           ""))) ;; iedit candidates
     ))
 
 (defvar mode-line-align-right ;; positions, file systems
-  '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s p " (pdf-view-current-page))) ;; pdfview mode current page
+  '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
                               (t (concat " %4l : %3c " ;; cursor position - row / column
                                          " %6p " ;; percentage of the buffer text above the top of the window
                                          (pcase (coding-system-eol-type buffer-file-coding-system)
@@ -72,7 +72,7 @@
                                            (1 " CRLF ")
                                            (2 " CR ")) ;; EoL type
                                          "" ;; Encoding; TODO
-                                         ) ;; code writing modes
+                                         ) ;; writing modes
                                  ))))
     (:properlize " %m ") ;; major mode
     ))
@@ -94,8 +94,6 @@
     (eshell-mode . "[Eshell]")
     (python-mode . "Python")
     (inferior-python-mode . "[Python]")
-    (ein:notebook-multilang-mode . "iPython")
-    (ein:notebooklist-mode . "iPython-notebooklist")
     (ess-julia-mode . "Julia")
     (inferior-ess-julia-mode . "[Julia]")
     (pdf-view-mode . "PDF")
@@ -118,4 +116,5 @@
 (add-hook 'after-change-major-mode-hook  'clean-mode-line)
 
 
+(provide 'init-modeline)
 ;;; modeline.el ends here

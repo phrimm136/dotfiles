@@ -3,26 +3,20 @@
 ;;; Code:
 
 
-;;; Transparency
+;;; visual
 
-(set-frame-parameter (selected-frame) 'alpha 80)
+(set-frame-parameter (selected-frame) 'alpha 80) ; transparency
 
+(load-theme 'black t) ; color theme
 
-;;; color theme
-
-(load-theme 'black t)
-
-
-;;; font
-
-(add-to-list 'default-frame-alist '(font . "DejaVuSansMono Nerd Font-6"))
-
-
-;;; color numerics
+(add-to-list 'default-frame-alist '(font . "DejaVuSansMono Nerd Font-6")) ; font
 
 (leaf highlight-numbers
   :ensure t
-  :hook (prog-mode-hook . highlight-numbers-mode))
+  :hook (prog-mode-hook . highlight-numbers-mode)) ; color numerics
+
+(leaf goto-line-preview
+  :ensure t) ; goto-line preview
 
 
 ;;; vim emulator
@@ -63,12 +57,15 @@
 (leaf ivy
   :ensure t
   :config (progn (ivy-mode 1)
-                 (recentf-mode t)
-                 (global-fasd-mode t)
                  (setq ivy-wrap t
                        ivy-re-builders-alist '((swiper . ivy--regex-p)
                                                (t . ivy--regex-fuzzy))
                        ivy-count-format "%d/%d ")))
+
+
+;;; show recent files
+
+(recentf-mode t)
 
 
 ;;; M-x history
@@ -89,11 +86,11 @@
   :ensure t
   :hook (prog-mode-hook . company-mode)
   :config (progn (setq company-idle-delay 0.2
+                       company-minimum-prefix-length 0
                        company-backends '((company-files
-                                           company-keywords
-                                           company-capf
                                            company-yasnippet
-                                           company-semantic)
+                                           company-keywords
+                                           company-capf)
                                           (company-abbrev
                                            company-dabbrev)))))
 
@@ -103,12 +100,19 @@
 ;;   :config (progn (setf (car company-backends)
 ;;                        (append '(company-tabnine) (car company-backends)))))
 
+(leaf company-math
+  :ensure t
+  :after company
+  :config (progn (setf (car company-backends)
+                       (append '(company-math-symbols-unicode) (car company-backends)))))
+
 (leaf company-quickhelp
   :ensure t
   :after company
   :hook (prog-mode-hook . company-quickhelp-mode)
   :config (progn (setq pos-tip-background-color "#2b2b2b"
-                       pos-tip-foreground-color "#ffffff")))
+                       pos-tip-foreground-color "#ffffff"
+                       company-quickhelp-delay 0.1)))
 
 
 ;;; syntax check
@@ -170,12 +174,13 @@
 
 (defvar speedbar-mode-map (make-sparse-keymap))
 (leaf sr-speedbar
-  :ensure t)
+  :ensure t
+  :config (progn ))
 
 
 ;;; mode line
 
-(load-file "~/.emacs.d/config/modeline.el")
+(require 'init-modeline)
 
 (leaf hide-mode-line
   :ensure t
@@ -184,7 +189,9 @@
 
 ;;; Line number + current line highlight
 
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (setq display-line-numbers 'relative)))
 
 (leaf hl-line
   :ensure t
@@ -233,14 +240,6 @@
   :ensure t)
 
 
-;;; folding code
-
-(leaf evil-vimish-fold
-  :ensure t
-  :hook (prog-mode-hook . vimish-fold-mode)
-  :config (progn (setq vimish-fold-persist-on-saving t)))
-
-
 ;;; key cheatsheet
 
 (leaf which-key
@@ -284,9 +283,6 @@
   :hook (prog-mode-hook . yas-minor-mode)
   :config (progn (yas-reload-all)))
 
-(leaf sidebar
-  :url "https://github.com/sebastiencs/sidebar.el")
-
 
 ;;; Remove unneccesary things
 
@@ -297,9 +293,10 @@
        (setq inhibit-startup-screen 1))
 
 
-;;; trim trailing whitespaces when saving files.
+;;; Trim trailing whitespaces when saving files.
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
-;;; default.el ends here
+(provide 'init-global)
+;;; global.el ends here

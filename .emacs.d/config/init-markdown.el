@@ -9,4 +9,6 @@
   :ensure t
   :config (progn))
 
+
+(provide 'init-markdown)
 ;;; markdown.el ends here

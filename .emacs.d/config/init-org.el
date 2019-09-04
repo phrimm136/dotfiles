@@ -27,4 +27,6 @@
   :after org
   :config (progn (setq org-src-fontify-natively t)))
 
+
+(provide 'init-org)
 ;;; org.el ends here

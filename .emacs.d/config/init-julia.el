@@ -3,13 +3,7 @@
 ;;; Code:
 
 
-;;; julia-mode config
-
-(leaf julia-mode
-  :ensure t)
-
-
-;;; ESS config
+;;; ESS julia config
 
 (defun julia-auto-start ()
   "Auto start julia kernal."
@@ -23,9 +17,10 @@
 
 ;;; auto compleion
 
-(add-hook 'ess-julia-mode (lambda ()
-                            (add-to-list (make-local-variable 'company-backends)
-                                         '(ein:company-backend)))) ;; breaks locality when using ess-use-company.
+(add-hook 'ess-julia-mode
+          (lambda ()
+            (add-to-list (make-local-variable 'company-backends)
+                         '(ein:company-backend)))) ;; breaks locality when using ess-use-company.
 
 
 ;;; linting
@@ -36,4 +31,5 @@
   :config (progn (flycheck-julia-setup)))
 
 
+(provide 'init-julia)
 ;;; julia.el ends here

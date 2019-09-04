@@ -7,4 +7,5 @@
   :ensure t)
 
 
+(provide 'init-csv)
 ;;; csv.el ends here

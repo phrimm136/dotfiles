@@ -23,8 +23,9 @@
   :after flycheck clojure-mode
   :config (progn (flycheck-clojure-setup)))
 
-(add-hook 'cider-mode-hook (lambda ()
-                             (setq next-error-function #'flycheck-next-error-function)))
+(add-hook 'cider-mode-hook
+          (lambda ()
+            (setq next-error-function #'flycheck-next-error-function)))
 
 
 ;;; auto completion
@@ -33,4 +34,11 @@
 (eval-after-load "company" (add-hook 'cider-repl-mode-hook #'company-mode))
 
 
-;;;
+;;; snippets for clojure
+
+(leaf clojure-snippets
+  :ensure t)
+
+
+(provide 'init-clojure)
+;;; clojure.el ends here

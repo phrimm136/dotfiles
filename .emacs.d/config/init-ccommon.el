@@ -25,9 +25,17 @@
 (leaf company-cmake
   :ensure t
   :after company cmake
-  :config (progn (add-hook 'cmake-mode-hook (lambda ()
-                                              (add-to-list (make-local-variable 'company-backends)
-                                                           '(company-cmake))))))
+  :config (progn (add-hook 'cmake-mode-hook
+                           (lambda ()
+                             (add-to-list (make-local-variable 'company-backends)
+                                          '(company-cmake))))))
+
+
+;;; linting cmake files
+
+(leaf flycheck-cmake
+  :url "https://github.com/xwl/flycheck-cmake"
+  :leaf-defer t)
 
 
 ;;; C common style
@@ -37,18 +45,25 @@
       c-basic-offset 4)
 
 
-;;; static analyzer
+;;; c/++ header completion
 
-(require 'semantic)
-(global-semanticdb-minor-mode 1)
-(global-semantic-idle-scheduler-mode 1)
-(global-semantic-highlight-func-mode 1)
-(semantic-mode 1)
+(leaf company-c-headers
+  :ensure t
+  :after company
+  :config (progn (add-hook 'c-mode-common-hook
+                           (lambda ()
+                             (add-to-list (make-local-variable 'company-backends)
+                                          '(company-c-headers))))))
+
+
+;;; function definition on top
 
 (leaf stickyfunc-enhance
   :ensure t
-  :config (progn (global-semantic-stickyfunc-mode 1)))
-
+  :config (progn (add-hook 'c-mode-common-hook
+                           (lambda ()
+                             (semantic-mode 1)
+                             (global-semantic-stickyfunc-mode 1)))))
 
 ;;; rtags
 ;; Completion, Navigation.
@@ -58,7 +73,7 @@
   :hook (c-mode-common-hook . rtags-start-process-unless-running)
   :config (progn (setq rtags-autostart-diagnostics t
                        rtags-completions-enabled t
-                       rtags-path "~/.emacs.d/elpa/rtags-20190621.2006/rtags-2.33/bin"))) ; Todo: use regex for path
+                       rtags-path "~/.emacs.d/elpa/rtags-20190820.502/rtags-2.33/bin"))) ; Todo: use regex for path
 
 
 ;;; use ivy for frontend of rtags
@@ -95,16 +110,10 @@
 (leaf company-rtags
   :ensure t
   :after company rtags
-  :config (progn (add-hook 'c-mode-common-hook (lambda ()
-                                                 (add-to-list (make-local-variable 'company-backends)
-                                                              '(company-rtags))))))
-
-(leaf company-c-headers
-  :ensure t
-  :after company
-  :config (progn (add-hook 'c-mode-common-hook (lambda ()
-                                                 (add-to-list (make-local-variable 'company-backends)
-                                                              '(company-c-headers))))))
+  :config (progn (add-hook 'c-mode-common-hook
+                           (lambda ()
+                             (add-to-list (make-local-variable 'company-backends)
+                                          '(company-rtags))))))
 
 
 ;;; Rtags + Eldoc:
@@ -146,7 +155,7 @@
                  (set-default 'semantic-case-fold t)
                  (require 'semantic/bovine/c)
                  (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-                              (concat "/usr/lib/gcc/x86_64-pc-linux-gnu/^[0-9\.0-9\.0-9]$/include/stddef.h"))))
+                              "/usr/lib/gcc/x86_64-pc-linux-gnu/")))
 
 
 ;;; cmake-ide
@@ -174,8 +183,46 @@
 
 ;;; gdb configuration
 
-(setq gdb-many-windows t
+(setq gdb-many-windows nil
       gdb-show-main t)
+
+;; restore current layout when exiting gdb - https://stackoverflow.com/a/41326527
+(defun set-gdb-layout(&optional c-buffer)
+  (if (not c-buffer)
+      (setq c-buffer (window-buffer (selected-window)))) ;; save current buffer
+  ;; from http://stackoverflow.com/q/39762833/846686
+  (set-window-dedicated-p (selected-window) nil) ;; unset dedicate state if needed
+  (switch-to-buffer gud-comint-buffer)
+  (delete-other-windows) ;; clean all
+  (let* ((w-source (selected-window)) ;; left top
+         (w-gdb (split-window w-source nil 'right)) ;; right bottom
+         (w-locals (split-window w-gdb nil 'above)) ;; right middle bottom
+         (w-stack (split-window w-locals nil 'above)) ;; right middle top
+         (w-breakpoints (split-window w-stack nil 'above)) ;; right top
+         (w-io (split-window w-source (floor(* 0.9 (window-body-height))) 'below)) ;; left bottom
+         )
+    (set-window-buffer w-io (gdb-get-buffer-create 'gdb-inferior-io))
+    (set-window-dedicated-p w-io t)
+    (set-window-buffer w-breakpoints (gdb-get-buffer-create 'gdb-breakpoints-buffer))
+    (set-window-dedicated-p w-breakpoints t)
+    (set-window-buffer w-locals (gdb-get-buffer-create 'gdb-locals-buffer))
+    (set-window-dedicated-p w-locals t)
+    (set-window-buffer w-stack (gdb-get-buffer-create 'gdb-stack-buffer))
+    (set-window-dedicated-p w-stack t)
+    (set-window-buffer w-gdb gud-comint-buffer)
+    (select-window w-source)
+    (set-window-buffer w-source c-buffer)))
+(defadvice gdb (around args activate)
+  "Change the way to gdb works."
+  (setq global-config-editing (current-window-configuration)) ;; to restore: (set-window-configuration c-editing)
+  (let ((c-buffer (window-buffer (selected-window))) ;; save current buffer
+        )
+    ad-do-it
+    (set-gdb-layout c-buffer)))
+(defadvice gdb-reset (around args activate)
+  "Change the way to gdb exit."
+  ad-do-it
+  (set-window-configuration global-config-editing))
 
 
 ;;; cmake-ide + gdb/exec.
@@ -235,7 +282,8 @@
 ;;; object dump
 
 (leaf disaster
-  :ensure t)
+  :ensure t
+  :leaf-defer t)
 
 (defun cmake-ide-objdump-disaster (file-name)
   (let* ((objdump-cmd (format "%s %s" disaster-objdump (shell-quote-argument file-name)))
@@ -276,4 +324,5 @@
 ;; Checks: '-*,clang-diagnostic-*,llvm-*,misc-*'
 
 
+(provide 'init-ccommon)
 ;;; cmake-ide.el ends here
