@@ -49,7 +49,7 @@ scrollbar = off
 #foreground_bold = #ffffff
 #background = #3f3f3f
 
-# 40% background transparency (requires a compositor)
+# true background transparency (requires a compositor)
 background = rgba(0, 0, 0, 0)
 
 # If unset, will reverse foreground and background

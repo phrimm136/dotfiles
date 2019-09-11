@@ -1,6 +1,5 @@
 # i3-gaps configure
-for_window [class="^.*"] border pixel 0
-smart_gaps on
+#smart_gaps on
 gaps inner 10
 gaps outer 10
 
@@ -9,13 +8,13 @@ set $super Mod4
 set $alt Mod1
 
 # set font
-font pango: SFNS 8
+font pango: NotoSans 8
 
 # Use Mouse+$super to drag floating windows to their wanted position
 floating_modifier $super
 
 # autostart
-exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
+exec --no-startup-id hsetroot -center ~/Pictures/wallpaper1.png
 exec --no-startup-id xsettingsd &
 exec --no-startup-id compton -bc
 exec --no-startup-id setxkbmap -option korean:ralt_rctrl -option ctrl:swapcaps
@@ -27,25 +26,27 @@ exec --no-startup-id lxsession
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
 exec --no-startup-id uim-toolbar-gtk3-systray
 exec --no-startup-id greenclip daemon
+exec --no-startup-id ntpdate -u time.nist.gov
 
 # start a terminal
 bindsym $super+Return exec termite -e 'zsh -c "neofetch && zsh"'
+# bindsym $super+Shift+Return exec termite --title floating
 
 # start a launcher or menu
 bindcode 133 --release exec ~/.config/rofi/menu/menu.sh # $super
 bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
-bindsym $super+r exec rofi -theme ~/.config/rofi/menu.rasi -show drun
-bindsym $super+f exec find ${HOME} -not -path '*/\.*' | rofi -theme ~/.config/rofi/menu.rasi -dmenu +i -p "search " | xargs -r -0 xdg-open
+bindsym $super+r exec rofi -no-auto-select -matching normal -show run -run-shell-command "termite --title=floating -e '{cmd}'"
+bindsym $super+f exec ~/.config/rofi/menu/find.sh
 bindsym $super+p exec ~/.config/rofi/menu/display.sh # fn + <F7> is aligned to S-p. ...?
 
 # common apps keybinds
 bindsym Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -e 'feh $f'
-bindsym $super+Print scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 1 -e 'feh $f'
+bindsym $super+Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 5 -e 'feh $f'
 #bindsym $super+Ctrl+l exec i3lock -i ~/Downloads/238803.png
 bindsym $super+Shift+e exec emacs
 bindsym $super+Shift+c exec google-chrome-stable
 #bindsym $super+Shift+d exec discord
-bindsym $super+Shift+f exec thunar;workspace 3;focus
+bindsym $super+Shift+m exec neomutt
 
 # change volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
@@ -62,8 +63,8 @@ bindsym XF86AudioStop exec mpc stop
 bindsym XF86PowerOff exec systemctl suspend
 
 # kill focused window
-bindsym $super+q kill
-bindsym $alt+F4 exec ~/.config/i3/scripts/alt-f4.sh # kill a program or open power menu
+bindsym $super+q exec ~/.config/i3/scripts/alt-f4.sh
+bindsym $alt+F4 exec ~/.config/i3/scripts/alt-f4.sh # runs like windows
 
 # change focus
 bindsym $super+Left focus left
@@ -129,24 +130,24 @@ bindsym $super+Shift+9 move container to workspace 9
 bindsym $super+Shift+0 move container to workspace 10
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $super+Shift+r exec "i3 restart || ~/.config/polybar/scripts/start.sh"
+bindsym $super+Shift+r exec ~/.config/i3/scripts/restart.sh
 
 # exit i3
-bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
+bindsym $super+Shift+q exec ~/.config/rofi/menu/powermenu.sh
 
 # modify window settings
 mode "modify" {
 	# resize window (you can also use the mouse for that)
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
-        bindsym h resize shrink width 5 px or 5 ppt
-        bindsym j resize grow height 5 px or 5 ppt
-        bindsym k resize shrink height 5 px or 5 ppt
-        bindsym l resize grow width 5 px or 5 ppt
+    bindsym Left resize shrink width 5 px
+    bindsym Down resize grow height 5 px
+    bindsym Up resize shrink height 5 px
+    bindsym Right resize grow width 5 px
+    bindsym h resize shrink width 5 px
+    bindsym j resize grow height 5 px
+    bindsym k resize shrink height 5 px
+    bindsym l resize grow width 5 px
 	bindsym Escape mode "default"
-        bindsym Return mode "default"
+    bindsym Return mode "default"
 	# split in horizontal orientation
 	bindsym h split h
 	# split in vertical orientation
@@ -162,50 +163,53 @@ bindsym $super+w mode "modify"
 
 # panel
 #bar {
-#	font pango: Noto Sans Nerd Font 8
-#	position top
-#	workspace_buttons no
-#	tray_output none
-#	colors {
+#    font pango: Dejavu Sans Nerd Font 8
+#    position top
+#    workspace_buttons no
+#    tray_output none
+#    colors {
 #        background #000000
 #        statusline #000000
 #        separator #4b5262
 #    }
-#        status_command py3status
+#    status_command py3status
 #}
 
 #bar {
-#	font pango: Noto Sans Nerd Font 8
-#	position bottom
-#	tray_output primary
-#	colors {
-#	background #000000
-#	statusline #000000
-#	separator #4b5262
+#    font pango: Dejavu Sans Nerd Font 8
+#    position bottom
+#    tray_output primary
+#    colors {
+#        background #000000
+#        statusline #000000
+#        separator #4b5262
 #
-#	# colour of border, background, and text
-#       focused_workspace	#2f343f	#112432	#d8dee8
-#      active_workspace	#2f343f	#2f343f	#d8dee8
-#        inactive_workspace	#2f343f	#2f343f	#d8dee8
-#        urgent_workspace	#2f343f	#ebcb06	#2f343f
-#    }
-#	
+#    # colour of border, background, and text
+#    focused_workspace	#2f343f	#112432	#d8dee8
+#    active_workspace	#2f343f	#2f343f	#d8dee8
+#    inactive_workspace	#2f343f	#2f343f	#d8dee8
+#    urgent_workspace	#2f343f	#ebcb06	#2f343f
+#    }	
 #}
 
 # window rules, you can find the window class using xprop
 assign [class=Google-chrome] 1
 assign [class=Emacs] 2
-assign [class=Termite] 3
+assign [class=Termite title="^(?!floating$)"] 3
 assign [class=Gimp*|Libre*] 4
 assign [Class=Thunderbird] 10
-for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick|Xfce4] floating enable
+for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
-for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp*] focus
+for_window [class="Termite" title="floating"] floating enable # terminal with rofi run_command
+for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp* title="^(?!floating$)"] focus
+for_window [class="^.*"] split toggle # fibonacci tilting as default
+for_window [class="^.*"] border pixel 0
+for_window [floating] resize set width 800 px height 600 px,  move to position 560 240
 
-# class				border	backgr.	text	indica.	child_border
-client.focused			#585858 #2f343f #d8dee8 #ffffff #585858
+# class		            		border	backgr.	text	indica.	child_border
+client.focused      			#585858 #2f343f #d8dee8 #ffffff #585858
 client.focused_inactive	        #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.unfocused		#2f343f #2f343f #d8dee8 #2f343f #2f343fInkscape
-client.urgent			#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.placeholder		#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.background		#2f343f
+client.unfocused	        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent		        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder	        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background               #2f343f
