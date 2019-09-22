@@ -1,14 +1,21 @@
 ;;; package --- summary:
-;;; Commantary:
+;;; Commentary:
 ;;; Code:
 
 
 ;;; include header file automatically
 
-(leaf emacs-cpp-auto-include
-  :url "https://github.com/syohex/emacs-cpp-auto-include"
-  :hook (c++-mode-hook . cpp-auto-include))
+(quelpa '(cpp-auto-include :fetcher github
+                           :repo "syohex/emacs-cpp-auto-include"))
+(add-hook 'c++-mode-hook 'cpp-auto-include)
+
+
+;;; modern c++ font lock
+
+(leaf modern-cpp-font-lock
+  :ensure t
+  :config (progn (modern-c++-font-lock-global-mode)))
 
 
 (provide 'init-cpp)
-;;; cpp.el ends here
+;;; init-cpp.el ends here

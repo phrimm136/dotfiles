@@ -34,8 +34,7 @@
 ;;; linting cmake files
 
 (leaf flycheck-cmake
-  :url "https://github.com/xwl/flycheck-cmake"
-  :leaf-defer t)
+  :url "https://github.com/xwl/flycheck-cmake")
 
 
 ;;; C common style
@@ -47,124 +46,36 @@
 
 ;;; c/++ header completion
 
-(leaf company-c-headers
+;; (leaf company-c-headers
+;;   :ensure t
+;;   :after company
+;;   :config (progn (add-hook 'c-mode-common-hook
+;;                            (lambda ()
+;;                              (add-to-list (make-local-variable 'company-backends)
+;;                                           '(company-c-headers))))))
+
+
+;; c/++ language server
+
+(leaf cquery
   :ensure t
-  :after company
-  :config (progn (add-hook 'c-mode-common-hook
-                           (lambda ()
-                             (add-to-list (make-local-variable 'company-backends)
-                                          '(company-c-headers))))))
-
-
-;;; function definition on top
-
-(leaf stickyfunc-enhance
-  :ensure t
-  :config (progn (add-hook 'c-mode-common-hook
-                           (lambda ()
-                             (semantic-mode 1)
-                             (global-semantic-stickyfunc-mode 1)))))
-
-;;; rtags
-;; Completion, Navigation.
-
-(leaf rtags
-  :ensure t
-  :hook (c-mode-common-hook . rtags-start-process-unless-running)
-  :config (progn (setq rtags-autostart-diagnostics t
-                       rtags-completions-enabled t
-                       rtags-path "~/.emacs.d/elpa/rtags-20190820.502/rtags-2.33/bin"))) ; Todo: use regex for path
-
-
-;;; use ivy for frontend of rtags
-
-(leaf ivy-rtags
-  :ensure t
-  :after ivy rtags
-  :config (setq rtags-display-result-backend 'ivy))
-
-
-;;; clang format
-
-(leaf flycheck-clang-tidy
-  :ensure t
-  :after flycheck
-  :hook (flycheck-mode-hook . flycheck-clang-tidy-setup))
-
-(leaf flycheck-clang-analyzer
-  :ensure t
-  :after flycheck
-  :hook (flycheck-mode-hook . flycheck-clang-analyzer-setup))
-
-(leaf clang-format
-  :ensure t
-  :config (progn (defun clang-format-auto ()
-                   (interactive)
-                   (if mark-active
-                       (call-interactively 'clang-format-region)
-                     (clang-format-buffer)))))
-
-
-;;; completion for rtags
-
-(leaf company-rtags
-  :ensure t
-  :after company rtags
-  :config (progn (add-hook 'c-mode-common-hook
-                           (lambda ()
-                             (add-to-list (make-local-variable 'company-backends)
-                                          '(company-rtags))))))
-
-
-;;; Rtags + Eldoc:
-;; https://github.com/Andersbakken/rtags/issues/987
-
-(defun fontify-string (str mode)
-  "Return STR fontified according to MODE."
-  (with-temp-buffer (insert str)
-                    (delay-mode-hooks (funcall mode))
-                    (font-lock-default-function mode)
-                    (font-lock-default-fontify-region (point-min) (point-max) nil)
-                    (buffer-string)))
-
-(defun rtags-eldoc-function ()
-  (let ((summary (rtags-get-summary-text)))
-    (and summary (fontify-string (replace-regexp-in-string "{[^}]*$" ""
-                                                           (mapconcat (lambda (str)
-                                                                        (if (= 0 (length str))
-                                                                            "//"
-                                                                          (string-trim str)))
-                                                                      (split-string summary "\r?\n")
-                                                                      " "))
-                                 major-mode))))
-
-(defun rtags-eldoc-mode ()
-  (interactive)
-  (setq-local eldoc-documentation-function #'rtags-eldoc-function)
-  (eldoc-mode 1))
-
-(add-hook 'c-mode-common-hook 'rtags-eldoc-mode)
-
-
-;;; hinting function arguments
-
-(leaf function-args
-  :ensure t
-  :config (progn (fa-config-default)
-                 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-                 (set-default 'semantic-case-fold t)
-                 (require 'semantic/bovine/c)
-                 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-                              "/usr/lib/gcc/x86_64-pc-linux-gnu/")))
+  :init (require 'cquery)
+  :config (progn (setq cquery-executable "/usr/bin/cquery"
+                       cquery-sem-highlight-method 'font-lock)))
 
 
 ;;; cmake-ide
 
 (leaf cmake-ide
   :ensure t
-  :after rtags
-  :config (progn (cmake-ide-setup)
-                 (setq cmake-ide-build-dir "./build")))
+  :init (require 'cmake-ide)
+  :config (progn (dolist (cmake '(c-mode-hook c++-mode-hook cmake-mode-hook))
+                   (add-hook cmake
+                             (lambda ()
+                               (if (cide--locate-project-dir)
+                                   (progn (setq-local cmake-ide-build-dir
+                                                      (concat (cide--locate-project-dir) "build"))
+                                          (cmake-ide-setup))))))))
 
 (defun cmake-ide-compile* ()
   (interactive)
@@ -195,11 +106,11 @@
   (switch-to-buffer gud-comint-buffer)
   (delete-other-windows) ;; clean all
   (let* ((w-source (selected-window)) ;; left top
-         (w-gdb (split-window w-source nil 'right)) ;; right bottom
+         (w-gdb (split-window w-source (floor (* 0.65 (window-body-width))) 'right)) ;; right bottom
          (w-locals (split-window w-gdb nil 'above)) ;; right middle bottom
          (w-stack (split-window w-locals nil 'above)) ;; right middle top
          (w-breakpoints (split-window w-stack nil 'above)) ;; right top
-         (w-io (split-window w-source (floor(* 0.9 (window-body-height))) 'below)) ;; left bottom
+         (w-io (split-window w-source (floor (* 0.8 (window-body-height))) 'below)) ;; left bottom
          )
     (set-window-buffer w-io (gdb-get-buffer-create 'gdb-inferior-io))
     (set-window-dedicated-p w-io t)
@@ -315,9 +226,43 @@
                       (cmake-ide-objdump-disaster sel))))
 
 
+;; keymaps
+
+(add-hook 'c-mode-hook
+          (lambda ()
+            (defvar cc-prefix-map (make-sparse-keymap))
+            (evil-leader/set-key-for-mode 'c-mode
+              "<SPC>" cc-prefix-map)
+            ;; Compile, CMake
+            (define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
+            (define-key cc-prefix-map "cc" 'cmake-ide-compile)
+            (define-key cc-prefix-map "cC" 'cmake-ide-compile*)
+            (define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
+            (define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
+            ;; Debugger
+            (define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
+            (define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
+            (define-key cc-prefix-map "do" 'cmake-ide-objdump)))
+
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (defvar cc-prefix-map (make-sparse-keymap))
+            (evil-leader/set-key-for-mode 'c++-mode
+              "<SPC>" cc-prefix-map)
+            ;; Compile, CMake
+            (define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
+            (define-key cc-prefix-map "cc" 'cmake-ide-compile)
+            (define-key cc-prefix-map "cC" 'cmake-ide-compile*)
+            (define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
+            (define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
+            ;; Debugger
+            (define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
+            (define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
+            (define-key cc-prefix-map "do" 'cmake-ide-objdump)))
+
 ;; FILE ".dir-locals.el"
-;; ((nil . ((cmake-ide-build-dir . "./_build")
-;;         (flycheck-clang-tidy-build-path . "_build")
+;; ((nil . ((cmake-ide-build-dir . "./build")
+;;         (flycheck-clang-tidy-build-path . "build")
 ;;         (cmake-ide-cmake-opts . "-DCMAKE_BUILD_TYPE=Debug -G"Unix Makefiles"))))
 
 ;; FILE ".clang-tidy"
@@ -325,4 +270,4 @@
 
 
 (provide 'init-ccommon)
-;;; cmake-ide.el ends here
+;;; init-ccommon.el ends here
