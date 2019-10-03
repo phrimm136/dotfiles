@@ -7,31 +7,32 @@
 
 (leaf ein
   :ensure t
-  :config (progn (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
+  :config (progn (delete 'ein:company-backend company-backends) ; prevent from duplicate backends and breaking locality
+                 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
                    (add-hook notebook
                              (lambda ()
                                (add-to-list (make-local-variable 'company-backends)
-                                            '(ein:company-backend)))))
-                 (setq ein:default-url-or-port "http://127.0.0.1:8888")
+                                            'ein:company-backend))))
+                 (setq ein:default-url-or-port "http://127.0.0.1:8888"
+                       ein:worksheet-enable-undo t)
                  ;; auto start ein when opening notebooks
-                 (add-hook 'ein:ipynb-mode-hook
-                           (lambda ()
-                             (let ((buffer (current-buffer))
-                                   (virtualenv (concat (file-name-directory buffer-file-name)
-                                                       "venv/bin/jupyter")))
-                               (unless (ein:jupyter-server-process)
-                                 (ein:jupyter-server-start (if (file-exists-p virtualenv)
-                                                               virtualenv
-                                                             "/usr/bin/jupyter")
-                                                           (file-name-directory buffer-file-name)
-                                                           nil
-                                                           '(lambda (buffer url-or-port)
-                                                              (pop-to-buffer buffer))))
-                               (ein:notebook-open ein:default-url-or-port
-                                                  (buffer-name))
-                               (kill-buffer buffer)
-                               (delete 'ein:company-backend 'company-backends) ; prevent from duplicate backends and breaking locality
-                               )))))
+                 (defun ein:run-with-file-open ()
+                   (let ((buffer (current-buffer))
+                         (venv (concat (file-name-directory buffer-file-name)
+                                       "venv/bin/jupyter")))
+                     (if (ein:jupyter-server-process)
+                         (error "Please first M-x ein:stop"))
+                     (ein:jupyter-server-start (if (file-exists-p venv)
+                                                   venv
+                                                 "/usr/bin/jupyter")
+                                               (file-name-directory buffer-file-name)
+                                               nil)
+                     (ein:notebook-open ein:default-url-or-port
+                                        (buffer-name)
+                                        (ein:get-kernelspec ein:default-url-or-port
+                                                            buffer-file-name))
+                     (kill-buffer buffer)))
+                 (add-hook 'ein:ipynb-mode-hook 'ein:run-with-file-open)))
 
 
 ;;; jedi config
