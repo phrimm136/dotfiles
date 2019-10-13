@@ -5,7 +5,7 @@
 
 ;;; cmake-ide and its deps.
 
-(require 'cl)
+(require 'cl-lib)
 
 
 (unless (fboundp 'levenshtein-distance)
@@ -25,19 +25,21 @@
 (leaf company-cmake
   :ensure t
   :after company cmake
-  :config (progn (add-hook 'cmake-mode-hook
-                           (lambda ()
+  :hook (cmake-mode-hook . (lambda ()
                              (add-to-list (make-local-variable 'company-backends)
-                                          '(company-cmake))))))
+                                          'company-cmake)))
+  :config ())
 
 
 ;;; linting cmake files
 
-(leaf flycheck-cmake
-  :url "https://github.com/xwl/flycheck-cmake")
+(quelpa '(cmake-compile-commands :fetcher github
+                                 :repo "xwl/cmake-compile-commands"))
+(quelpa '(flycheck-cmake :fetcher github
+                         :repo "xwl/flycheck-cmake"))
 
 
-;;; C common style
+;;; c/++ common style
 
 (setq c-default-style "bsd"
       indent-tabs-mode nil
@@ -55,13 +57,22 @@
 ;;                                           '(company-c-headers))))))
 
 
-;; c/++ language server
+;;; c/++ language server
 
-(leaf cquery
+;; using clangd which is automatically supported.
+
+
+;;; c/++ debug server
+
+(leaf dap-lldb)
+
+
+;;; static analysis with clang
+
+(leaf flycheck-clang-analyzer
   :ensure t
-  :init (require 'cquery)
-  :config (progn (setq cquery-executable "/usr/bin/cquery"
-                       cquery-sem-highlight-method 'font-lock)))
+  :after flycheck
+  :config (flycheck-clang-analyzer-setup))
 
 
 ;;; cmake-ide
@@ -69,8 +80,8 @@
 (leaf cmake-ide
   :ensure t
   :init (require 'cmake-ide)
-  :config (progn (dolist (cmake '(c-mode-hook c++-mode-hook cmake-mode-hook))
-                   (add-hook cmake
+  :config (progn (dolist (ccommon '(c-mode-hook c++-mode-hook cmake-mode-hook))
+                   (add-hook ccommon
                              (lambda ()
                                (if (cide--locate-project-dir)
                                    (progn (setq-local cmake-ide-build-dir
@@ -123,9 +134,9 @@
     (set-window-buffer w-gdb gud-comint-buffer)
     (select-window w-source)
     (set-window-buffer w-source c-buffer)))
+(defvar global-config-editing (current-window-configuration)) ;; to restore: (set-window-configuration c-editing)
 (defadvice gdb (around args activate)
   "Change the way to gdb works."
-  (setq global-config-editing (current-window-configuration)) ;; to restore: (set-window-configuration c-editing)
   (let ((c-buffer (window-buffer (selected-window))) ;; save current buffer
         )
     ad-do-it
@@ -162,7 +173,7 @@
 (defun cmake-ide-find-exe-files ()
   (interactive)
   (let* ((exec-files (seq-filter 'file-executable-p
-                                 (directory-files-recursively (cide--build-dir)
+                                 (directory-files-recursively (cide--locate-project-dir)
                                                               ".*")))
          (base-buffer-name (file-name-base (buffer-name)))
          (calc-dist (lambda (fn) (cons fn
@@ -193,8 +204,7 @@
 ;;; object dump
 
 (leaf disaster
-  :ensure t
-  :leaf-defer t)
+  :ensure t)
 
 (defun cmake-ide-objdump-disaster (file-name)
   (let* ((objdump-cmd (format "%s %s" disaster-objdump (shell-quote-argument file-name)))
@@ -228,37 +238,28 @@
 
 ;; keymaps
 
+(defvar cc-prefix-map (make-sparse-keymap))
+;; Compile, CMake
+(define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
+(define-key cc-prefix-map "cc" 'cmake-ide-compile)
+(define-key cc-prefix-map "cC" 'cmake-ide-compile*)
+(define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
+(define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
+;; Debugger
+(define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
+(define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
+(define-key cc-prefix-map "do" 'cmake-ide-objdump)
+
 (add-hook 'c-mode-hook
           (lambda ()
-            (defvar cc-prefix-map (make-sparse-keymap))
             (evil-leader/set-key-for-mode 'c-mode
-              "<SPC>" cc-prefix-map)
-            ;; Compile, CMake
-            (define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
-            (define-key cc-prefix-map "cc" 'cmake-ide-compile)
-            (define-key cc-prefix-map "cC" 'cmake-ide-compile*)
-            (define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
-            (define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
-            ;; Debugger
-            (define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
-            (define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
-            (define-key cc-prefix-map "do" 'cmake-ide-objdump)))
+              "<SPC>" cc-prefix-map)))
 
 (add-hook 'c++-mode-hook
           (lambda ()
-            (defvar cc-prefix-map (make-sparse-keymap))
             (evil-leader/set-key-for-mode 'c++-mode
-              "<SPC>" cc-prefix-map)
-            ;; Compile, CMake
-            (define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
-            (define-key cc-prefix-map "cc" 'cmake-ide-compile)
-            (define-key cc-prefix-map "cC" 'cmake-ide-compile*)
-            (define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
-            (define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
-            ;; Debugger
-            (define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
-            (define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
-            (define-key cc-prefix-map "do" 'cmake-ide-objdump)))
+              "<SPC>" cc-prefix-map)))
+
 
 ;; FILE ".dir-locals.el"
 ;; ((nil . ((cmake-ide-build-dir . "./build")

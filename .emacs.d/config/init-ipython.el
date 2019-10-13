@@ -45,13 +45,14 @@
 
 ;;; keymaps
 
+(defvar ipython-prefix-map (make-sparse-keymap))
+
 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
   (add-hook notebook
             (lambda ()
               (evil-define-key 'normal ein:notebook-mode-map
                 "gg" 'evil-goto-first-line ; bug on default setting
                 )
-              (defvar ipython-prefix-map (make-sparse-keymap))
               (evil-leader/set-key "<SPC>" ipython-prefix-map))))
 
 

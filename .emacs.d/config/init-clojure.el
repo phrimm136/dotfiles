@@ -36,8 +36,9 @@
 
 ;;; auto completion
 
-(eval-after-load "company" (add-hook 'cider-mode-hook #'company-mode))
-(eval-after-load "company" (add-hook 'cider-repl-mode-hook #'company-mode))
+(eval-after-load "company"
+  (progn (add-hook 'cider-mode-hook #'company-mode)
+         (add-hook 'cider-repl-mode-hook #'company-mode)))
 
 
 ;;; snippets for clojure

@@ -20,13 +20,16 @@
 
 (leaf quick-peek
   :ensure t
-  :init (require 'quick-peek)
-  :config (progn (setq quick-peek-add-spacer nil)))
+  :setq ((quick-peek-add-spacer . nil))
+  :config ())
+
+(leaf all-the-icons
+  :ensure t)
 
 
 ;;; mode line
 
-(require 'init-modeline)
+(load-file "~/.emacs.d/config/init-modeline.el")
 
 (leaf hide-mode-line
   :ensure t
@@ -37,7 +40,8 @@
 
 (leaf quelpa
   :ensure t
-  :config (setq quelpa-update-melpa-p nil))
+  :setq ((quelpa-update-melpa-p . nil))
+  :config ())
 
 
 ;;; vim emulator
@@ -45,7 +49,7 @@
 (leaf evil
   :ensure t
   :init (setq evil-want-keybinding nil)
-  :config (evil-mode 1))
+  :config (progn (evil-mode 1)))
 
 (leaf evil-collection
   :ensure t
@@ -58,25 +62,19 @@
   :config (progn (global-evil-leader-mode)
                  (evil-leader/set-leader "<SPC>")))
 
-(leaf iedit
-  :ensure t)
-
-(defvar evil-multiedit-state-map (make-sparse-keymap)) ;; https://github.com/hlissner/evil-multiedit/issues/13
 (leaf evil-multiedit
   :ensure t
-  :after evil iedit
-  :config (progn (define-key evil-multiedit-state-map
-                   "j" 'iedit-next-occurrence)
-                 (define-key evil-multiedit-state-map
-                   "k" 'iedit-prev-occurrence)
-                 (define-key evil-multiedit-state-map
-                   "\C-j" 'evil-multiedit-match-and-next)
-                 (define-key evil-multiedit-state-map
-                   "\C-k" 'evil-multiedit-match-and-prev)
-                 (evil-leader/set-key
+  :after evil
+  :config (progn (evil-leader/set-key
                    "ea" 'evil-multiedit-match-all
                    "ee" 'evil-multiedit-match-and-next
-                   "er" 'evil-multiedit-restore)))
+                   "er" 'evil-multiedit-restore))
+  :bind ((:evil-multiedit-state-map
+          :package iedit
+          ("j" . iedit-next-occurrence)
+          ("k" . iedit-prev-occurrence)
+          ("C-j" . evil-multiedit-match-and-next)
+          ("C-k" . evil-multiedit-match-and-prev))))
 
 
 ;;; minibuffer completion frontend
@@ -93,19 +91,18 @@
 
 (leaf ivy
   :ensure t
-  :config (progn (ivy-mode 1)
-                 (setq ivy-wrap t
-                       ivy-re-builders-alist '((swiper . ivy--regex)
-                                               (t . ivy--regex-fuzzy))
-                       ivy-count-format "%d/%d ")
-                 (define-key ivy-switch-buffer-map
-                   "\C-j" 'ivy-next-line)
-                 (define-key ivy-switch-buffer-map
-                   "\C-k" 'ivy-previous-line)
-                 (define-key ivy-minibuffer-map
-                   "\C-j" 'ivy-next-line)
-                 (define-key ivy-minibuffer-map
-                   "\C-k" 'ivy-previous-line)))
+  :setq ((ivy-wrap . t)
+         (ivy-re-builders-alist . '((swiper . ivy--regex)
+                                    (t . ivy--regex-fuzzy)))
+         (ivy-count-format . "%d/%d ")
+         (ivy-use-selectable-prompt . t))
+  :config (progn (ivy-mode 1))
+  :bind ((:ivy-switch-buffer-map
+          ("C-j" . ivy-next-line)
+          ("C-k" . ivy-previous-line))
+         (:ivy-minibuffer-map
+          ("C-j" . ivy-next-line)
+          ("C-k" . ivy-previous-line))))
 
 
 ;;; show recent files
@@ -117,38 +114,36 @@
 
 (leaf smex
   :ensure t
+  :setq ((smex-save-file . "~/.emacs.d/smex-items")
+         (smex-history-length . 10))
   :config (progn (smex-initialize)
-                 (setq smex-save-file "~/.emacs.d/smex-items"
-                       smex-history-length 10)))
+                 (quelpa '(ivy-smex :fetcher github
+                                    :repo "purcell/ivy-smex"))))
 
-(quelpa '(ivy-smex :fetcher github
-                   :repo "purcell/ivy-smex"))
 
 ;;; auto completion
 
 (leaf company
   :ensure t
   :hook (prog-mode-hook . company-mode)
-  :config (progn (setq company-idle-delay 0.2
-                       company-minimum-prefix-length 1
-                       company-backends '(company-files
-                                          company-yasnippet
-                                          company-keywords
-                                          company-capf
-                                          company-abbrev
-                                          company-dabbrev))
-                 (define-key company-active-map
-                   (kbd "<tab>") 'company-complete)
-                 (define-key company-active-map
-                   "\C-j" 'company-select-next)
-                 (define-key company-active-map
-                   "\C-k" 'company-select-previous)))
+  :setq ((company-idle-delay . 0)
+         (company-minimum-prefix-length . 2)
+         (company-backends . '(company-files
+                               company-keywords
+                               company-capf
+                               company-yasnippet
+                               company-abbrev
+                               company-dabbrev))
+         (company-echo-truncate-lines . t)
+         (company-echo-delay . nil))
+  :config ()
+  :bind (:company-active-map
+         ("<tab>" . company-complete)))
 
 ;; (leaf company-tabnine
 ;;   :ensure t
 ;;   :after company
-;;   :config (progn (setf (car company-backends)
-;;                        (append '(company-tabnine) (car company-backends)))))
+;;   :config (progn (add-to-list 'company-backends 'company-tabnine))) ; 1GB ram for a little time :thinking:
 
 (leaf company-math
   :ensure t
@@ -158,17 +153,18 @@
 (leaf company-lsp
   :ensure t
   :after company lsp
-  :config (progn (setq company-lsp-async t
-                       company-lsp-cache-candidates nil
-                       company-lsp-match-candidate-predicate 'company-lsp-match-candidate-prefix)))
+  :setq ((company-lsp-async . t)
+         (company-lsp-cache-candidates . 'auto)
+         (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
+  :config ())
 
 (leaf company-quickhelp
   :ensure t
   :after company
   :hook (prog-mode-hook . company-quickhelp-mode)
-  :config (progn (setq pos-tip-background-color "#2b2b2b"
-                       pos-tip-foreground-color "#ffffff"
-                       company-quickhelp-delay 0.1)))
+  :setq ((pos-tip-background-color . "#2b2b2b")
+         (pos-tip-foreground-color . "#ffffff")
+         (company-quickhelp-delay . 0.1)))
 
 
 ;;; syntax check
@@ -176,42 +172,34 @@
 (leaf flycheck
   :ensure t
   :hook (prog-mode-hook . flycheck-mode)
-  :config (progn (setq flycheck-errors-function nil
-                       flycheck-idle-change-delay 0.5
-                       flycheck-display-errors-delay 0.3)
-                 ;; redifine flycheck prefix
-                 (define-key flycheck-mode-map flycheck-keymap-prefix nil)
-                 (setq flycheck-keymap-prefix (kbd "\C-c f"))
-                 (define-key flycheck-mode-map flycheck-keymap-prefix flycheck-command-map)
-                 (define-key flycheck-command-map
-                   "j" 'flycheck-next-error)
-                 (define-key flycheck-command-map
-                   "k" 'flycheck-previous-error)))
+  :setq ((flycheck-errors-function . nil)
+         (flycheck-idle-change-delay . 0.5)
+         (flycheck-display-errors-delay . 0.3))
+  :config (progn (evil-leader/set-key
+                   "f" flycheck-command-map))
+  :bind ((:flycheck-command-map
+          ("j" . flycheck-next-error)
+          ("k" . flycheck-previous-error))))
 
 (leaf flycheck-inline
   :ensure t
-  :after quick-peek
-  :hook (flycheck-mode-hook . flycheck-inline-mode)
-  :config (progn (setq flycheck-inline-display-function
-                       (lambda (msg pos)
-                         (let* ((ov (quick-peek-overlay-ensure-at pos))
-                                (contents (quick-peek-overlay-contents ov)))
-                           (setf (quick-peek-overlay-contents ov)
-                                 (concat contents (when contents "\n") msg))
-                           (quick-peek-update ov)))
-                       flycheck-inline-clear-function #'quick-peek-hide)))
+  :after flycheck quick-peek
+  :setq ((flycheck-inline-display-function . (lambda (msg pos)
+                                               (let* ((ov (quick-peek-overlay-ensure-at pos))
+                                                      (contents (quick-peek-overlay-contents ov)))
+                                                 (setf (quick-peek-overlay-contents ov)
+                                                       (concat contents (when contents "\n") msg))
+                                                 (quick-peek-update ov))))
+         (flycheck-inline-clear-function 'quick-peek-hide))
+  :config ())
+(global-flycheck-inline-mode)
+
 
 ;;; show function details
 
 (leaf eldoc
   :ensure t
   :config (progn (global-eldoc-mode)))
-
-;; (leaf eldoc-overlay
-;;   :ensure t
-;;   :config (progn (global-eldoc-overlay-mode 1)
-;;                  (setq eldoc-overlay-in-minibuffer-flag t
-;;                        eldoc-overlay-backend 'quick-peek)))
 
 
 ;;; language server protocol
@@ -220,40 +208,50 @@
   :ensure t
   :after flycheck eldoc
   :hook (prog-mode-hook . lsp-deferred)
-  :config (progn (setq lsp-enable-semantic-highlighting nil
-                       lsp-keep-workspace-alive nil
-                       lsp-prefer-flymake nil
-                       lsp-log-io t
-                       lsp-json-use-lists t)))
-
+  :setq ((lsp-enable-semantic-highlighting . t)
+         (lsp-keep-workspace-alive . nil)
+         (lsp-enable-snippet . t)
+         (lsp-prefer-flymake . nil)
+         (lsp-log-io . nil)
+         (lsp-json-use-lists . nil))
+  :config (progn (evil-leader/set-key
+                   "ll" 'lsp
+                   "lr" 'lsp-restart-workspace
+                   "ls" 'lsp-shutdown-workspace)))
 
 (leaf lsp-ui
   :ensure t
   :after lsp-mode
-  :config (progn (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-                 (setq lsp-ui-doc-enable nil
-                       lsp-ui-doc-header t
-                       lsp-ui-peek-enable t
-                       lsp-ui-peek-always-show nil
-                       lsp-ui-peek-fontify 'on-demand
-                       lsp-ui-sideline-enable nil
-                       lsp-ui-sideline-show-hover nil
-                       lsp-ui-sideline-show-diagnostics nil
-                       lsp-ui-flycheck-enable t)
-                 (evil-leader/set-key
+  :hook (lsp-mode-hook . lsp-ui-mode)
+  :setq ((lsp-ui-doc-enable . nil)
+         (lsp-ui-doc-header . t)
+         (lsp-ui-doc-delay . 0.1)
+         (lsp-ui-doc-position . 'at-point)
+         (lsp-ui-doc-border . "black")
+         (lsp-ui-doc-use-childframe . t)
+         (lsp-ui-peek-enable . t)
+         (lsp-ui-peek-always-show . nil)
+         (lsp-ui-peek-fontify . 'on-demand)
+         (lsp-ui-sideline-enable . t)
+         (lsp-ui-sideline-show-hover . t)
+         (lsp-ui-sideline-show-diagnostics . t)
+         (lsp-ui-flycheck-enable . nil)
+         (lsp-ui-imenu-kind-position . 'left))
+  :config (progn (evil-leader/set-key
                    "lfr" 'lsp-ui-peek-find-references
                    "lfd" 'lsp-ui-peek-find-definitions
                    "lfi" 'lsp-ui-peek-find-implementation
-                   "lfs" 'lsp-ui-peek-find-workspace-symbol)
-                 (with-eval-after-load 'lsp-ui
-                   (define-key lsp-ui-peek-mode-map
-                     "\C-j" 'lsp-ui-peek--select-next)
-                   (define-key lsp-ui-peek-mode-map
-                     "\C-k" 'lsp-ui-peek--select-prev)
-                   (define-key lsp-ui-peek-mode-map
-                     "\C-h" 'lsp-ui-peek--select-prev-file)
-                   (define-key lsp-ui-peek-mode-map
-                     "\C-l" 'lsp-ui-peek--select-next-file))))
+                   "lfs" 'lsp-ui-peek-find-workspace-symbol
+                   "le" 'lsp-ui-flycheck-list))
+  :bind ((:lsp-ui-peek-mode-map
+          ("C-j" . lsp-ui-peek--select-next)
+          ("C-k" . lsp-ui-peek--select-prev)
+          ("C-h" . lsp-ui-peek--select-prev-file)
+          ("C-l" . lsp-ui-peek--select-next-file))))
+
+(with-eval-after-load 'lsp-mode
+  (quelpa `(lsp-ivy :fetcher github
+                    :repo "emacs-lsp/lsp-ivy")))
 
 ;; (leaf eglot
 ;;   :ensure t
@@ -265,55 +263,62 @@
 ;;                    "lfr" 'eglot-imenu)))
 
 
+;;; debug adapter protocol
+
+(leaf dap-mode
+  :ensure t
+  :hook (lsp-mode . (dap-mode dap-ui-mode dap-tooltip-mode))
+  :config (progn (dap-mode 1)
+                 (dap-ui-mode 1)
+                 (dap-tooltip-mode 1)))
+
+
 ;;; tree structured undo
 
 (leaf undo-tree
   :ensure t
   :hook ((prog-mode-hook text-mode-hook) . undo-tree-mode)
-  :config (progn (setq undo-tree-enable-undo-in-region nil)))
+  :setq ((undo-tree-enable-undo-in-region . nil))
+  :config ())
 
 
 ;;; parentheses
 
 (leaf paren
   :ensure t
+  :setq ((show-paren-style . 'parenthesis))
   :config (progn (show-paren-mode 1)
-                 (setq show-paren-style 'parenthesis)
                  (set-face-background 'show-paren-match "#ffffff")
                  (set-face-foreground 'show-paren-match "#000000")))
 
 (leaf evil-surround
   :ensure t
-  :config (progn (global-evil-surround-mode 1)))
+  :setq ((global-evil-surround-mode . 1))
+  :config ())
 
 (electric-pair-mode)
 
 
 ;;; tree file explorer
 
-;; (leaf dired-subtree
-;;   :ensure t
-;;   :after dired
-;;   :hook (dired-mode-hook . dired-hide-details-mode)
-;;   :config (progn (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s))
-;;                        dired-subtree-use-backgrounds nil
-;;                        dired-auto-revert-buffer t)
-;;                  (evil-define-key 'normal dired-mode-map
-;;                    "gf" 'counsel-find-file
-;;                    "gb" 'counsel-switch-buffer
-;;                    (kbd "<tab>") 'dired-subtree-toggle
-;;                    (kbd "<backtab>") 'dired-subtree-toggle
-;;                    (kbd "<return>") 'dired-display-file)))
+(leaf dired-subtree
+  :ensure t
+  :setq ((dired-subtree-line-prefix . (lambda (depth) (make-string (* 2 depth) ?\s)))
+         (dired-subtree-use-backgrounds . nil)
+         (dired-auto-revert-buffer . t))
+  :config (progn (evil-define-key 'normal dired-mode-map
+                   "gf" 'counsel-find-file
+                   "gb" 'counsel-switch-buffer
+                   (kbd "<tab>") 'dired-subtree-toggle
+                   (kbd "<backtab>") 'dired-subtree-toggle)))
 
-;; (defvar speedbar-mode-map (make-sparse-keymap)) ;; cannot load pre-defined variable; redefine it.
-;; (leaf sr-speedbar
-;;   :ensure t
-;;   :config (progn (global-set-key (kbd "<C-tab>") 'sr-speedbar-toggle)
-;;                  (define-key speedbar-mode-map
-;;                    (kbd "<tab>") 'speedbar-toggle-line-expansion)))
-
-(leaf treemacs)
-
+(leaf neotree
+  :ensure t
+  :setq ((neo-autorefresh . nil)
+         (neo-theme . 'ascii))
+  :config (progn (add-hook 'switch-buffer-functions
+                           (lambda (prev cur)
+                             (neotree-refresh t)))))
 
 ;;; Line number + current line highlight
 
@@ -326,29 +331,20 @@
   :config (progn (global-hl-line-mode t)))
 
 
-;;; vertical indent line
-
-(leaf highlight-indent-guides
-  :ensure t
-  :hook (prog-mode-hook . highlight-indent-guides-mode)
-  :config (progn (setq highlight-indent-guides-method 'character
-                       highlight-indent-guides-responsive 'stack
-                       highlight-indent-guides-delay 0
-                       highlight-indent-guides-auto-character-face-perc 30
-                       highlight-indent-guides-auto-top-character-face-perc 60
-                       highlight-indent-guides-auto-stack-character-face-perc 45)))
-
-
 ;;; session manager
 
 (leaf workgroups2
   :ensure t
-  :config (progn (setq wg-session-file "/home/user/.emacs.d/workgroups"
-                       wg-prefix-key (kbd "\C-c w")
-                       wg-emacs-exit-save-behavior nil
-                       wg-workgroups-mode-exit-save-behavior nil)
+  :setq ((wg-session-file . "/home/user/.emacs.d/workgroups")
+         (wg-emacs-exit-save-behavior . nil)
+         (wg-workgroups-mode-exit-save-behavior . nil)
+         (wg-dissociate-buffer-on-kill-buffer . nil)) ;; This feature heavily slows down with lsp-mode
+  :config (progn (add-hook 'wg-before-switch-to-workgroup-hook 'neotree-hide)
+                 (add-hook 'wg-after-switch-to-workgroup-hook 'neotree-show)
                  (workgroups-mode 1)
-                 (wg-open-session "/home/user/.emacs.d/workgroups")))
+                 (wg-open-session "/home/user/.emacs.d/workgroups")
+                 (evil-leader/set-key
+                   "w" wg-prefixed-map)))
 
 
 ;;; git
@@ -360,12 +356,10 @@
                    "k" 'magit-section-backward
                    (kbd "<escape>") 'nil)
                  (evil-leader/set-key-for-mode 'magit-mode
-                   "r" 'magit-refresh)))
-
-(leaf evil-magit
-  :ensure t
-  :after magit
-  :config (progn (evil-magit-init)))
+                   "r" 'magit-refresh)
+                 (leaf evil-magit
+                   :ensure t
+                   :config (progn (evil-magit-init)))))
 
 
 ;;; comment lines
@@ -378,17 +372,31 @@
 
 (leaf which-key
   :ensure t
-  :config (progn (which-key-mode t)
-                 (setq which-key-show-early-on-C-h t
-                       which-key-idle-delay 10000
-                       which-key-idle-secondary-delay 0.1)))
+  :setq ((which-key-show-early-on-C-h . t)
+         (which-key-idle-delay . 10000)
+         (which-key-idle-secondary-delay . 0.1))
+  :config (progn (which-key-mode t)))
 
 
 ;;; project manager
 
 (leaf projectile
   :ensure t
-  :config (progn (projectile-mode t)))
+  :config (progn (projectile-mode t)
+                 (evil-leader/set-key
+                   "p" projectile-command-map)))
+
+(leaf counsel-projectile
+  :ensure t
+  :config (progn (counsel-projectile-mode t))
+  :bind ((:projectile-command-map
+          ("f" . counsel-projectile-find-file)
+          ("g" . counsel-projectile-find-file-dwim)
+          ("d" . counsel-projectile-find-dir)
+          ("b" . counsel-projectile-switch-to-buffer)
+          ("sg" . counsel-projectile-grep)
+          ("ss" . counsel-projectile-ag)
+          ("sr" . counsel-projectile-rg))))
 
 
 ;;; auto indent
@@ -396,13 +404,6 @@
 (leaf aggressive-indent
   :ensure t
   :config (global-aggressive-indent-mode t))
-
-
-;;; buffer groups
-
-;; (leaf frame-bufs
-;;   :url "https://github.com/alpaker/Frame-Bufs"
-;;   :config (progn (frame-bufs-mode t)))
 
 
 ;;; dim inactive buffers
@@ -426,7 +427,8 @@
                      indent-tabs-mode nil)
        (menu-bar-mode 0)
        (tool-bar-mode 0)
-       (setq inhibit-startup-screen 1))
+       (setq inhibit-startup-screen 1)
+       (fset 'yes-or-no-p 'y-or-n-p))
 
 
 ;;; Trim trailing whitespaces when saving files.
