@@ -27,6 +27,16 @@
   :ensure t)
 
 
+;;; set encoding utf-8
+
+(set-language-environment 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-selection-coding-system 'utf-8)
+(set-locale-environment ".UTF-8")
+(prefer-coding-system 'utf-8)
+(setq utf-translate-cjk-mode nil)
+
+
 ;;; mode line
 
 (load-file "~/.emacs.d/config/init-modeline.el")
@@ -70,9 +80,8 @@
                    "ee" 'evil-multiedit-match-and-next
                    "er" 'evil-multiedit-restore))
   :bind ((:evil-multiedit-state-map
-          :package iedit
-          ("j" . iedit-next-occurrence)
-          ("k" . iedit-prev-occurrence)
+          ("j" . evil-multiedit-next)
+          ("k" . evil-multiedit-prev)
           ("C-j" . evil-multiedit-match-and-next)
           ("C-k" . evil-multiedit-match-and-prev))))
 
@@ -158,13 +167,19 @@
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
   :config ())
 
-(leaf company-quickhelp
+;; (leaf company-quickhelp
+;;   :ensure t
+;;   :after company
+;;   :hook (company-mode-hook . company-quickhelp-mode)
+;;   :setq ((pos-tip-background-color . "#2b2b2b")
+;;          (pos-tip-foreground-color . "#ffffff")))
+
+(leaf company-box
   :ensure t
   :after company
-  :hook (prog-mode-hook . company-quickhelp-mode)
-  :setq ((pos-tip-background-color . "#2b2b2b")
-         (pos-tip-foreground-color . "#ffffff")
-         (company-quickhelp-delay . 0.1)))
+  :hook (company-mode-hook . company-box-mode)
+  :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)
+         (company-box-show-single-candidate . t)))
 
 
 ;;; syntax check
@@ -223,12 +238,14 @@
   :ensure t
   :after lsp-mode
   :hook (lsp-mode-hook . lsp-ui-mode)
-  :setq ((lsp-ui-doc-enable . nil)
+  :setq ((lsp-ui-doc-enable . t)
          (lsp-ui-doc-header . t)
          (lsp-ui-doc-delay . 0.1)
          (lsp-ui-doc-position . 'at-point)
          (lsp-ui-doc-border . "black")
          (lsp-ui-doc-use-childframe . t)
+         (lsp-ui-doc-include-signature . t)
+         (lsp-ui-doc-use-webkit . t)
          (lsp-ui-peek-enable . t)
          (lsp-ui-peek-always-show . nil)
          (lsp-ui-peek-fontify . 'on-demand)
@@ -270,7 +287,12 @@
   :hook (lsp-mode . (dap-mode dap-ui-mode dap-tooltip-mode))
   :config (progn (dap-mode 1)
                  (dap-ui-mode 1)
-                 (dap-tooltip-mode 1)))
+                 (dap-tooltip-mode 1)
+                 (evil-leader/set-key
+                   "ldba" 'dap-breakpoint-add
+                   "ldbd" 'dap-breakpoint-delete
+                   "ldbD" 'dap-breakpoint-delete-all
+                   "ldbt" 'dap-breakpoint-toggle)))
 
 
 ;;; tree structured undo
@@ -293,8 +315,7 @@
 
 (leaf evil-surround
   :ensure t
-  :setq ((global-evil-surround-mode . 1))
-  :config ())
+  :config (global-evil-surround-mode))
 
 (electric-pair-mode)
 
@@ -404,13 +425,6 @@
 (leaf aggressive-indent
   :ensure t
   :config (global-aggressive-indent-mode t))
-
-
-;;; dim inactive buffers
-
-(leaf dimmer
-  :ensure t
-  :config (progn (dimmer-mode t)))
 
 
 ;;; code templates

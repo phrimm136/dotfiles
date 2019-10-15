@@ -64,7 +64,7 @@
 
 ;;; c/++ debug server
 
-(leaf dap-lldb)
+(require 'dap-lldb)
 
 
 ;;; static analysis with clang

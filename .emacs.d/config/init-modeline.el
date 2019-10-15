@@ -55,6 +55,14 @@
                                             (`interrupted "././. ")
                                             (`suspicious "?/?/? ")))
                           ""))) ;; flycheck errors - error / warning / info
+    (:properlize (:eval (if (bound-and-true-p lsp-mode)
+                            (concat (lsp-mode-line)
+                                    " ")
+                          ""))) ;; language server status
+    (:properlize (:eval (if (bound-and-true-p workgroups-mode)
+                            (concat " W"
+                                    (wg-mode-line-string)
+                                    " "))))
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
                             (concat " I "
                                     (format "%s/%s "
@@ -67,12 +75,16 @@
   '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
                               (t (concat " %4l : %3c " ;; cursor position - row / column
                                          " %6p " ;; percentage of the buffer text above the top of the window
+                                         (let ((encoding (coding-system-plist buffer-file-coding-system)))
+                                           (cond ((memq (plist-get encoding :category)
+                                                        '(coding-category-undecided coding-category-utf-8))
+                                                  " UTF-8 ")
+                                                 (t (upcase (symbol-name (plist-get encoding :name)))))) ;; encoding
                                          (pcase (coding-system-eol-type buffer-file-coding-system)
                                            (0 " LF ")
                                            (1 " CRLF ")
                                            (2 " CR ")) ;; EoL type
-                                         "" ;; Encoding; TODO
-                                         ) ;; writing modes
+                                         ) ;; writing systems
                                  ))))
     (:properlize " %m ") ;; major mode
     ))
