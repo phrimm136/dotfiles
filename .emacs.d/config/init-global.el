@@ -74,12 +74,13 @@
 
 (leaf evil-multiedit
   :ensure t
+  :leaf-defer nil
   :after evil
   :config (progn (evil-leader/set-key
                    "ea" 'evil-multiedit-match-all
                    "ee" 'evil-multiedit-match-and-next
                    "er" 'evil-multiedit-restore))
-  :bind ((:evil-multiedit-state-map
+  :bind ((evil-multiedit-state-map
           ("j" . evil-multiedit-next)
           ("k" . evil-multiedit-prev)
           ("C-j" . evil-multiedit-match-and-next)
@@ -100,6 +101,7 @@
 
 (leaf ivy
   :ensure t
+  :leaf-defer nil
   :setq ((ivy-wrap . t)
          (ivy-re-builders-alist . '((swiper . ivy--regex)
                                     (t . ivy--regex-fuzzy)))
@@ -134,6 +136,7 @@
 
 (leaf company
   :ensure t
+  :leaf-defer nil
   :hook (prog-mode-hook . company-mode)
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
@@ -174,12 +177,12 @@
 ;;   :setq ((pos-tip-background-color . "#2b2b2b")
 ;;          (pos-tip-foreground-color . "#ffffff")))
 
-(leaf company-box
-  :ensure t
-  :after company
-  :hook (company-mode-hook . company-box-mode)
-  :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)
-         (company-box-show-single-candidate . t)))
+;; (leaf company-box
+;;   :ensure t
+;;   :after company
+;;   :hook (company-mode-hook . company-box-mode)
+;;   :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)
+;;          (company-box-show-single-candidate . t)))
 
 
 ;;; syntax check
@@ -188,8 +191,8 @@
   :ensure t
   :hook (prog-mode-hook . flycheck-mode)
   :setq ((flycheck-errors-function . nil)
-         (flycheck-idle-change-delay . 0.5)
-         (flycheck-display-errors-delay . 0.3))
+         (flycheck-idle-change-delay . 1)
+         (flycheck-display-errors-delay . 0.5))
   :config (progn (evil-leader/set-key
                    "f" flycheck-command-map))
   :bind ((:flycheck-command-map
@@ -221,6 +224,7 @@
 
 (leaf lsp-mode
   :ensure t
+  :leaf-defer nil
   :after flycheck eldoc
   :hook (prog-mode-hook . lsp-deferred)
   :setq ((lsp-enable-semantic-highlighting . t)
@@ -236,25 +240,26 @@
 
 (leaf lsp-ui
   :ensure t
+  :leaf-defer nil
   :after lsp-mode
   :hook (lsp-mode-hook . lsp-ui-mode)
-  :setq ((lsp-ui-doc-enable . t)
+  :setq ((lsp-ui-doc-enable . nil)
          (lsp-ui-doc-header . t)
          (lsp-ui-doc-delay . 0.1)
          (lsp-ui-doc-position . 'at-point)
          (lsp-ui-doc-border . "black")
          (lsp-ui-doc-use-childframe . t)
          (lsp-ui-doc-include-signature . t)
-         (lsp-ui-doc-use-webkit . t)
          (lsp-ui-peek-enable . t)
          (lsp-ui-peek-always-show . nil)
          (lsp-ui-peek-fontify . 'on-demand)
          (lsp-ui-sideline-enable . t)
          (lsp-ui-sideline-show-hover . t)
          (lsp-ui-sideline-show-diagnostics . t)
-         (lsp-ui-flycheck-enable . nil)
+         (lsp-ui-flycheck-enable . t)
          (lsp-ui-imenu-kind-position . 'left))
   :config (progn (evil-leader/set-key
+                   "lt" 'lsp-describe-thing-at-point
                    "lfr" 'lsp-ui-peek-find-references
                    "lfd" 'lsp-ui-peek-find-definitions
                    "lfi" 'lsp-ui-peek-find-implementation
@@ -284,6 +289,7 @@
 
 (leaf dap-mode
   :ensure t
+  :leaf-defer nil
   :hook (lsp-mode . (dap-mode dap-ui-mode dap-tooltip-mode))
   :config (progn (dap-mode 1)
                  (dap-ui-mode 1)
@@ -360,8 +366,8 @@
          (wg-emacs-exit-save-behavior . nil)
          (wg-workgroups-mode-exit-save-behavior . nil)
          (wg-dissociate-buffer-on-kill-buffer . nil)) ;; This feature heavily slows down with lsp-mode
-  :config (progn (add-hook 'wg-before-switch-to-workgroup-hook 'neotree-hide)
-                 (add-hook 'wg-after-switch-to-workgroup-hook 'neotree-show)
+  :config (progn (add-hook 'wg-before-switch-to-workgroup-hook 'neotree-hide) ;; bug; or feature
+                 ;; (add-hook 'wg-after-switch-to-workgroup-hook 'neotree-show)
                  (workgroups-mode 1)
                  (wg-open-session "/home/user/.emacs.d/workgroups")
                  (evil-leader/set-key
@@ -375,7 +381,7 @@
   :config (progn (evil-define-key 'normal magit-mode-map
                    "j" 'magit-section-forward
                    "k" 'magit-section-backward
-                   (kbd "<escape>") 'nil)
+                   "<escape>" 'nil)
                  (evil-leader/set-key-for-mode 'magit-mode
                    "r" 'magit-refresh)
                  (leaf evil-magit
@@ -409,6 +415,7 @@
 
 (leaf counsel-projectile
   :ensure t
+  :leaf-defer nil
   :config (progn (counsel-projectile-mode t))
   :bind ((:projectile-command-map
           ("f" . counsel-projectile-find-file)
