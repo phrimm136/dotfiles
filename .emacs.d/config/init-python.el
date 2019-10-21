@@ -42,7 +42,8 @@
 
 ;;; code style
 
-(setq python-indent-offset 4)
+(setq python-indent-offset 4
+      python-indent-guess-indent-offset nil)
 
 
 ;; keymaps

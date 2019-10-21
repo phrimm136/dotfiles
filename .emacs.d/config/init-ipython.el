@@ -7,21 +7,21 @@
 
 (leaf ein
   :ensure t
-  :config (progn (delete 'ein:company-backend company-backends) ; prevent from duplicate backends and breaking locality
+  :config (progn (require 'ein-timestamp)
                  (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
                    (add-hook notebook
                              (lambda ()
                                (add-to-list (make-local-variable 'company-backends)
                                             'ein:company-backend))))
                  (setq ein:default-url-or-port "http://127.0.0.1:8888"
-                       ein:worksheet-enable-undo t)
+                       ein:worksheet-enable-undo t
+                       ein:completion-backend 'ein:use-none-backend
+                       ein:jupyter-server-use-subcommand "lab")
                  ;; auto start ein when opening notebooks
                  (defun ein:run-with-file-open ()
                    (let ((buffer (current-buffer))
                          (venv (concat (file-name-directory buffer-file-name)
                                        "venv/bin/jupyter")))
-                     (if (ein:jupyter-server-process)
-                         (error "Please first M-x ein:stop"))
                      (ein:jupyter-server-start (if (file-exists-p venv)
                                                    venv
                                                  "/usr/bin/jupyter")
@@ -32,15 +32,26 @@
                                         (ein:get-kernelspec ein:default-url-or-port
                                                             buffer-file-name))
                      (kill-buffer buffer)))
-                 (add-hook 'ein:ipynb-mode-hook 'ein:run-with-file-open)))
+                 (add-hook 'ein:ipynb-mode-hook 'ein:run-with-file-open)
+                 (delete 'ein:company-backend company-backends) ; prevent from duplicate backends and breaking locality
+                 ))
+
+
+;;; connect language server to jupyter notebook
+
+(add-to-list 'lsp-language-id-configuration '(ein:notebook-python-mode . "ein:notebook-python"))
+(add-to-list 'lsp-language-id-configuration '(ein:notebook-multilang-mode . "ein:notebook-multilang"))
+(lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
+                                      :major-modes '(ein:notebook-python-mode ein:notebook-multilang-mode python-mode)
+                                      :server-id 'pyls))
 
 
 ;;; jedi config
 
-(leaf jedi
-  :ensure t
-  :after ein
-  :hook (ein:connect-mode-hook . ein:jedi-setup))
+;; (leaf jedi
+;;   :ensure t
+;;   :after ein
+;;   :hook (ein:connect-mode-hook . ein:jedi-setup))
 
 
 ;;; keymaps
