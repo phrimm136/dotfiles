@@ -66,7 +66,21 @@
 (leaf evil
   :ensure t
   :init (setq evil-want-keybinding nil)
-  :config (progn (evil-mode 1)))
+  :config (progn (evil-mode 1)
+                 (global-unset-key "\C-j")
+                 (global-unset-key "\C-k")
+                 (evil-define-key 'normal 'global
+                   "\C-j" 'forward-sexp
+                   "\C-k" 'backward-sexp)
+                 ;; shell keymap custom
+                 (evil-define-key 'insert eshell-mode-map
+                   "\C-k" 'eshell-previous-input
+                   "\C-j" 'eshell-next-input)
+                 ;; minibuffer keymap custom
+                 (define-key minibuffer-local-map
+                   "\C-j" 'next-line-or-history-element)
+                 (define-key minibuffer-local-map
+                   "\C-k" 'previous-line-or-history-element)))
 
 (leaf evil-collection
   :ensure t
@@ -77,7 +91,18 @@
   :ensure t
   :after evil
   :config (progn (global-evil-leader-mode)
-                 (evil-leader/set-leader "<SPC>")))
+                 (evil-leader/set-leader "<SPC>")
+                 (evil-leader/set-key
+                   "<RET>" 'revert-buffer
+                   ":" 'eval-expression
+                   ;; narrowing
+                   "nf" 'narrow-to-defun
+                   "nr" 'narrow-to-region
+                   "nw" 'widen
+                   ;; function for functions
+                   "[" 'beginning-of-defun
+                   "]" 'end-of-defun
+                   "v" 'mark-defun)))
 
 (leaf evil-multiedit
   :ensure t
@@ -97,7 +122,18 @@
 (leaf counsel
   :ensure t
   :config (progn (evil-define-key 'normal 'global
-                   (kbd "C-SPC") 'counsel-M-x)))
+                   (kbd "C-SPC") 'counsel-M-x)
+                 (evil-leader/set-key
+                   "gf" 'counsel-find-file
+                   "gr" 'counsel-recentf
+                   "gb" 'counsel-switch-buffer
+                   "gk" 'kill-buffer
+                   "gs" 'counsel-semantic-or-imenu
+                   "gd" 'delete-file
+                   "gm" 'manual-entry
+                   "gp" 'pop-to-buffer
+                   "gy" 'counsel-yank-pop
+                   "go" 'find-file-other-window)))
 
 (leaf swiper
   :ensure t
@@ -151,7 +187,8 @@
                                company-yasnippet
                                company-abbrev
                                company-dabbrev))
-         (company-echo-truncate-lines . t))
+         (company-echo-truncate-lines . t)
+         (company-tooltip-align-annotations . t))
   :config ()
   :bind (:company-active-map
          ("<tab>" . company-complete)))
@@ -193,7 +230,7 @@
 
 (leaf flycheck
   :ensure t
-  :hook ((prog-mode-hook org-mode-hook) . flycheck-mode)
+  :hook (prog-mode-hook . flycheck-mode)
   :setq ((flycheck-errors-function . nil)
          (flycheck-idle-change-delay . 0.5)
          (flycheck-display-errors-delay . 0.5))
@@ -219,7 +256,7 @@
 (leaf flycheck-indicator
   :ensure t
   :after flycheck
-  :hook ((prog-mode-hook org-mode-hook) . flycheck-indicator-mode))
+  :hook (flycheck-mode-hook . flycheck-indicator-mode))
 
 
 ;;; show function details
@@ -318,7 +355,8 @@
   :ensure t
   :hook ((prog-mode-hook text-mode-hook) . undo-tree-mode)
   :setq ((undo-tree-enable-undo-in-region . nil))
-  :config ())
+  :config (progn (evil-leader/set-key
+                   "u" 'undo-tree-visualize)))
 
 
 ;;; parentheses
@@ -366,6 +404,7 @@
                    "k" 'neotree-previous-line
                    "C-w" 'evil-window-map)))
 
+
 ;;; Line number + current line highlight
 
 (dolist (source-code '(prog-mode-hook org-mode-hook))
@@ -412,7 +451,16 @@
 ;;; comment lines
 
 (leaf evil-nerd-commenter
-  :ensure t)
+  :ensure t
+  :config (progn (evil-leader/set-key
+                   ";i" 'evilnc-comment-or-uncomment-lines
+                   ";l" 'evilnc-quick-comment-or-uncomment-to-the-line
+                   ";c" 'evilnc-copy-and-comment-lines
+                   ";p" 'evilnc-comment-or-uncomment-paragraphs
+                   ";r" 'comment-or-uncomment-region
+                   ";v" 'evilnc-toggle-invert-comment-line-by-line
+                   ";o" 'evilnc-copy-and-comment-operator
+                   ";k" 'evilnc-comment-and-kill-ring-save)))
 
 
 ;;; key cheatsheet
