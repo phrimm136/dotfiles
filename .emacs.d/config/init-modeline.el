@@ -42,32 +42,17 @@
 
 (defvar mode-line-align-middle ;; volatile states
   '((:properlize evil-mode-line-tag) ;; evil state
-    (:properlize (:eval (if (bound-and-true-p flycheck-mode)
-                            (concat " F " (pcase flycheck-last-status-change
-                                            (`not-checked " / /  ")
-                                            (`no-checker "-/-/- ")
-                                            (`running "*/*/* ")
-                                            (`errored "!/!/! ")
-                                            (`finished (let-alist (flycheck-count-errors flycheck-current-errors)
-                                                         (if (or .error .warning .info)
-                                                             (format "%s/%s/%s " (or .error 0) (or .warning 0) (or .info 0))
-                                                           "0/0/0 ")))
-                                            (`interrupted "././. ")
-                                            (`suspicious "?/?/? ")))
-                          ""))) ;; flycheck errors - error / warning / info
+    (:properlize flycheck-mode-line) ;; flycheck errors - error / warning / info
     (:properlize (:eval (if (bound-and-true-p lsp-mode)
-                            (concat (lsp-mode-line)
+                            (concat " "
+                                    (lsp-mode-line)
                                     " ")
                           ""))) ;; language server status
     (:properlize (:eval (if (bound-and-true-p workgroups-mode)
-                            (concat " W"
-                                    (wg-mode-line-string)
-                                    " "))))
+                            (wg-mode-line-string)
+                          ""))) ;; workgroups statue
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
-                            (concat " I "
-                                    (format "%s/%s "
-                                            iedit-occurrence-index
-                                            (iedit-counter)))
+                            iedit-mode-line
                           ""))) ;; iedit candidates
     ))
 

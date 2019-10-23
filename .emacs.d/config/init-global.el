@@ -5,7 +5,7 @@
 
 ;;; visual
 
-(set-frame-parameter (selected-frame) 'alpha 80) ; transparency
+(set-frame-parameter (selected-frame) 'alpha '(80 80)) ; transparency
 
 (load-theme 'black t) ; color theme
 
@@ -13,7 +13,7 @@
 
 (leaf highlight-numbers
   :ensure t
-  :hook (prog-mode-hook . highlight-numbers-mode)) ; color numerics
+  :hook ((prog-mode-hook org-mode-hook) . highlight-numbers-mode)) ; color numerics
 
 (leaf goto-line-preview
   :ensure t) ; goto-line preview
@@ -22,6 +22,13 @@
   :ensure t
   :setq ((quick-peek-add-spacer . nil))
   :config ())
+
+(leaf iedit
+  :ensure t
+  :leaf-defer nil
+  :bind ((:iedit-mode-occurrence-keymap
+          ("j" . iedit-next-occurrence)
+          ("k" . iedit-prev-occurrence))))
 
 (leaf all-the-icons
   :ensure t)
@@ -43,7 +50,7 @@
 
 (leaf hide-mode-line
   :ensure t
-  :hook ((dired-mode-hook org-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
+  :hook ((dired-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
 
 
 ;;; quelpa
@@ -80,9 +87,7 @@
                    "ea" 'evil-multiedit-match-all
                    "ee" 'evil-multiedit-match-and-next
                    "er" 'evil-multiedit-restore))
-  :bind ((evil-multiedit-state-map
-          ("j" . evil-multiedit-next)
-          ("k" . evil-multiedit-prev)
+  :bind ((:evil-multiedit-state-map
           ("C-j" . evil-multiedit-match-and-next)
           ("C-k" . evil-multiedit-match-and-prev))))
 
@@ -137,7 +142,7 @@
 (leaf company
   :ensure t
   :leaf-defer nil
-  :hook (prog-mode-hook . company-mode)
+  :hook ((prog-mode-hook org-mode-hok) . company-mode)
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
          (company-backends . '(company-files
@@ -146,8 +151,7 @@
                                company-yasnippet
                                company-abbrev
                                company-dabbrev))
-         (company-echo-truncate-lines . t)
-         (company-echo-delay . nil))
+         (company-echo-truncate-lines . t))
   :config ()
   :bind (:company-active-map
          ("<tab>" . company-complete)))
@@ -189,9 +193,9 @@
 
 (leaf flycheck
   :ensure t
-  :hook (prog-mode-hook . flycheck-mode)
+  :hook ((prog-mode-hook org-mode-hook) . flycheck-mode)
   :setq ((flycheck-errors-function . nil)
-         (flycheck-idle-change-delay . 1)
+         (flycheck-idle-change-delay . 0.5)
          (flycheck-display-errors-delay . 0.5))
   :config (progn (evil-leader/set-key
                    "f" flycheck-command-map))
@@ -212,12 +216,17 @@
   :config ())
 (global-flycheck-inline-mode)
 
+(leaf flycheck-indicator
+  :ensure t
+  :after flycheck
+  :hook ((prog-mode-hook org-mode-hook) . flycheck-indicator-mode))
+
 
 ;;; show function details
 
-(leaf eldoc
-  :ensure t
-  :config (progn (global-eldoc-mode)))
+;; (leaf eldoc
+;;   :ensure t
+;;   :config (progn (global-eldoc-mode)))
 
 
 ;;; language server protocol
@@ -227,7 +236,7 @@
   :leaf-defer nil
   :after flycheck eldoc
   :hook (prog-mode-hook . lsp-deferred)
-  :setq ((lsp-enable-semantic-highlighting . t)
+  :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
          (lsp-enable-snippet . t)
          (lsp-prefer-flymake . nil)
@@ -236,7 +245,10 @@
   :config (progn (evil-leader/set-key
                    "ll" 'lsp
                    "lr" 'lsp-restart-workspace
-                   "ls" 'lsp-shutdown-workspace)))
+                   "ls" 'lsp-shutdown-workspace
+                   "lw" 'lsp-describe-thing-at-point
+                   "le" 'lsp-execute-code-action
+                   "ln" 'lsp-rename)))
 
 (leaf lsp-ui
   :ensure t
@@ -259,7 +271,6 @@
          (lsp-ui-flycheck-enable . t)
          (lsp-ui-imenu-kind-position . 'left))
   :config (progn (evil-leader/set-key
-                   "lt" 'lsp-describe-thing-at-point
                    "lfr" 'lsp-ui-peek-find-references
                    "lfd" 'lsp-ui-peek-find-definitions
                    "lfi" 'lsp-ui-peek-find-implementation
@@ -271,7 +282,7 @@
           ("C-h" . lsp-ui-peek--select-prev-file)
           ("C-l" . lsp-ui-peek--select-next-file))))
 
-(with-eval-after-load 'lsp-mode
+(with-eval-after-load "lsp-mode"
   (quelpa `(lsp-ivy :fetcher github
                     :repo "emacs-lsp/lsp-ivy")))
 
@@ -315,9 +326,7 @@
 (leaf paren
   :ensure t
   :setq ((show-paren-style . 'parenthesis))
-  :config (progn (show-paren-mode 1)
-                 (set-face-background 'show-paren-match "#ffffff")
-                 (set-face-foreground 'show-paren-match "#000000")))
+  :config (progn (show-paren-mode 1)))
 
 (leaf evil-surround
   :ensure t
@@ -341,17 +350,28 @@
 
 (leaf neotree
   :ensure t
+  :leaf-defer nil
   :setq ((neo-autorefresh . nil)
          (neo-theme . 'ascii))
   :config (progn (add-hook 'switch-buffer-functions
                            (lambda (prev cur)
-                             (neotree-refresh t)))))
+                             (neotree-refresh t)))
+                 (evil-define-key 'normal neotree-mode-map
+                   "n" 'neotree-create-node
+                   "f" 'find-file-other-window
+                   "d" 'neotree-delete-node
+                   "e" 'neotree-enter
+                   "p" 'neotree-copy-node
+                   "j" 'neotree-next-line
+                   "k" 'neotree-previous-line
+                   "C-w" 'evil-window-map)))
 
 ;;; Line number + current line highlight
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (setq display-line-numbers 'relative)))
+(dolist (source-code '(prog-mode-hook org-mode-hook))
+  (add-hook source-code
+            (lambda ()
+              (setq display-line-numbers 'relative))))
 
 (leaf hl-line
   :ensure t
@@ -438,8 +458,18 @@
 
 (leaf yasnippet
   :ensure t
-  :hook (prog-mode-hook . yas-minor-mode)
-  :config (progn (yas-reload-all)))
+  :hook ((prog-mode-hook org-mode-hook) . yas-minor-mode)
+  :config (progn (yas-reload-all)
+                 (evil-leader/set-key
+                   "y" 'yas-insert-snippet)))
+
+
+;;; window manager
+
+(leaf ace-window
+  :ensure t
+  :config (progn (evil-leader/set-key
+                   "a" 'ace-window)))
 
 
 ;;; Remove unneccesary things

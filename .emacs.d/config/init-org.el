@@ -12,6 +12,7 @@
 (leaf org-evil
   :ensure t)
 
+
 ;;; like github flavor
 
 (leaf ox-gfm
@@ -25,8 +26,11 @@
 (leaf jupyter
   :ensure t)
 
-(quelpa '(ox-ipynb :fetcher github
-                   :repo "jkitchin/ox-ipynb"))
+(with-eval-after-load "jupyter"
+  (progn (quelpa '(ox-ipynb :fetcher github
+                            :repo "jkitchin/ox-ipynb"))
+         (setq ox-ipynb-images jupyter-org-resource-directory
+               ox-ipynb-kernelspecs 'ipython)))
 
 (add-to-list 'lsp-language-id-configuration '(jupyter-org-interaction-mode . "ob-ipython"))
 (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
@@ -47,7 +51,7 @@
       org-startup-with-inline-images t
       org-startup-with-latex-preview t)
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-;; function
+;; utilities
 (add-hook 'org-babel-after-execute-hook '(lambda ()
                                            (org-next-block 1))
           'append)
@@ -63,7 +67,6 @@
 
 (defvar org-prefix-map (make-sparse-keymap))
 ;; jupyter for org-babel
-
 
 ;; (defun ob-ipython-initialize-keymap ()
 ;;   "Initialize keymaps for ipython in org-babel."
