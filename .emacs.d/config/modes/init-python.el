@@ -3,18 +3,9 @@
 ;;; Code:
 
 
-;;; auto completion
-
-;; (leaf company-jedi
-;;   :ensure t
-;;   :after company jedi
-;;   :init (progn (add-hook 'python-mode-hook
-;;                          (lambda ()
-;;                            (add-to-list (make-local-variable 'company-backends)
-;;                                         'company-jedi)))))
-
-
 ;;; python language server
+
+;; automatically configured.
 
 
 ;;; python debug adapter

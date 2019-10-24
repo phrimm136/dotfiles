@@ -7,8 +7,8 @@
 
 (leaf ess
   :init (require 'ess-site)
-  ;;:hook (ess-julia-mode-hook . 'run-ess-julia)
-  :config (progn (setq inferior-julia-program "/bin/julia")))
+  :config (progn (setq inferior-julia-program "/bin/julia")
+                 (eldoc-mode nil)))
 
 
 ;;; auto compleion

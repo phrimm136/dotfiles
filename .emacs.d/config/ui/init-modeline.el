@@ -3,6 +3,13 @@
 ;;; Code:
 
 
+;;; hide modeline
+
+(leaf hide-mode-line
+  :ensure t
+  :hook ((dired-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
+
+
 ;;; attributes
 
 ;;; https://emacs.stackexchange.com/a/16658
@@ -12,7 +19,7 @@
   (unless reserve
     (setq reserve 20))
   (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
+    (setq reserve (- reserve 0)))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
@@ -82,7 +89,7 @@
                     mode-line-align-right))
 
 
-;;; clean major/minor mode
+;;; clean major modes
 
 (defvar mode-line-cleaner-alist
   '(;; major-mode

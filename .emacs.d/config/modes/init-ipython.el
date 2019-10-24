@@ -46,14 +46,6 @@
                                       :server-id 'pyls))
 
 
-;;; jedi config
-
-;; (leaf jedi
-;;   :ensure t
-;;   :after ein
-;;   :hook (ein:connect-mode-hook . ein:jedi-setup))
-
-
 ;;; keymaps
 
 (defvar ipython-prefix-map (make-sparse-keymap))

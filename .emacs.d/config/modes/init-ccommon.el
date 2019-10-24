@@ -41,9 +41,17 @@
 
 ;;; c/++ common style
 
-(setq c-default-style "bsd"
+(setq c-default-style "knr"
       indent-tabs-mode nil
       c-basic-offset 4)
+
+(leaf clang-format
+  :ensure t
+  :config (progn (setq clang-format-style "File")))
+(leaf clang-format+
+  :ensure t
+  :hook (c-mode-common-hook . clang-format+-mode)
+  :config (progn (setq clang-format+-offset-modified-region 4)))
 
 
 ;;; c/++ header completion
@@ -62,9 +70,11 @@
 ;; using clangd which is automatically supported.
 
 
+
 ;;; c/++ debug server
 
 (require 'dap-lldb)
+(setq dap-lldb-debugged-program-function 'cmake-ide-find-exe-files)
 
 
 ;;; static analysis with clang
@@ -73,6 +83,14 @@
   :ensure t
   :after flycheck
   :config (flycheck-clang-analyzer-setup))
+
+
+;;; tidying code with clang format
+
+(leaf flycheck-clang-tidy
+  :ensure t
+  :after flycheck
+  :config (flycheck-clang-tidy-setup))
 
 
 ;;; cmake-ide
