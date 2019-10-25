@@ -3,7 +3,7 @@
 insidecolor=00000000
 ringcolor=ffffffff
 keyhlcolor=555555aa
-bshlcolor=d23c3dff
+bshlcolor=000000cc
 separatorcolor=00000000
 insidevercolor=00000000
 insidewrongcolor=d23c3dff
@@ -12,4 +12,4 @@ ringwrongcolor=ffffffff
 verifcolor=ffffffff
 timecolor=ffffffff
 datecolor=ffffffff
-loginbox=00000066
+loginbox=00000000

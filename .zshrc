@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/home/user/.oh-my-zsh"
+export ZSH="/home/user/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -27,7 +27,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+export UPDATE_ZSH_DAYS=1
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -91,10 +91,14 @@ zplug load
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
-# powerline10k custom
-# based from https://gitlab.com/shanedora/arch_i3gaps_beach/blob/master/my_zshrc
+# support 256 colors in terminal emulator
+export TERM=xterm-256color
+
+# powerlevel10k custom
+# based on https://gitlab.com/shanedora/arch_i3gaps_beach/blob/master/my_zshrc 
+# and default theme of https://github.com/romkatv/powerlevel10k.
 
 typeset -g POWERLEVEL9K_MODE='nerdfont-complete'
 
@@ -102,7 +106,7 @@ typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 typeset -g POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
 typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE_COUNT=1
-typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='\u2570\uf460'
+typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='\u2570\uf460 '
 
 typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context newline virtualenv dir_writable dir vcs)
 typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs root_indicator history)
@@ -164,7 +168,7 @@ typeset -g POWERLEVEL9K_HISTORY_FOREGROUND=8
 
 alias a='clear'
 alias c='vim ~/.zshrc'
-alias g='gotop'
+alias h='htop'
 alias j='julia'
 alias n='neofetch'
 alias p='python'
