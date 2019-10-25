@@ -1,5 +1,5 @@
 #!/bin/sh
-menu=$(echo -e "program\nsearch\nweb\ncalc\nclipboard\npower" | rofi -theme ~/.config/rofi/select.rasi -dmenu -xoffset -865 -yoffset -375 -width 10 -i)
+menu=$(echo -e "program\nsearch\nweb\ncalc\nclipboard\npower" | rofi -theme ~/.config/rofi/select.rasi -dmenu -xoffset -864 -yoffset -376 -width 10 -i)
 
 case $menu in
     program)
