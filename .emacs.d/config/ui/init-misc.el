@@ -19,7 +19,7 @@
   :ensure t) ; goto-line preview
 
 
-;;; Line number + current line highlight
+;;; Line number
 
 (dolist (source-code '(prog-mode-hook org-mode-hook))
   (add-hook source-code
@@ -33,6 +33,14 @@
 (toggle-scroll-bar -1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+
+
+;;; eof indicator
+
+(dolist (source-code '(prog-mode-hook org-mode-hook))
+  (add-hook source-code
+            (lambda ()
+              (setq indicate-empty-lines t))))
 
 
 ;;; init-misc.el ends here

@@ -10,5 +10,4 @@
   :config (progn (modern-c++-font-lock-global-mode)))
 
 
-(provide 'init-cpp)
 ;;; init-cpp.el ends here

@@ -76,5 +76,4 @@
               "<SPC>" julia-prefix-map)))
 
 
-(provide 'init-julia)
 ;;; init-julia.el ends here

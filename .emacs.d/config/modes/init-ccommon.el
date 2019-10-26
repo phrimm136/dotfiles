@@ -288,5 +288,4 @@
 ;; Checks: '-*,clang-diagnostic-*,llvm-*,misc-*'
 
 
-(provide 'init-ccommon)
 ;;; init-ccommon.el ends here

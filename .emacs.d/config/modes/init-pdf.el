@@ -3,15 +3,24 @@
 ;;; Code:
 
 
-;;; pdf-tools config
+;;; pdf viewer
 
 (leaf pdf-tools
   :ensure t
   :mode ("\\.pdf\\'" . pdf-view-mode)
-  :config (progn (evil-set-initial-state 'pdf-view-mode 'normal)
-                 (evil-leader/set-key-for-mode 'pdf-view-mode
-                   "p" 'pdf-view-goto-page)))
+  :config (progn (evil-set-initial-state 'pdf-view-mode 'normal)))
 
 
-(provide 'init-pdf)
-;;; pdf.el ends here
+;;; keymaps
+
+(defvar pdf-prefix-map (make-sparse-keymap))
+
+(define-key pdf-prefix-map "p" 'pdf-view-goto-page)
+
+(add-hook 'pdf-view-mode-hook
+          (lambda ()
+            (evil-leader/set-key-for-mode 'pdf-view-mode
+              "<SPC>" pdf-prefix-map)))
+
+
+;;; init-pdf.el ends here

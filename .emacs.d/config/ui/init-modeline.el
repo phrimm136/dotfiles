@@ -47,7 +47,7 @@
                           ""))) ;; version control system; need to show more information.
     ))
 
-(defvar mode-line-align-middle ;; volatile states
+(defvar mode-line-align-middle ;; 3rd parth package states
   '((:properlize evil-mode-line-tag) ;; evil state
     (:properlize flycheck-mode-line) ;; flycheck errors - error / warning / info
     (:properlize (:eval (if (bound-and-true-p lsp-mode)
@@ -63,9 +63,9 @@
                           ""))) ;; iedit candidates
     ))
 
-(defvar mode-line-align-right ;; positions, file systems
+(defvar mode-line-align-right ;; editing status
   '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
-                              (t (concat " %4l : %3c " ;; cursor position - row / column
+                              (t (concat " %4l : %3c " ;; cursor position - row : column
                                          " %6p " ;; percentage of the buffer text above the top of the window
                                          (let ((encoding (coding-system-plist buffer-file-coding-system)))
                                            (cond ((memq (plist-get encoding :category)
@@ -76,8 +76,7 @@
                                            (0 " LF ")
                                            (1 " CRLF ")
                                            (2 " CR ")) ;; EoL type
-                                         ) ;; writing systems
-                                 ))))
+                                         )))))
     (:properlize " %m ") ;; major mode
     ))
 
@@ -120,5 +119,4 @@
 (add-hook 'after-change-major-mode-hook  'clean-mode-line)
 
 
-(provide 'init-modeline)
-;;; modeline.el ends here
+;;; init-modeline.el ends here

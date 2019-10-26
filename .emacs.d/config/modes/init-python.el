@@ -24,7 +24,7 @@
   :hook (python-mode-hook . auto-virtualenvwrapper-activate))
 
 
-;;; package management in emacs
+;;; pip in emacs
 
 (leaf pippel
   :ensure t
@@ -51,5 +51,4 @@
               "<SPC>" python-prefix-map)))
 
 
-(provide 'init-python)
 ;;; init-python.el ends here

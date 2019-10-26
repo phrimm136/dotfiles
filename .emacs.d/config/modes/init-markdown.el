@@ -6,9 +6,7 @@
 ;;; markdown mode settings
 
 (leaf markdown-mode
-  :ensure t
-  :config (progn))
+  :ensure t)
 
 
-(provide 'init-markdown)
 ;;; markdown.el ends here

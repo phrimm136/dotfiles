@@ -13,4 +13,11 @@
                    "r" 'magit-refresh)))
 
 
+(leaf magithub
+  :ensure t
+  :after magit
+  :setq ((magithub-clone-default-directory . "~/github"))
+  :config (progn (magithub-feature-autoinject t)))
+
+
 ;;; init-magit.el ends here

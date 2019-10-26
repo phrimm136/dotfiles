@@ -48,16 +48,17 @@
 (leaf jupyter
   :ensure t
   :leaf-defer nil
-  :setq (ox-ipynb-kernelspecs . 'ipython)
+  :setq ((ox-ipynb-kernelspecs . 'ipython))
   :config (progn (quelpa '(ox-ipynb :fetcher github
                                     :repo "jkitchin/ox-ipynb"))
                  (add-to-list 'lsp-language-id-configuration '(jupyter-org-interaction-mode . "ob-ipython"))
                  (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
                                                        :major-modes '(ob-ipython-mode python-mode)
-                                                       :server-id 'pyls))))
+                                                       :server-id 'pyls))
+                 (with-eval-after-load "jupyter"
+                   (setq ox-ipynb-images jupyter-org-resource-directory))))
 
-(with-eval-after-load "jupyter"
-  (setq ox-ipynb-images jupyter-org-resource-directory))
+
 
 
 ;;; keymaps
@@ -65,9 +66,9 @@
 (defvar org-prefix-map (make-sparse-keymap))
 ;; jupyter for org-babel
 
-;; (defun ob-ipython-initialize-keymap ()
-;;   "Initialize keymaps for ipython in org-babel."
-;;   )
+(defun ob-ipython-initialize-keymap ()
+  "Initialize keymaps for ipython in org-babel."
+  )
 
 
 ;;; init-org.el ends here

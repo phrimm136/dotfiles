@@ -47,15 +47,14 @@
   :after evil
   :config (progn (leaf iedit
                    :ensure t
-                   :leaf-defer nil
-                   :bind ((:iedit-mode-occurrence-keymap
-                           ("j" . iedit-next-occurrence)
-                           ("k" . iedit-prev-occurrence))))
+                   :leaf-defer nil)
                  (evil-leader/set-key
                    "ea" 'evil-multiedit-match-all
                    "ee" 'evil-multiedit-match-and-next
                    "er" 'evil-multiedit-restore))
   :bind ((:evil-multiedit-state-map
+          ("j" . iedit-next-occurrence)
+          ("k" . iedit-prev-occurrence)
           ("C-j" . evil-multiedit-match-and-next)
           ("C-k" . evil-multiedit-match-and-prev))))
 

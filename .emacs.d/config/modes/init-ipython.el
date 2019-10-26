@@ -59,5 +59,4 @@
               (evil-leader/set-key "<SPC>" ipython-prefix-map))))
 
 
-(provide 'init-ipython)
 ;;; init-ipython.el ends here

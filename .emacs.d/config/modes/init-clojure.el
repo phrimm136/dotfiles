@@ -61,5 +61,4 @@
             (define-key clojure-prefix-map "dr" 'cider-eval-defun-at-point)))
 
 
-(provide 'init-clojure)
 ;;; init-clojure.el ends here
