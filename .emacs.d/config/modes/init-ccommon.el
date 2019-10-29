@@ -41,8 +41,7 @@
 
 ;;; c/++ common style
 
-(setq c-default-style "knr"
-      indent-tabs-mode nil
+(setq c-default-style "k&r"
       c-basic-offset 4)
 
 (leaf clang-format
@@ -67,8 +66,7 @@
 
 ;;; c/++ language server
 
-;; using clangd which is automatically supported.
-
+(require 'ccls)
 
 
 ;;; c/++ debug server

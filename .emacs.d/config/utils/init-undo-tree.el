@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(quelpa '(undo-tree :fetcher git
+                    :url "http://www.dr-qubit.org/git/undo-tree.git"))
 
 (leaf undo-tree
   :ensure t

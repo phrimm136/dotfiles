@@ -52,14 +52,19 @@
     (:properlize flycheck-mode-line) ;; flycheck errors - error / warning / info
     (:properlize (:eval (if (bound-and-true-p lsp-mode)
                             (concat " "
-                                    (lsp-mode-line)
-                                    " ")
+                                    (lsp-mode-line))
                           ""))) ;; language server status
     (:properlize (:eval (if (bound-and-true-p workgroups-mode)
-                            (wg-mode-line-string)
+                            (concat " "
+                                    (wg-mode-line-string))
                           ""))) ;; workgroups statue
+    (:properlize (:eval (if (bound-and-true-p projectile-mode)
+                            (concat " "
+                                    (projectile-default-mode-line))
+                          "")))
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
-                            iedit-mode-line
+                            (condat " "
+                                    iedit-mode-line)
                           ""))) ;; iedit candidates
     ))
 
