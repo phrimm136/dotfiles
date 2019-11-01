@@ -19,7 +19,7 @@
   (unless reserve
     (setq reserve 20))
   (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 0)))
+    (setq reserve (- reserve 2)))
   (propertize " "
               'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
 
@@ -60,11 +60,11 @@
                           ""))) ;; workgroups statue
     (:properlize (:eval (if (bound-and-true-p projectile-mode)
                             (concat " "
-                                    (projectile-default-mode-line))
+                                    (projectile-default-mode-line)
+                                    " ") ;; projectile status
                           "")))
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
-                            (condat " "
-                                    iedit-mode-line)
+                            iedit-mode-line
                           ""))) ;; iedit candidates
     ))
 

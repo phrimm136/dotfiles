@@ -17,9 +17,4 @@
   :ensure t)
 
 
-;;; narrow
-
-(put 'narrow-to-region 'disabled nil)
-
-
 ;;; init-misc.el ends here

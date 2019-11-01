@@ -30,10 +30,7 @@
                  (evil-leader/set-key
                    "<RET>" 'revert-buffer
                    ":" 'eval-expression
-                   ;; narrowing
-                   "nf" 'narrow-to-defun
-                   "nr" 'narrow-to-region
-                   "nw" 'widen
+                   "h" 'help-command
                    ;; function for functions
                    "[" 'beginning-of-defun
                    "]" 'end-of-defun
@@ -81,5 +78,12 @@
   :ensure t
   :after magit
   :config (progn (evil-magit-init)))
+
+
+(leaf evil-smartparens
+  :ensure t
+  :after smartparens
+  :hook ((prog-mode-hook org-mode-hook text-mode-hook) . evil-smartparens-mode))
+
 
 ;;; init-evil.el ends here

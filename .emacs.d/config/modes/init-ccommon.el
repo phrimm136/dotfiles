@@ -3,9 +3,7 @@
 ;;; Code:
 
 
-;;; cmake-ide and its deps.
-
-(require 'cl-lib)
+;;; cmake-ide and its dependents.
 
 
 (unless (fboundp 'levenshtein-distance)
@@ -173,9 +171,7 @@
          (proc-sentinal-fn (lambda (proc evt)
                              (insert (format "%s\n%s -- %s\n%s\n" line-- evt (current-time-string) line--))))
          (comint-mode-result (comint-mode)))
-    ;;
     (switch-to-buffer-other-window buf)
-    ;;
     (insert (format "Starting: %s\n%s\n" (current-time-string) line--))
     (setq proc (start-process-shell-command name buf cmd))
     (set-process-sentinel proc (lambda (proc evt)
@@ -183,7 +179,6 @@
                                                  evt
                                                  (process-exit-status proc)
                                                  (current-time-string)))))
-    ;;
     proc))
 
 (defun cmake-ide-find-exe-files ()

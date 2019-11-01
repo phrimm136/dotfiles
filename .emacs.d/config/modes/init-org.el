@@ -3,8 +3,6 @@
 ;;; Code:
 
 
-;;; evil keymap
-
 (leaf org
   :ensure t
   :leaf-defer t
@@ -21,7 +19,7 @@
          (org-table-convert-region-max-lines . 1000000))
   :hook ((org-babel-after-execute-hook . (lambda ()
                                            (org-next-block 1)))
-         (org-babel-after-execute-hook . 'org-display-inline-images))
+         (org-babel-after-execute-hook . org-display-inline-images))
   :config (progn (org-babel-do-load-languages 'org-babel-load-languages
                                               '((emacs-lisp . t)
                                                 (shell . t)
@@ -30,35 +28,41 @@
 
 (leaf org-evil
   :ensure t
-  :leaf-defer t)
+  :after org
+  :leaf-defer nil)
 
 
 ;;; like github flavor
 
 (leaf ox-gfm
   :ensure t
-  :leaf-defer t
   :after org
+  :leaf-defer nil
   :setq ((org-src-fontify-natively . t))
   :config ())
 
 
-;;; org-ipython integration
+;;; org-jupyter integration
 
 (leaf jupyter
   :ensure t
+  :after org
   :leaf-defer nil
-  :setq ((ox-ipynb-kernelspecs . 'ipython))
-  :config (progn (quelpa '(ox-ipynb :fetcher github
-                                    :repo "jkitchin/ox-ipynb"))
-                 (add-to-list 'lsp-language-id-configuration '(jupyter-org-interaction-mode . "ob-ipython"))
-                 (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
-                                                       :major-modes '(ob-ipython-mode python-mode)
-                                                       :server-id 'pyls))
-                 (with-eval-after-load "jupyter"
+  :config (progn (with-eval-after-load "jupyter"
                    (setq ox-ipynb-images jupyter-org-resource-directory))))
 
+(quelpa '(ox-ipynb :fetcher github
+                   :repo "jkitchin/ox-ipynb"))
+(leaf ox-ipynb
+  :ensure t
+  :after org
+  :init (require 'ox-ipynb))
 
+(defun org-babel-edit-prep:python (babel-info)
+  "Prepare the local buffer environment for Org source block."
+  (setq-local buffer-file-name (->> babel-info caddr (alist-get :file-name)))
+  (setq-local lsp-buffer-uri (->> babel-info caddr (alist-get :file-name) lsp--path-to-uri))
+  (lsp-python-enable))
 
 
 ;;; keymaps
