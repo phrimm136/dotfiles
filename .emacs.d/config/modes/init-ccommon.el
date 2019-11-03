@@ -64,7 +64,9 @@
 
 ;;; c/++ language server
 
-(require 'ccls)
+;; (leaf ccls
+;;   :ensure t
+;;   :init (require 'ccls))
 
 
 ;;; c/++ debug server

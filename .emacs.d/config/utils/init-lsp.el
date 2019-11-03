@@ -7,13 +7,15 @@
   :ensure t
   :leaf-defer nil
   :after flycheck eldoc
-  :hook (prog-mode-hook . lsp-deferred)
+  :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
          (lsp-enable-snippet . t)
          (lsp-prefer-flymake . nil)
          (lsp-log-io . nil)
-         (lsp-json-use-lists . nil))
+         (lsp-json-use-lists . nil)
+         (lsp-enable-indentation . nil)
+         (lsp-enable-on-type-formatting . nil))
   :config (progn (evil-leader/set-key
                    "ll" 'lsp
                    "lr" 'lsp-restart-workspace
