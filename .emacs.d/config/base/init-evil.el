@@ -22,22 +22,6 @@
   :config (evil-collection-init))
 
 
-(leaf evil-leader
-  :ensure t
-  :after evil
-  :config (progn (global-evil-leader-mode)
-                 (evil-leader/set-leader "<SPC>")
-                 (evil-leader/set-key
-                   "<RET>" 'revert-buffer
-                   ":" 'eval-expression
-                   "h" 'help-command
-                   ;; function for functions
-                   "[" 'beginning-of-defun
-                   "]" 'end-of-defun
-                   "v" 'mark-defun)))
-
-
-
 (leaf evil-multiedit
   :ensure t
   :leaf-defer nil
@@ -45,10 +29,12 @@
   :config (progn (leaf iedit
                    :ensure t
                    :leaf-defer nil)
-                 (evil-leader/set-key
-                   "ea" 'evil-multiedit-match-all
-                   "ee" 'evil-multiedit-match-and-next
-                   "er" 'evil-multiedit-restore))
+                 (defvar evil-multiedit-custom-keymap
+                   (let ((map (make-sparse-keymap)))
+                     (define-key map "a" 'evil-multiedit-match-all)
+                     (define-key map "e" 'evil-multiedit-match-and-next)
+                     (define-key map "r" 'evil-multiedit-restore)
+                     map)))
   :bind ((:evil-multiedit-state-map
           ("j" . iedit-next-occurrence)
           ("k" . iedit-prev-occurrence)
@@ -63,15 +49,17 @@
 
 (leaf evil-nerd-commenter
   :ensure t
-  :config (progn (evil-leader/set-key
-                   ";i" 'evilnc-comment-or-uncomment-lines
-                   ";l" 'evilnc-quick-comment-or-uncomment-to-the-line
-                   ";c" 'evilnc-copy-and-comment-lines
-                   ";p" 'evilnc-comment-or-uncomment-paragraphs
-                   ";r" 'comment-or-uncomment-region
-                   ";v" 'evilnc-toggle-invert-comment-line-by-line
-                   ";o" 'evilnc-copy-and-comment-operator
-                   ";k" 'evilnc-comment-and-kill-ring-save)))
+  :config (progn (defvar evil-nerd-comment-custom-keymap
+                   (let ((map (make-sparse-keymap)))
+                     (define-key map "i" 'evilnc-comment-or-uncomment-lines)
+                     (define-key map "l" 'evilnc-quick-comment-or-uncomment-to-the-line)
+                     (define-key map "c" 'evilnc-copy-and-comment-lines)
+                     (define-key map "p" 'evilnc-comment-or-uncomment-paragraphs)
+                     (define-key map "r" 'comment-or-uncomment-region)
+                     (define-key map "v" 'evilnc-toggle-invert-comment-line-by-line)
+                     (define-key map "o" 'evilnc-copy-and-comment-operator)
+                     (define-key map "k" 'evilnc-comment-and-kill-ring-save)
+                     map))))
 
 
 (leaf evil-magit
@@ -84,6 +72,25 @@
   :ensure t
   :after smartparens
   :hook ((prog-mode-hook org-mode-hook text-mode-hook) . evil-smartparens-mode))
+
+
+(leaf evil-leader
+  :ensure t
+  :after evil
+  :config (progn (global-evil-leader-mode)
+                 (evil-leader/set-leader "<SPC>")
+                 (evil-leader/set-key
+                   "<RET>" 'revert-buffer
+                   ":" 'eval-expression
+                   "h" 'help-command
+                   "8" 'iso-transl-ctl-x-8-map
+                   "e" evil-multiedit-custom-keymap
+                   ";" evil-nerd-comment-custom-keymap
+                   ;; function for functions
+                   "[" 'beginning-of-defun
+                   "]" 'end-of-defun
+                   "v" 'mark-defun)))
+
 
 
 ;;; init-evil.el ends here

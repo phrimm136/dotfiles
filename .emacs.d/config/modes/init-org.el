@@ -51,21 +51,27 @@
   :config (progn (with-eval-after-load "jupyter"
                    (setq ox-ipynb-images jupyter-org-resource-directory))))
 
-(quelpa '(ox-ipynb :fetcher github
-                   :repo "jkitchin/ox-ipynb"))
 (leaf ox-ipynb
   :ensure t
   :after org
-  :init (require 'ox-ipynb))
+  :init (progn (quelpa '(ox-ipynb :fetcher github
+                                  :repo "jkitchin/ox-ipynb"))
+               (require 'ox-ipynb)))
 
-(defun org-babel-edit-prep:python (babel-info)
+(defun org-babel-edit-prep:jupyter (babel-info)
   "Prepare the local buffer environment for Org source block."
-  (setq-local buffer-file-name (->> babel-info caddr (alist-get :file-name)))
-  (setq-local lsp-buffer-uri (->> babel-info caddr (alist-get :file-name) lsp--path-to-uri))
-  (lsp-python-enable))
+  (let* ((params (nth 2 babel-info))
+         (session (alist-get :session params))
+         (client-buffer (org-babel-jupyter-initiate-session session params)))
+    (jupyter-repl-associate-buffer client-buffer)
+    (when (jupyter-tramp-file-name-p session)
+      (setq default-directory (concat (file-remote-p session) "/")))
+    (setq-local buffer-file-name (or (->> babel-info caddr (alist-get :file)) buffer-file-name))
+    (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
+    (lsp-python-enable)))
 
 
-;;; keymaps
+;;; keymap
 
 (defvar org-prefix-map (make-sparse-keymap))
 ;; jupyter for org-babel

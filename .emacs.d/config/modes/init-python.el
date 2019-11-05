@@ -39,11 +39,13 @@
 
 ;; keymaps
 
-(defvar python-prefix-map (make-sparse-keymap))
-;; repl
-(define-key python-prefix-map "cp" 'run-python)
-(define-key python-prefix-map "cr" 'python-shell-send-region)
-(define-key python-prefix-map "cc" 'python-shell-send-buffer)
+(defvar python-prefix-map
+  (let ((map(make-sparse-keymap)))
+    ;; repl
+    (define-key map "cp" 'run-python)
+    (define-key map "cr" 'python-shell-send-region)
+    (define-key map "cc" 'python-shell-send-buffer)
+    map))
 
 (add-hook 'python-mode-hook
           (lambda ()

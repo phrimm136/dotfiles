@@ -9,15 +9,16 @@
                    "j" 'magit-section-forward
                    "k" 'magit-section-backward
                    "<escape>" 'nil)
+                 (evil-leader/set-key
+                   "gg" 'magit-status)
                  (evil-leader/set-key-for-mode 'magit-mode
                    "r" 'magit-refresh)))
 
 
-(leaf magithub
+(leaf forge
   :ensure t
   :after magit
-  :setq ((magithub-clone-default-directory . "~/github"))
-  :config (progn (magithub-feature-autoinject t)))
+  :config )
 
 
 ;;; init-magit.el ends here

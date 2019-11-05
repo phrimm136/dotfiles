@@ -46,7 +46,7 @@
                                       :server-id 'pyls))
 
 
-;;; keymaps
+;;; keymap
 
 (defvar jupyter-prefix-map (make-sparse-keymap))
 

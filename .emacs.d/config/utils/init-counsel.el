@@ -6,18 +6,7 @@
 (leaf counsel
   :ensure t
   :config (progn (evil-define-key 'normal 'global
-                   (kbd "C-SPC") 'counsel-M-x)
-                 (evil-leader/set-key
-                   "gf" 'counsel-find-file
-                   "gr" 'counsel-recentf
-                   "gb" 'counsel-switch-buffer
-                   "gk" 'kill-buffer
-                   "gs" 'counsel-semantic-or-imenu
-                   "gd" 'delete-file
-                   "gm" 'manual-entry
-                   "gp" 'pop-to-buffer
-                   "gy" 'counsel-yank-pop
-                   "go" 'find-file-other-window)))
+                   (kbd "C-SPC") 'counsel-M-x)))
 
 (leaf counsel-projectile
   :ensure t
@@ -55,6 +44,26 @@
          (:ivy-minibuffer-map
           ("C-j" . ivy-next-line)
           ("C-k" . ivy-previous-line))))
+
+
+;;; keymap
+
+(defvar ivy-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "f" 'counsel-find-file)
+    (define-key map "r" 'counsel-recentf)
+    (define-key map "b" 'counsel-switch-buffer)
+    (define-key map "k" 'kill-buffer)
+    (define-key map "s" 'counsel-semantic-or-imenu)
+    (define-key map "d" 'delete-file)
+    (define-key map "m" 'manual-entry)
+    (define-key map "p" 'pop-to-buffer)
+    (define-key map "y" 'counsel-yank-pop)
+    (define-key map "o" 'find-file-other-window)
+    map))
+
+(evil-leader/set-key
+  "g" ivy-custom-keymap)
 
 
 ;;; init-counsel.el ends here

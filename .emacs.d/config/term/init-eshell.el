@@ -7,7 +7,7 @@
 (setq display-buffer-alist '(("\\`\\*e?shell" display-buffer-pop-up-window)))
 
 
-;;; keymaps
+;;; keymap
 
 (evil-define-key 'insert eshell-mode-map
   "\C-k" 'eshell-previous-input

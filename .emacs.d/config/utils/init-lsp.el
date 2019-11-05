@@ -15,15 +15,10 @@
          (lsp-log-io . nil)
          (lsp-json-use-lists . nil)
          (lsp-enable-indentation . nil)
-         (lsp-enable-on-type-formatting . nil))
-  :config (progn (evil-leader/set-key
-                   "ll" 'lsp
-                   "lr" 'lsp-restart-workspace
-                   "ls" 'lsp-shutdown-workspace
-                   "lw" 'lsp-describe-thing-at-point
-                   "le" 'lsp-execute-code-action
-                   "ln" 'lsp-rename)))
+         (lsp-enable-on-type-formatting . nil)))
 
+
+;;; ui
 
 (leaf lsp-ui
   :ensure t
@@ -45,12 +40,6 @@
          (lsp-ui-sideline-show-diagnostics . t)
          (lsp-ui-flycheck-enable . t)
          (lsp-ui-imenu-kind-position . 'left))
-  :config (progn (evil-leader/set-key
-                   "lfr" 'lsp-ui-peek-find-references
-                   "lfd" 'lsp-ui-peek-find-definitions
-                   "lfi" 'lsp-ui-peek-find-implementation
-                   "lfs" 'lsp-ui-peek-find-workspace-symbol
-                   "le" 'lsp-ui-flycheck-list))
   :bind ((:lsp-ui-peek-mode-map
           ("C-j" . lsp-ui-peek--select-next)
           ("C-k" . lsp-ui-peek--select-prev)
@@ -61,6 +50,27 @@
 (with-eval-after-load "lsp-mode"
   (quelpa `(lsp-ivy :fetcher github
                     :repo "emacs-lsp/lsp-ivy")))
+
+
+;;; keymap
+
+(defvar lsp-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "l" 'lsp)
+    (define-key map "r" 'lsp-restart-workspace)
+    (define-key map "s" 'lsp-shutdown-workspace)
+    (define-key map "w" 'lsp-describe-thing-at-point)
+    (define-key map "e" 'lsp-execute-code-action)
+    (define-key map "n" 'lsp-rename)
+    (define-key map "fr" 'lsp-ui-peek-find-references)
+    (define-key map "fd" 'lsp-ui-peek-find-definitions)
+    (define-key map "fi" 'lsp-ui-peek-find-implementation)
+    (define-key map "fs" 'lsp-ui-peek-find-workspace-symbol)
+    (define-key map "e" 'lsp-ui-flycheck-list)
+    map))
+
+(evil-leader/set-key
+  "l" lsp-custom-keymap)
 
 
 ;;; init-lsp.el ends here

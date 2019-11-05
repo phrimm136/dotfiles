@@ -11,11 +11,12 @@
   :config (progn (evil-set-initial-state 'pdf-view-mode 'normal)))
 
 
-;;; keymaps
+;;; keymap
 
-(defvar pdf-prefix-map (make-sparse-keymap))
-
-(define-key pdf-prefix-map "p" 'pdf-view-goto-page)
+(defvar pdf-prefix-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map "p" 'pdf-view-goto-page)
+    map))
 
 (add-hook 'pdf-view-mode-hook
           (lambda ()

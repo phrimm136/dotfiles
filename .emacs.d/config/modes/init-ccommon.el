@@ -251,17 +251,19 @@
 
 ;; keymaps
 
-(defvar cc-prefix-map (make-sparse-keymap))
-;; Compile, CMake
-(define-key cc-prefix-map "cr" 'cmake-ide-run-cmake)
-(define-key cc-prefix-map "cc" 'cmake-ide-compile)
-(define-key cc-prefix-map "cC" 'cmake-ide-compile*)
-(define-key cc-prefix-map "cd" 'cmake-ide-delete-file)
-(define-key cc-prefix-map "cD" 'cmake-ide-delete-build-dir)
-;; Debugger
-(define-key cc-prefix-map "db" 'cmake-ide-run-gdb)
-(define-key cc-prefix-map "dx" 'cmake-ide-run-exe)
-(define-key cc-prefix-map "do" 'cmake-ide-objdump)
+(defvar cc-prefix-map
+  (let ((map (make-sparse-keymap)))
+    ;; Compile, CMake
+    (define-key map "cr" 'cmake-ide-run-cmake)
+    (define-key map "cc" 'cmake-ide-compile)
+    (define-key map "cC" 'cmake-ide-compile*)
+    (define-key map "cd" 'cmake-ide-delete-file)
+    (define-key map "cD" 'cmake-ide-delete-build-dir)
+    ;; Debugger
+    (define-key map "db" 'cmake-ide-run-gdb)
+    (define-key map "dx" 'cmake-ide-run-exe)
+    (define-key map "do" 'cmake-ide-objdump)
+    map))
 
 (add-hook 'c-mode-hook
           (lambda ()
