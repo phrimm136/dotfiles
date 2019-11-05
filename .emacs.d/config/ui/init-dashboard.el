@@ -13,7 +13,8 @@
                               (bookmarks . 5)
                               (projects . 5)
                               (agenda . 5))))
-  :config (progn (dashboard-setup-startup-hook)))
+  :config (progn (dashboard-setup-startup-hook)
+                 (evil-set-initial-state 'dashboard-mode 'insert)))
 
 (leaf dashboard-hackernews
   :ensure t)
