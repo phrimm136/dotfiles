@@ -14,7 +14,8 @@
                               (projects . 5)
                               (agenda . 5))))
   :config (progn (dashboard-setup-startup-hook)
-                 (evil-set-initial-state 'dashboard-mode 'insert)))
+                 (evil-set-initial-state 'dashboard-mode 'insert)
+                 (define-key dashboard-mode-map "\C-w" evil-window-map)))
 
 (leaf dashboard-hackernews
   :ensure t)

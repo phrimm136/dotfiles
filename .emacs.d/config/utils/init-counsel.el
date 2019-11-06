@@ -3,6 +3,8 @@
 ;;; Code:
 
 
+;;; counsel
+
 (leaf counsel
   :ensure t
   :config (progn (evil-define-key 'normal 'global
@@ -23,11 +25,15 @@
           ("sr" . counsel-projectile-rg))))
 
 
+;;; counsel
+
 (leaf swiper
   :ensure t
   :config (progn (evil-define-key 'normal 'global
                    "\C-s" 'swiper)))
 
+
+;;; ivy
 
 (leaf ivy
   :ensure t
@@ -44,6 +50,11 @@
          (:ivy-minibuffer-map
           ("C-j" . ivy-next-line)
           ("C-k" . ivy-previous-line))))
+
+(leaf ivy-rich
+  :ensure t
+  :after ivy
+  :config (progn (ivy-rich-mode 1)))
 
 
 ;;; keymap

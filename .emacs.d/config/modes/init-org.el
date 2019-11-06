@@ -73,7 +73,10 @@
 
 ;;; keymap
 
-(defvar org-prefix-map (make-sparse-keymap))
+(defvar org-prefix-map
+  (let ((map (make-sparse-keymap)))
+    map))
+
 ;; jupyter for org-babel
 
 (defun ob-ipython-initialize-keymap ()
