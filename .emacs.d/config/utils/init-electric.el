@@ -3,9 +3,9 @@
 ;;; Code:
 
 
-(leaf electric
-  :ensure t
-  :config (progn (electric-pair-mode)))
+;; (leaf electric
+;;   :ensure t
+;;   :config (progn (electric-pair-mode)))
 
 
 ;;; init-electric.el ends here
