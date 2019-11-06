@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: jupyter block
+# key: py
+# --
+#+BEGIN_SRC jupyter-python :session ${1:py :kernel python3 :file ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "./.ob-jupyter/" nil ".png"))} }:exports ${3:both}
+$0
+#+END_SRC
