@@ -5,9 +5,9 @@
 
 (leaf org
   :ensure t
-  :leaf-defer t
   :setq ((org-confirm-babel-evaluate . nil)
          (org-src-tab-acts-natively . t)
+         (org-src-fontify-natively . t)
          ;; view
          (org-src-window-setup . 'other-window)
          (org-src-block-faces . 'face)
@@ -24,7 +24,8 @@
                                               '((emacs-lisp . t)
                                                 (shell . t)
                                                 (org . t)
-                                                (jupyter . t)))))
+                                                (jupyter . t)
+                                                (latex . t)))))
 
 (leaf org-evil
   :ensure t
@@ -38,7 +39,6 @@
   :ensure t
   :after org
   :leaf-defer nil
-  :setq ((org-src-fontify-natively . t))
   :config ())
 
 
@@ -69,6 +69,16 @@
     (setq-local buffer-file-name (or (->> babel-info caddr (alist-get :file)) buffer-file-name))
     (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
     (lsp-python-enable)))
+
+
+;;; org-LaTeX integration
+
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted")) ;; need to install pygmentize - reminder
+(setq org-latex-listings 'minted
+      org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 
 ;;; keymap
