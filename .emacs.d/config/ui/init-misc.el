@@ -33,6 +33,7 @@
 (toggle-scroll-bar -1)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+(bug-reference-mode 0)
 
 
 ;;; eof indicator

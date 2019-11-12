@@ -33,7 +33,7 @@
   :leaf-defer nil)
 
 
-;;; like github flavor
+;;; export github flavored markdown
 
 (leaf ox-gfm
   :ensure t
@@ -47,7 +47,6 @@
 (leaf jupyter
   :ensure t
   :after org
-  :leaf-defer nil
   :config (progn (with-eval-after-load "jupyter"
                    (setq ox-ipynb-images jupyter-org-resource-directory))))
 

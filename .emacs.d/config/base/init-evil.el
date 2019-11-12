@@ -43,9 +43,9 @@
           ("C-k" . evil-multiedit-match-and-prev))))
 
 
-(leaf evil-surround
-  :ensure t
-  :config (global-evil-surround-mode))
+;; (leaf evil-surround
+;;   :ensure t
+;;   :config (global-evil-surround-mode))
 
 
 (leaf evil-nerd-commenter
@@ -72,7 +72,7 @@
 (leaf evil-smartparens
   :ensure t
   :after smartparens
-  :hook ((prog-mode-hook org-mode-hook text-mode-hook) . evil-smartparens-mode))
+  :hook (smartparens-enabled-hook . evil-smartparens-mode))
 
 
 (leaf evil-leader
@@ -81,12 +81,12 @@
   :config (progn (global-evil-leader-mode)
                  (evil-leader/set-leader "<SPC>")
                  (evil-leader/set-key
-                   "<RET>" 'revert-buffer
-                   ":" 'eval-expression
-                   "h" 'help-command
                    "8" 'iso-transl-ctl-x-8-map
                    "e" evil-multiedit-custom-keymap
+                   "h" 'help-command
+                   ":" 'eval-expression
                    ";" evil-nerd-comment-custom-keymap
+                   "<RET>" 'revert-buffer
                    ;; function for functions
                    "[" 'beginning-of-defun
                    "]" 'end-of-defun

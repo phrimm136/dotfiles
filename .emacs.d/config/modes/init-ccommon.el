@@ -39,12 +39,12 @@
 
 ;;; c/++ common style
 
-(setq c-default-style "k&r"
+(setq c-default-style "bsd"
       c-basic-offset 4)
 
 (leaf clang-format
   :ensure t
-  :config (progn (setq clang-format-style "File")))
+  :config (progn (setq clang-format-style "Microsoft")))
 (leaf clang-format+
   :ensure t
   :hook (c-mode-common-hook . clang-format+-mode)

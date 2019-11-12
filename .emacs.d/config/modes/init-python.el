@@ -5,12 +5,21 @@
 
 ;;; python language server
 
-;; automatically configured.
+(setq lsp-pyls-plugins-pylint-enabled nil)
 
 
 ;;; python debug adapter
 
 (require 'dap-python)
+
+
+;;; additional linters
+
+(leaf flycheck-pycheckers
+  :ensure t
+  :after flycheck
+  :hook (python-mode-hook . flycheck-pycheckers-setup)
+  :setq ((flycheck-pycheckers-checkers . '(bandit))))
 
 
 ;;; virtual environment
