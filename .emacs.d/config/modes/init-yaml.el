@@ -10,4 +10,10 @@
   :hook (yaml-mode-hook . display-line-numbers-mode))
 
 
-;;; init-yml.el ends here
+;;; language server
+
+(leaf lsp-yaml
+  :after lsp)
+
+
+;;; init-yaml.el ends here
