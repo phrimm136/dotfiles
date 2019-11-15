@@ -197,7 +197,7 @@ bindsym $super+w mode "modify"
 # window rules, you can find the window class using xprop
 assign [class=Google-chrome] 1
 assign [class=Emacs] 2
-assign [class=Termite instance="^(?!floating$)"] 3
+assign [class=Termite title="?!(floating)$"] 3
 assign [class=Gimp*|Libre*] 4
 assign [Class=Thunderbird] 10
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick] floating enable
@@ -205,7 +205,7 @@ for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
 for_window [class="Termite" title="^(floating$)"] floating enable, resize set width 800 px height 600 px, move to position 560 240
 # terminal with rofi run_command
 for_window [class=Thunderbird|Google-chrome|Emacs|discord|Gimp*] focus
-for_window [class=Termite instance="^(?!floating$)"] focus
+for_window [class=Termite title="?!(floating)"] focus
 for_window [class="^.*"] split toggle # fibonacci tilting as default
 for_window [class="^.*"] border pixel 0
 # class		            		border	backgr.	text	indica.	child_border
