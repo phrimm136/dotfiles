@@ -48,15 +48,19 @@
 
 ;;; keymap
 
-(defvar jupyter-prefix-map (make-sparse-keymap))
+(defvar jupyter-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    map))
+(defalias 'jupyter-custom-prefix jupyter-custom-keymap)
 
 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
   (add-hook notebook
             (lambda ()
               (evil-define-key 'normal ein:notebook-mode-map
                 "gg" 'evil-goto-first-line ; bug on default setting
-                )
-              (evil-leader/set-key "<SPC>" jupyter-prefix-map))))
+                )))
+  (evil-leader/set-key-for-mode notebook
+    "<SPC>" 'jupyter-custom-prefix))
 
 
 ;;; init-jupyter.el ends here

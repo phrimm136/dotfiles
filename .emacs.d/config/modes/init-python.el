@@ -25,7 +25,10 @@
 ;;; virtual environment
 
 (leaf virtualenvwrapper
-  :ensure t)
+  :ensure t
+  :setq ((venv-location . (directory-file-name buffer-file-name)))
+  :config (progn (venv-initialize-interactive-shells)
+                 (venv-initialize-eshell)))
 
 (leaf auto-virtualenvwrapper
   :ensure t
@@ -48,18 +51,23 @@
 
 ;; keymaps
 
-(defvar python-prefix-map
+(defvar python-repl-custom-keymap
   (let ((map(make-sparse-keymap)))
     ;; repl
-    (define-key map "cp" 'run-python)
-    (define-key map "cr" 'python-shell-send-region)
-    (define-key map "cc" 'python-shell-send-buffer)
+    (define-key map "p" 'run-python)
+    (define-key map "r" 'python-shell-send-region)
+    (define-key map "c" 'python-shell-send-buffer)
     map))
+(defalias 'python-repl-custom-prefix python-repl-custom-keymap)
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (evil-leader/set-key-for-mode 'python-mode
-              "<SPC>" python-prefix-map)))
+(defvar python-custom-keymap
+  (let ((map(make-sparse-keymap)))
+    (define-key map "c" 'python-repl-custom-prefix)
+    map))
+(defalias 'python-custom-prefix python-custom-keymap)
+
+(evil-leader/set-key-for-mode 'python-mode
+  "<SPC>" 'python-custom-prefix)
 
 
 ;;; init-python.el ends here

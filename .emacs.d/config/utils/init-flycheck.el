@@ -9,12 +9,13 @@
   :setq ((flycheck-errors-function . nil)
          (flycheck-idle-change-delay . 0.5)
          (flycheck-display-errors-delay . 0.5))
-  :config (progn (evil-leader/set-key
-                   "f" flycheck-command-map))
+  :config (progn )
   :bind ((:flycheck-command-map
           ("j" . flycheck-next-error)
           ("k" . flycheck-previous-error))))
 
+
+;;; inline error message
 
 (leaf flycheck-inline
   :ensure t
@@ -30,10 +31,20 @@
 (global-flycheck-inline-mode)
 
 
+;;; fancy modeline for flycheck
+
 (leaf flycheck-indicator
   :ensure t
   :after flycheck
   :hook (flycheck-mode-hook . flycheck-indicator-mode))
+
+
+;;; keymap
+
+(defalias 'flycheck-command-prefix flycheck-command-map)
+
+(evil-leader/set-key
+  "f" 'flycheck-command-prefix)
 
 
 ;;; init-flycheck.el ends here

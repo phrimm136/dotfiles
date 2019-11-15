@@ -10,15 +10,14 @@
                    "k" 'magit-section-backward
                    "<escape>" 'nil)
                  (evil-leader/set-key
-                   "gg" 'magit-status)
+                   "g" 'magit-status)
                  (evil-leader/set-key-for-mode 'magit-mode
                    "r" 'magit-refresh)))
 
 
 (leaf forge
   :ensure t
-  :after magit
-  :config )
+  :after magit)
 
 
 ;;; init-magit.el ends here

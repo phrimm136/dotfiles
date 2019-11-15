@@ -18,10 +18,8 @@
     (define-key map "p" 'pdf-view-goto-page)
     map))
 
-(add-hook 'pdf-view-mode-hook
-          (lambda ()
-            (evil-leader/set-key-for-mode 'pdf-view-mode
-              "<SPC>" pdf-prefix-map)))
+(evil-leader/set-key-for-mode 'pdf-view-mode
+  "<SPC>" pdf-prefix-map)
 
 
 ;;; init-pdf.el ends here

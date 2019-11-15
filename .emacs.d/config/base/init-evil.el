@@ -35,7 +35,8 @@
                      (define-key map "a" 'evil-multiedit-match-all)
                      (define-key map "e" 'evil-multiedit-match-and-next)
                      (define-key map "r" 'evil-multiedit-restore)
-                     map)))
+                     map))
+                 (defalias 'evil-multiedit-custom-prefix evil-multiedit-custom-keymap))
   :bind ((:evil-multiedit-state-map
           ("j" . iedit-next-occurrence)
           ("k" . iedit-prev-occurrence)
@@ -43,9 +44,9 @@
           ("C-k" . evil-multiedit-match-and-prev))))
 
 
-;; (leaf evil-surround
-;;   :ensure t
-;;   :config (global-evil-surround-mode))
+(leaf evil-surround
+  :ensure t
+  :config (global-evil-surround-mode))
 
 
 (leaf evil-nerd-commenter
@@ -60,7 +61,8 @@
                      (define-key map "v" 'evilnc-toggle-invert-comment-line-by-line)
                      (define-key map "o" 'evilnc-copy-and-comment-operator)
                      (define-key map "k" 'evilnc-comment-and-kill-ring-save)
-                     map))))
+                     map))
+                 (defalias 'evil-nerd-comment-custom-prefix evil-nerd-comment-custom-keymap)))
 
 
 (leaf evil-magit
@@ -81,11 +83,18 @@
   :config (progn (global-evil-leader-mode)
                  (evil-leader/set-leader "<SPC>")
                  (evil-leader/set-key
+                   "1" 'delete-other-windows
+                   "2" 'split-window-below
+                   "3" 'split-window-right
+                   "4" 'ctl-x-4-prefix
+                   "5" 'ctl-x-5-prefix
+                   "6" '2C-command
                    "8" 'iso-transl-ctl-x-8-map
-                   "e" evil-multiedit-custom-keymap
+                   "e" 'evil-multiedit-custom-prefix
                    "h" 'help-command
+                   "q" 'save-buffers-kill-emacs
                    ":" 'eval-expression
-                   ";" evil-nerd-comment-custom-keymap
+                   ";" 'evil-nerd-comment-custom-prefix
                    "<RET>" 'revert-buffer
                    ;; function for functions
                    "[" 'beginning-of-defun

@@ -45,37 +45,46 @@
 
 ;;; keymap
 
-(defvar julia-prefix-map
+(defvar julia-repl-custom-keymap
   (let ((map (make-sparse-keymap)))
-    ;; repl
-    (define-key map "cj" 'run-ess-julia)
-    (define-key map "cr" 'ess-eval-region)
-    (define-key map "cc" 'ess-eval-buffer)
-    ;; debug
-    (define-key map "ds" 'ess-debug-start)
-    (define-key map "dS" 'ess-debug-stop)
-    (define-key map "dc" 'ess-debug-command-continue)
-    (define-key map "dC" 'ess-debug-command-continue-multi)
-    (define-key map "de" 'ess-debug-command-next)
-    (define-key map "dE" 'ess-debug-command-next-multi)
-    (define-key map "du" 'ess-debug-command-up)
-    (define-key map "dq" 'ess-debug-command-quit)
-    (define-key map "db" 'ess-bp-set)
-    (define-key map "dB" 'ess-bp-set-conditional)
-    (define-key map "dd" 'ess-bp-kill)
-    (define-key map "dD" 'ess-bp-kill-all)
-    (define-key map "do" 'ess-bp-toggle-state)
-    (define-key map "dl" 'ess-bp-set-logger)
-    (define-key map "dj" 'ess-bp-next)
-    (define-key map "dk" 'ess-bp-previous)
-    (define-key map "dt" 'ess-show-traceback)
-    (define-key map "da" 'ess-show-call-stack)
+    (define-key map "j" 'run-ess-julia)
+    (define-key map "r" 'ess-eval-region)
+    (define-key map "c" 'ess-eval-buffer)
     map))
+(defalias 'julia-repl-custom-prefix julia-repl-custom-keymap)
 
-(add-hook 'ess-julia-mode-hook
-          (lambda ()
-            (evil-leader/set-key-for-mode 'ess-julia-mode
-              "<SPC>" julia-prefix-map)))
+(defvar julia-debug-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "s" 'ess-debug-start)
+    (define-key map "S" 'ess-debug-stop)
+    (define-key map "c" 'ess-debug-command-continue)
+    (define-key map "C" 'ess-debug-command-continue-multi)
+    (define-key map "e" 'ess-debug-command-next)
+    (define-key map "E" 'ess-debug-command-next-multi)
+    (define-key map "u" 'ess-debug-command-up)
+    (define-key map "q" 'ess-debug-command-quit)
+    (define-key map "b" 'ess-bp-set)
+    (define-key map "B" 'ess-bp-set-conditional)
+    (define-key map "d" 'ess-bp-kill)
+    (define-key map "D" 'ess-bp-kill-all)
+    (define-key map "o" 'ess-bp-toggle-state)
+    (define-key map "l" 'ess-bp-set-logger)
+    (define-key map "j" 'ess-bp-next)
+    (define-key map "k" 'ess-bp-previous)
+    (define-key map "t" 'ess-show-traceback)
+    (define-key map "a" 'ess-show-call-stack)
+    map))
+(defalias 'julia-debug-custom-prefix julia-debug-custom-keymap)
+
+(defvar julia-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "c" 'julia-repl-custom-prefix)
+    (define-key map "d" 'julia-debug-custom-prefix)
+    map))
+(defalias 'julia-custom-prefix julia-custom-keymap)
+
+(evil-leader/set-key-for-mode 'ess-julia-mode
+  "<SPC>" 'julia-custom-prefix)
 
 
 ;;; init-julia.el ends here

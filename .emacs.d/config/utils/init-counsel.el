@@ -25,7 +25,7 @@
           ("sr" . counsel-projectile-rg))))
 
 
-;;; counsel
+;;; swiper
 
 (leaf swiper
   :ensure t
@@ -51,6 +51,9 @@
           ("C-j" . ivy-next-line)
           ("C-k" . ivy-previous-line))))
 
+
+;;; more information for ivy
+
 (leaf ivy-rich
   :ensure t
   :after ivy
@@ -59,7 +62,7 @@
 
 ;;; keymap
 
-(defvar ivy-custom-keymap
+(defvar counsel-custom-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "f" 'counsel-find-file)
     (define-key map "r" 'counsel-recentf)
@@ -72,9 +75,10 @@
     (define-key map "y" 'counsel-yank-pop)
     (define-key map "o" 'find-file-other-window)
     map))
+(defalias 'counsel-custom-prefix counsel-custom-keymap)
 
 (evil-leader/set-key
-  "g" ivy-custom-keymap)
+  "r" 'counsel-custom-prefix)
 
 
 ;;; init-counsel.el ends here

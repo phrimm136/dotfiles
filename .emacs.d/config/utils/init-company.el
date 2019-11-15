@@ -6,7 +6,7 @@
 (leaf company
   :ensure t
   :leaf-defer nil
-  :hook ((prog-mode-hook org-mode-hok) . company-mode)
+  :hook ((prog-mode-hook org-mode-hook) . company-mode)
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
          (company-backends . '(company-files

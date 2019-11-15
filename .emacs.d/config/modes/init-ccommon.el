@@ -104,6 +104,14 @@
                                                       (concat (cide--locate-project-dir) "build"))
                                           (cmake-ide-setup))))))))
 
+(defun cmake-ide-compdb ()
+  (interactive)
+  (shell-command (concat "compdb -p "
+                         (cide--build-dir)
+                         " list > "
+                         (cide--locate-project-dir)
+                         "compile_commands.json")))
+
 (defun cmake-ide-compile* ()
   (interactive)
   (let ((old-pw default-directory))
@@ -251,29 +259,37 @@
 
 ;; keymaps
 
-(defvar cc-prefix-map
+(defvar cc-cmake-custom-keymap
   (let ((map (make-sparse-keymap)))
-    ;; Compile, CMake
-    (define-key map "cr" 'cmake-ide-run-cmake)
-    (define-key map "cc" 'cmake-ide-compile)
-    (define-key map "cC" 'cmake-ide-compile*)
-    (define-key map "cd" 'cmake-ide-delete-file)
-    (define-key map "cD" 'cmake-ide-delete-build-dir)
-    ;; Debugger
-    (define-key map "db" 'cmake-ide-run-gdb)
-    (define-key map "dx" 'cmake-ide-run-exe)
-    (define-key map "do" 'cmake-ide-objdump)
+    (define-key map "r" 'cmake-ide-run-cmake)
+    (define-key map "c" 'cmake-ide-compile)
+    (define-key map "C" 'cmake-ide-compile*)
+    (define-key map "d" 'cmake-ide-delete-file)
+    (define-key map "D" 'cmake-ide-delete-build-dir)
+    (define-key map "b" 'cmake-ide-compdb)
     map))
+(defalias 'cc-cmake-custom-prefix cc-cmake-custom-keymap)
 
-(add-hook 'c-mode-hook
-          (lambda ()
-            (evil-leader/set-key-for-mode 'c-mode
-              "<SPC>" cc-prefix-map)))
+(defvar cc-debug-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "b" 'cmake-ide-run-gdb)
+    (define-key map "x" 'cmake-ide-run-exe)
+    (define-key map "o" 'cmake-ide-objdump)
+    map))
+(defalias 'cc-debug-custom-prefix cc-debug-custom-keymap)
 
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (evil-leader/set-key-for-mode 'c++-mode
-              "<SPC>" cc-prefix-map)))
+(defvar cc-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "c" 'cc-cmake-custom-prefix)
+    (define-key map "d" 'cc-debug-custom-prefix)
+    map))
+(defalias 'cc-custom-prefix cc-custom-keymap)
+
+(evil-leader/set-key-for-mode 'c-mode
+  "<SPC>" 'cc-custom-prefix)
+
+(evil-leader/set-key-for-mode 'c++-mode
+  "<SPC>" 'cc-custom-prefix)
 
 
 ;; FILE ".dir-locals.el"

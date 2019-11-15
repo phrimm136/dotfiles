@@ -26,11 +26,18 @@
 ;;; narrow codes
 
 (put 'narrow-to-region 'disabled nil)
+
+(defvar narrow-custom-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "f" 'narrow-to-defun)
+    (define-key map "r" 'narrow-to-region)
+    (define-key map "w" 'widen)
+    map))
+(defalias 'narrow-custom-prefix narrow-custom-keymap)
+
 (with-eval-after-load 'evil-leader
   (evil-leader/set-key
-    "nf" 'narrow-to-defun
-    "nr" 'narrow-to-region
-    "nw" 'widen))
+    "n" 'narrow-custom-prefix))
 
 
 ;;; init-misc.el ends here
