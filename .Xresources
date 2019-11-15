@@ -1,0 +1,46 @@
+!------------------------------------
+! Xft settings
+!------------------------------------
+Xft.dpi: 109
+Xft.antialias: true
+Xft.rgba: rgba
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.autohint: true
+Xft.lcdfilter:lcddefault
+
+
+!------------------------------------
+! urxvt settings
+!------------------------------------
+URxvt*transparent: true
+URxvt*shading: 100
+URxvt*blurRadius: 10
+URxvt*background: #000000
+URxvt*foreground: #ffffff
+
+URxvt*scrollBar: false
+
+URxvt*color0: #000000
+URxvt*color1: #ff0000
+URxvt*color2: #00ff00
+URxvt*color3: #ffff00
+URxvt*color4: #0080ff
+URxvt*color5: #ff00ff
+URxvt*color6: #00ffff
+URxvt*color7: #ffffff
+URxvt*color8: #aaaaaa
+URxvt*color9: #ff0000
+URxvt*color10: #00ff00
+URxvt*color11: #ffff00
+URxvt*color12: #cfd8fb
+URxvt*color13: #ff00ff
+URxvt*color14: #00ffff
+URxvt*color15: #ffffff
+URxvt*color16: #ff0000
+URxvt*color17: #ff0000
+URxvt*color18: #ff0000
+URxvt*color19: #ff0000
+
+URxvt*font: xft:DejaVuSansMono Nerd Font:medium:size=7
+URxvt*letterSpace: -1
