@@ -62,6 +62,10 @@
   :ensure t
   :after org)
 
+;;; To use virtual env with emacs-jupyter. make a venv kernel by typing
+;;; /path/to/virtualenv/bin/python -m ipykernel install --name some-name --display-name some-dis-name
+;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel
+
 (leaf ox-ipynb
   :ensure t
   :after org
@@ -71,15 +75,20 @@
                (with-eval-after-load 'jupyter
                  (setq ox-ipynb-images jupyter-org-resource-directory))))
 
-(defun org-babel-edit-prep:jupyter (babel-info)
+;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
+;;; See snippets/org-mode/jupyter block.
+
+(defun org-babel-edit-prep:jupyter-python (babel-info)
   "Prepare the local buffer environment for Org source block."
   (let* ((params (nth 2 babel-info))
          (session (alist-get :session params))
-         (client-buffer (org-babel-jupyter-initiate-session session params)))
+         (client-buffer (org-babel-jupyter-initiate-session session params))
+         (lsp-file (or (->> babel-info caddr (alist-get :file))
+                       buffer-file-name)))
     (jupyter-repl-associate-buffer client-buffer)
     (when (jupyter-tramp-file-name-p session)
       (setq default-directory (concat (file-remote-p session) "/")))
-    (setq-local buffer-file-name (or (->> babel-info caddr (alist-get :file)) buffer-file-name))
+    (setq-local buffer-file-name lsp-file)
     (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
     (lsp-python-enable)))
 

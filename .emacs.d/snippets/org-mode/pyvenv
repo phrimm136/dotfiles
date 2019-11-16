@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: pyvenv
-# key: venv
-# --
-#+BEGIN_SRC emacs-lisp :exports none
-(auto-virtualenvwrapper-activate)
-#+END_SRC

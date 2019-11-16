@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: jupyter header
+# key: jph
+# --
+#+PROPERTY: header-args:jupyter-python :session *jp* :export both
