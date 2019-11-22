@@ -13,13 +13,14 @@
 
 ;;; keymap
 
-(defvar pdf-prefix-map
+(defvar custom-pdf-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "p" 'pdf-view-goto-page)
     map))
+(defalias 'custom-pdf-prefix custom-pdf-keymap)
 
 (evil-leader/set-key-for-mode 'pdf-view-mode
-  "<SPC>" pdf-prefix-map)
+  "<SPC>" 'custom-pdf-prefix)
 
 
 ;;; init-pdf.el ends here

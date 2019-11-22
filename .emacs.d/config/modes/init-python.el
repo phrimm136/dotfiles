@@ -42,6 +42,9 @@
   :ensure t
   :config (progn ()))
 
+(leaf pip-requirements
+  :ensure t)
+
 
 ;;; code style
 
@@ -51,23 +54,23 @@
 
 ;; keymaps
 
-(defvar python-repl-custom-keymap
+(defvar custom-python-repl-keymap
   (let ((map(make-sparse-keymap)))
     ;; repl
     (define-key map "p" 'run-python)
     (define-key map "r" 'python-shell-send-region)
     (define-key map "c" 'python-shell-send-buffer)
     map))
-(defalias 'python-repl-custom-prefix python-repl-custom-keymap)
+(defalias 'custom-python-repl-prefix custom-python-repl-keymap)
 
-(defvar python-custom-keymap
+(defvar custom-python-keymap
   (let ((map(make-sparse-keymap)))
-    (define-key map "c" 'python-repl-custom-prefix)
+    (define-key map "c" 'custom-python-repl-prefix)
     map))
-(defalias 'python-custom-prefix python-custom-keymap)
+(defalias 'custom-python-prefix custom-python-keymap)
 
 (evil-leader/set-key-for-mode 'python-mode
-  "<SPC>" 'python-custom-prefix)
+  "<SPC>" 'custom-python-prefix)
 
 
 ;;; init-python.el ends here

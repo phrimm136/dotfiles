@@ -38,7 +38,7 @@
   :ensure t
   :after company lsp
   :setq ((company-lsp-async . t)
-         (company-lsp-cache-candidates . 'auto)
+         (company-lsp-cache-candidates . t)
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
   :config ())
 

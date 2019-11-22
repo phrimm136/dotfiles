@@ -62,7 +62,7 @@
 
 ;;; keymap
 
-(defvar counsel-custom-keymap
+(defvar custom-counsel-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "f" 'counsel-find-file)
     (define-key map "r" 'counsel-recentf)
@@ -75,10 +75,10 @@
     (define-key map "y" 'counsel-yank-pop)
     (define-key map "o" 'find-file-other-window)
     map))
-(defalias 'counsel-custom-prefix counsel-custom-keymap)
+(defalias 'custom-counsel-prefix custom-counsel-keymap)
 
 (evil-leader/set-key
-  "r" 'counsel-custom-prefix)
+  "r" 'custom-counsel-prefix)
 
 
 ;;; init-counsel.el ends here

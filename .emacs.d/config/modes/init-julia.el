@@ -45,15 +45,15 @@
 
 ;;; keymap
 
-(defvar julia-repl-custom-keymap
+(defvar custom-julia-repl-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "j" 'run-ess-julia)
     (define-key map "r" 'ess-eval-region)
     (define-key map "c" 'ess-eval-buffer)
     map))
-(defalias 'julia-repl-custom-prefix julia-repl-custom-keymap)
+(defalias 'custom-julia-repl-prefix custom-julia-repl-keymap)
 
-(defvar julia-debug-custom-keymap
+(defvar custom-julia-debug-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "s" 'ess-debug-start)
     (define-key map "S" 'ess-debug-stop)
@@ -74,17 +74,17 @@
     (define-key map "t" 'ess-show-traceback)
     (define-key map "a" 'ess-show-call-stack)
     map))
-(defalias 'julia-debug-custom-prefix julia-debug-custom-keymap)
+(defalias 'custom-julia-debug-prefix custom-julia-debug-keymap)
 
-(defvar julia-custom-keymap
+(defvar custom-julia-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'julia-repl-custom-prefix)
-    (define-key map "d" 'julia-debug-custom-prefix)
+    (define-key map "c" 'custom-julia-repl-prefix)
+    (define-key map "d" 'custom-julia-debug-prefix)
     map))
-(defalias 'julia-custom-prefix julia-custom-keymap)
+(defalias 'custom-julia-prefix custom-julia-keymap)
 
 (evil-leader/set-key-for-mode 'ess-julia-mode
-  "<SPC>" 'julia-custom-prefix)
+  "<SPC>" 'custom-julia-prefix)
 
 
 ;;; init-julia.el ends here

@@ -14,6 +14,7 @@
          (lsp-prefer-flymake . nil)
          (lsp-log-io . nil)
          (lsp-json-use-lists . nil)
+         (lsp-eldoc-render-all . t)
          (lsp-enable-indentation . nil)
          (lsp-enable-on-type-formatting . nil)))
 
@@ -37,7 +38,9 @@
          (lsp-ui-peek-fontify . 'on-demand)
          (lsp-ui-sideline-enable . t)
          (lsp-ui-sideline-show-hover . t)
+         (lsp-ui-sideline-update-mode . 'line)
          (lsp-ui-sideline-show-diagnostics . t)
+         (lsp-ui-sideline-display . 1)
          (lsp-ui-flycheck-enable . t)
          (lsp-ui-imenu-kind-position . 'left))
   :bind ((:lsp-ui-peek-mode-map
@@ -54,7 +57,7 @@
 
 ;;; keymap
 
-(defvar lsp-custom-keymap
+(defvar custom-lsp-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "l" 'lsp)
     (define-key map "r" 'lsp-restart-workspace)
@@ -66,12 +69,12 @@
     (define-key map "fd" 'lsp-ui-peek-find-definitions)
     (define-key map "fi" 'lsp-ui-peek-find-implementation)
     (define-key map "fs" 'lsp-ui-peek-find-workspace-symbol)
-    (define-key map "e" 'lsp-ui-flycheck-list)
+    (define-key map "\t" 'lsp-ui-imenu)
     map))
-(defalias 'lsp-custom-prefix lsp-custom-keymap)
+(defalias 'custom-lsp-prefix custom-lsp-keymap)
 
 (evil-leader/set-key
-  "l" 'lsp-custom-prefix)
+  "l" 'custom-lsp-prefix)
 
 
 ;;; init-lsp.el ends here

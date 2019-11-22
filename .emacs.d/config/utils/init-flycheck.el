@@ -7,8 +7,8 @@
   :ensure t
   :hook (prog-mode-hook . flycheck-mode)
   :setq ((flycheck-errors-function . nil)
-         (flycheck-idle-change-delay . 0.5)
-         (flycheck-display-errors-delay . 0.5))
+         (flycheck-idle-change-delay . 0.1)
+         (flycheck-display-errors-delay . 0.1))
   :config (progn )
   :bind ((:flycheck-command-map
           ("j" . flycheck-next-error)

@@ -105,14 +105,14 @@
 
 ;;; keymap
 
-(defvar org-custom-keymap
+(defvar custom-org-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "<RET>") 'org-ctrl-c-ctrl-c-move-next)
     map))
-(defalias 'org-custom-prefix org-custom-keymap)
+(defalias 'custom-org-prefix custom-org-keymap)
 
 (evil-leader/set-key-for-mode 'org-mode
-  "<SPC>" org-custom-keymap)
+  "<SPC>" 'custom-org-prefix)
 
 ;; jupyter keymap for org-babel
 

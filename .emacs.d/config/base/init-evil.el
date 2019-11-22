@@ -30,13 +30,13 @@
   :config (progn (leaf iedit
                    :ensure t
                    :leaf-defer nil)
-                 (defvar evil-multiedit-custom-keymap
+                 (defvar custom-evil-multiedit-keymap
                    (let ((map (make-sparse-keymap)))
                      (define-key map "a" 'evil-multiedit-match-all)
                      (define-key map "e" 'evil-multiedit-match-and-next)
                      (define-key map "r" 'evil-multiedit-restore)
                      map))
-                 (defalias 'evil-multiedit-custom-prefix evil-multiedit-custom-keymap))
+                 (defalias 'custom-evil-multiedit-prefix custom-evil-multiedit-keymap))
   :bind ((:evil-multiedit-state-map
           ("j" . iedit-next-occurrence)
           ("k" . iedit-prev-occurrence)
@@ -51,7 +51,7 @@
 
 (leaf evil-nerd-commenter
   :ensure t
-  :config (progn (defvar evil-nerd-comment-custom-keymap
+  :config (progn (defvar custom-evil-nerd-comment-keymap
                    (let ((map (make-sparse-keymap)))
                      (define-key map "i" 'evilnc-comment-or-uncomment-lines)
                      (define-key map "l" 'evilnc-quick-comment-or-uncomment-to-the-line)
@@ -62,7 +62,7 @@
                      (define-key map "o" 'evilnc-copy-and-comment-operator)
                      (define-key map "k" 'evilnc-comment-and-kill-ring-save)
                      map))
-                 (defalias 'evil-nerd-comment-custom-prefix evil-nerd-comment-custom-keymap)))
+                 (defalias 'custom-evil-nerd-comment-prefix custom-evil-nerd-comment-keymap)))
 
 
 (leaf evil-magit
@@ -80,9 +80,10 @@
 (leaf evil-leader
   :ensure t
   :after evil
-  :config (progn (global-evil-leader-mode)
+  :config (progn (global-evil-leader-mode t)
                  (evil-leader/set-leader "<SPC>")
                  (evil-leader/set-key
+                   "0" 'delete-window
                    "1" 'delete-other-windows
                    "2" 'split-window-below
                    "3" 'split-window-right
@@ -90,11 +91,11 @@
                    "5" 'ctl-x-5-prefix
                    "6" '2C-command
                    "8" 'iso-transl-ctl-x-8-map
-                   "e" 'evil-multiedit-custom-prefix
+                   "e" 'custom-evil-multiedit-prefix
                    "h" 'help-command
-                   "q" 'save-buffers-kill-emacs
+                   "q" 'save-buffers-kill-terminal
                    ":" 'eval-expression
-                   ";" 'evil-nerd-comment-custom-prefix
+                   ";" 'custom-evil-nerd-comment-prefix
                    "<RET>" 'revert-buffer
                    ;; function for functions
                    "[" 'beginning-of-defun

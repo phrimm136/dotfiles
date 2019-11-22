@@ -3,9 +3,14 @@
 ;;; Code:
 
 
-;; (leaf eldoc
+(leaf eldoc
+  :ensure t
+  :config (progn (global-eldoc-mode)))
+
+;; (leaf eldoc-overlay
 ;;   :ensure t
-;;   :config (progn (global-eldoc-mode)))
+;;   :after eldoc
+;;   :config (progn (global-eldoc-overlay-mode)))
 
 
 ;;; init-eldoc.el ends here
