@@ -2,4 +2,4 @@
 # name: jupyter header
 # key: jph
 # --
-#+PROPERTY: header-args:jupyter-python :session *jp* :export both
+#+PROPERTY: header-args:jupyter-python :session *jp* :export both :results output :async yes
