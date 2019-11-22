@@ -14,7 +14,7 @@
 
 (leaf rainbow-mode
   :ensure t
-  :hook (prog-mode-hook . rainbow-mode)
+  :hook (emacs-lisp-mode-hook . rainbow-mode)
   :setq ((rainbow-x-colors . nil)))
 
 
