@@ -4,7 +4,6 @@
 
 
 (leaf recentf
-  :ensure t
   :config (progn (recentf-mode t)))
 
 

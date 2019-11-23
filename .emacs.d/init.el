@@ -12,7 +12,8 @@
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa stable" . "https://stable.melpa.org/packages/"))
 
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
 
 (unless (package-installed-p 'leaf)
   (package-refresh-contents)

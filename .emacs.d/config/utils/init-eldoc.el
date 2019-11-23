@@ -4,7 +4,6 @@
 
 
 (leaf eldoc
-  :ensure t
   :config (progn (global-eldoc-mode)))
 
 ;; (leaf eldoc-overlay

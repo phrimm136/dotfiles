@@ -21,7 +21,6 @@
 ;;; highlight current line
 
 (leaf hl-line
-  :ensure t
   :config (progn (global-hl-line-mode t)))
 
 
