@@ -54,23 +54,23 @@
     (define-key map "c" 'cider-eval-region)
     (define-key map "f" 'cider-eval-buffer)
     map))
-(defalias 'custom-clojure-repl-prefix custom-clojure-repl-keymap)
+(defalias 'clojure-repl custom-clojure-repl-keymap)
 
 (defvar custom-clojure-debug-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map "r" 'cider-eval-defun-at-point)
     map))
-(defalias 'custom-clojure-debug-prefix custom-clojure-debug-keymap)
+(defalias 'clojure-debug custom-clojure-debug-keymap)
 
 (defvar custom-clojure-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'custom-clojure-repl-prefix)
-    (define-key map "d" 'custom-clojure-debug-prefix)
+    (define-key map "c" 'clojure-repl)
+    (define-key map "d" 'clojure-debug)
     map))
-(defalias 'custom-clojure-prefix custom-clojure-keymap)
+(defalias 'clojure custom-clojure-keymap)
 
 (evil-leader/set-key-for-mode 'clojure-mode
-  "<SPC>" 'custom-clojure-prefix)
+  "<SPC>" 'clojure)
 
 
 ;;; init-clojure.el ends here

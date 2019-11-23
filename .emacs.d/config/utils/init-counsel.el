@@ -75,10 +75,10 @@
     (define-key map "y" 'counsel-yank-pop)
     (define-key map "o" 'find-file-other-window)
     map))
-(defalias 'custom-counsel-prefix custom-counsel-keymap)
+(defalias 'counsel custom-counsel-keymap)
 
 (evil-leader/set-key
-  "r" 'custom-counsel-prefix)
+  "r" 'counsel)
 
 
 ;;; init-counsel.el ends here

@@ -36,7 +36,7 @@
                      (define-key map "e" 'evil-multiedit-match-and-next)
                      (define-key map "r" 'evil-multiedit-restore)
                      map))
-                 (defalias 'custom-evil-multiedit-prefix custom-evil-multiedit-keymap))
+                 (defalias 'evil-multiedit custom-evil-multiedit-keymap))
   :bind ((:evil-multiedit-state-map
           ("j" . iedit-next-occurrence)
           ("k" . iedit-prev-occurrence)
@@ -62,7 +62,7 @@
                      (define-key map "o" 'evilnc-copy-and-comment-operator)
                      (define-key map "k" 'evilnc-comment-and-kill-ring-save)
                      map))
-                 (defalias 'custom-evil-nerd-comment-prefix custom-evil-nerd-comment-keymap)))
+                 (defalias 'evil-nerd-comment custom-evil-nerd-comment-keymap)))
 
 
 (leaf evil-magit
@@ -91,11 +91,11 @@
                    "5" 'ctl-x-5-prefix
                    "6" '2C-command
                    "8" 'iso-transl-ctl-x-8-map
-                   "e" 'custom-evil-multiedit-prefix
+                   "e" 'evil-multiedit
                    "h" 'help-command
                    "q" 'save-buffers-kill-terminal
                    ":" 'eval-expression
-                   ";" 'custom-evil-nerd-comment-prefix
+                   ";" 'evil-nerd-comment
                    "<RET>" 'revert-buffer
                    ;; function for functions
                    "[" 'beginning-of-defun

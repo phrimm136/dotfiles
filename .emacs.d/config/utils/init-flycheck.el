@@ -41,10 +41,10 @@
 
 ;;; keymap
 
-(defalias 'flycheck-command-prefix flycheck-command-map)
+(defalias 'flycheck flycheck-command-map)
 
 (evil-leader/set-key
-  "f" 'flycheck-command-prefix)
+  "f" 'flycheck)
 
 
 ;;; init-flycheck.el ends here

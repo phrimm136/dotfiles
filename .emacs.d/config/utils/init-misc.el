@@ -33,11 +33,11 @@
     (define-key map "r" 'narrow-to-region)
     (define-key map "w" 'widen)
     map))
-(defalias 'custom-narrow-prefix custom-narrow-keymap)
+(defalias 'narrow custom-narrow-keymap)
 
 (with-eval-after-load 'evil-leader
   (evil-leader/set-key
-    "n" 'custom-narrow-prefix))
+    "n" 'narrow))
 
 
 ;;; init-misc.el ends here

@@ -268,7 +268,7 @@
     (define-key map "D" 'cmake-ide-delete-build-dir)
     (define-key map "b" 'cmake-ide-compdb)
     map))
-(defalias 'custom-cc-cmake-prefix custom-cc-cmake-keymap)
+(defalias 'cc-cmake custom-cc-cmake-keymap)
 
 (defvar custom-cc-debug-keymap
   (let ((map (make-sparse-keymap)))
@@ -276,20 +276,21 @@
     (define-key map "x" 'cmake-ide-run-exe)
     (define-key map "o" 'cmake-ide-objdump)
     map))
-(defalias 'custom-cc-debug-prefix custom-cc-debug-keymap)
+(defalias 'cc-debug custom-cc-debug-keymap)
 
 (defvar custom-cc-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'custom-cc-cmake-prefix)
-    (define-key map "d" 'custom-cc-debug-prefix)
+    (define-key map "c" 'cc-cmake)
+    (define-key map "d" 'cc-debug)
     map))
-(defalias 'custom-cc-prefix custom-cc-keymap)
+(defalias 'c custom-cc-keymap)
+(defalias 'c++ custom-cc-keymap)
 
 (evil-leader/set-key-for-mode 'c-mode
-  "<SPC>" 'custom-cc-prefix)
+  "<SPC>" 'c)
 
 (evil-leader/set-key-for-mode 'c++-mode
-  "<SPC>" 'custom-cc-prefix)
+  "<SPC>" 'c++)
 
 
 ;; FILE ".dir-locals.el"

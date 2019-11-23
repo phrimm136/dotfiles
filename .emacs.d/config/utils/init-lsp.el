@@ -71,10 +71,10 @@
     (define-key map "fs" 'lsp-ui-peek-find-workspace-symbol)
     (define-key map "\t" 'lsp-ui-imenu)
     map))
-(defalias 'custom-lsp-prefix custom-lsp-keymap)
+(defalias 'language-server custom-lsp-keymap)
 
 (evil-leader/set-key
-  "l" 'custom-lsp-prefix)
+  "l" 'lsp)
 
 
 ;;; init-lsp.el ends here

@@ -61,16 +61,16 @@
     (define-key map "r" 'python-shell-send-region)
     (define-key map "c" 'python-shell-send-buffer)
     map))
-(defalias 'custom-python-repl-prefix custom-python-repl-keymap)
+(defalias 'python-repl custom-python-repl-keymap)
 
 (defvar custom-python-keymap
   (let ((map(make-sparse-keymap)))
-    (define-key map "c" 'custom-python-repl-prefix)
+    (define-key map "c" 'python-repl)
     map))
-(defalias 'custom-python-prefix custom-python-keymap)
+(defalias 'python custom-python-keymap)
 
 (evil-leader/set-key-for-mode 'python-mode
-  "<SPC>" 'custom-python-prefix)
+  "<SPC>" 'python)
 
 
 ;;; init-python.el ends here
