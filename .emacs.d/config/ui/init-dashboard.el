@@ -6,7 +6,7 @@
 ;;; fancy start page
 
 (leaf dashboard
-  :ensure t
+  :straight t
   :setq ((dashboard-banner-logo-title . "Welcome back to Emacs!")
          (dashboard-startup-banner . 'logo)
          (dashboard-items . '((recents  . 5)
@@ -18,7 +18,7 @@
                  (define-key dashboard-mode-map "\C-w" evil-window-map)))
 
 (leaf dashboard-hackernews
-  :ensure t)
+  :straight t)
 
 
 ;;; init-dashboard.el ends here

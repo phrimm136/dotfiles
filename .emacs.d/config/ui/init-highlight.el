@@ -6,14 +6,14 @@
 ;;; color numerics
 
 (leaf highlight-numbers
-  :ensure t
+  :straight t
   :hook ((prog-mode-hook org-mode-hook) . highlight-numbers-mode))
 
 
 ;;; color color hex
 
 (leaf rainbow-mode
-  :ensure t
+  :straight t
   :hook (emacs-lisp-mode-hook . rainbow-mode)
   :setq ((rainbow-x-colors . nil)))
 

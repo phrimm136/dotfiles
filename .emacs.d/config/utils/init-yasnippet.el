@@ -4,7 +4,7 @@
 
 
 (leaf yasnippet
-  :ensure t
+  :straight t
   :hook ((prog-mode-hook org-mode-hook) . yas-minor-mode)
   :config (progn (yas-reload-all)
                  (evil-leader/set-key

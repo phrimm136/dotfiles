@@ -6,7 +6,7 @@
 ;;; hide modeline
 
 (leaf hide-mode-line
-  :ensure t
+  :straight t
   :hook ((dired-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
 
 
@@ -14,36 +14,40 @@
 
 ;;; https://emacs.stackexchange.com/a/16658
 
-(defun mode-line-fill-right (face reserve)
-  "Return empty space using FACE and leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 2)))
-  (propertize " "
-              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))))
+(eval-when-compile
+  (defun mode-line-fill-right (face reserve)
+    "Return empty space using FACE and leaving RESERVE space on the right."
+    (unless reserve
+      (setq reserve 20))
+    (when (and window-system (eq 'right (get-scroll-bar-mode)))
+      (setq reserve (- reserve 2)))
+    (propertize " "
+                'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve))))))
 
-(defun mode-line-fill-center (face reserve)
-  "Return empty space using FACE to the center of remaining space leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
-  (propertize " "
-              'display `((space :align-to (- (+ center (.5 . right-margin)) ,reserve
-                                             (.5 . left-margin))))))
+(eval-when-compile
+  (defun mode-line-fill-center (face reserve)
+    "Return empty space using FACE to the center of remaining space leaving RESERVE space on the right."
+    (unless reserve
+      (setq reserve 20))
+    (when (and window-system (eq 'right (get-scroll-bar-mode)))
+      (setq reserve (- reserve 3)))
+    (propertize " "
+                'display `((space :align-to (- (+ center (.5 . right-margin)) ,reserve
+                                               (.5 . left-margin)))))))
 
-(defun reserve-left/middle (line)
-  (/ (length (format-mode-line line)) 2))
+(eval-when-compile
+  (defun reserve-left/middle (line)
+    (/ (length (format-mode-line line)) 2)))
 
-(defun reserve-middle/right (line)
-  (length (format-mode-line line)))
+(eval-when-compile
+  (defun reserve-middle/right (line)
+    (length (format-mode-line line))))
 
 (defvar mode-line-align-left ;; file status
   '((:properlize " %* ") ;; buffer R/W state - modified / read only / saved
     (:properlize " %b ") ;; file name
     (:properlize (:eval (if (bound-and-true-p vc-mode)
-                            (concat " git: " (substring vc-mode 5) " ")
+                            (concat " Git: " (substring vc-mode 5) " ")
                           ""))) ;; version control system; need to show more information.
     ))
 
@@ -85,12 +89,13 @@
     (:properlize " %m ") ;; major mode
     ))
 
-(setq-default mode-line-format
-              (list mode-line-align-left
-                    '(:eval (mode-line-fill-center 'mode-line (reserve-left/middle mode-line-align-middle)))
-                    mode-line-align-middle
-                    '(:eval (mode-line-fill-right 'mode-line (reserve-middle/right mode-line-align-right)))
-                    mode-line-align-right))
+(defvar custom-mode-line (list mode-line-align-left
+                               '(:eval (mode-line-fill-center 'mode-line (reserve-left/middle mode-line-align-middle)))
+                               mode-line-align-middle
+                               '(:eval (mode-line-fill-right 'mode-line (reserve-middle/right mode-line-align-right)))
+                               mode-line-align-right))
+
+(setq-default mode-line-format custom-mode-line)
 
 
 ;;; clean major modes

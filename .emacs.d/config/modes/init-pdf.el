@@ -6,7 +6,7 @@
 ;;; pdf viewer
 
 (leaf pdf-tools
-  :ensure t
+  :straight t
   :mode ("\\.pdf\\'" . pdf-view-mode)
   :config (progn (evil-set-initial-state 'pdf-view-mode 'normal)))
 

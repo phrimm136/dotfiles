@@ -4,7 +4,7 @@
 
 
 (leaf projectile
-  :ensure t
+  :straight t
   :leaf-defer nil
   :config (progn (projectile-mode t)))
 

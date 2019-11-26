@@ -3,7 +3,7 @@
 ;;; Code:
 
 (leaf async
-  :ensure t
+  :straight t
   :setq ((async-bytecomp-allowed-packages . '(all)))
   :config (progn (async-bytecomp-package-mode 1)))
 

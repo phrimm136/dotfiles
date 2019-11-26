@@ -6,7 +6,7 @@
 ;;; modern c++ font lock
 
 (leaf modern-cpp-font-lock
-  :ensure t
+  :straight t
   :config (progn (modern-c++-font-lock-global-mode)))
 
 

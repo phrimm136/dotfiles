@@ -4,7 +4,7 @@
 
 
 (leaf smartparens
-  :ensure t
+  :straight t
   :init (require 'smartparens-config)
   :setq ((sp-ignore-modes-list . (delete 'minibuffer-inactive-mode sp-ignore-modes-list))
          (sp-escape-quotes-after-insert . nil))

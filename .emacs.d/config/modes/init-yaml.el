@@ -6,7 +6,7 @@
 ;;; yaml mode
 
 (leaf yaml-mode
-  :ensure t
+  :straight t
   :hook (yaml-mode-hook . display-line-numbers-mode))
 
 

@@ -6,6 +6,7 @@
 ;;; ESS julia config
 
 (leaf ess
+  :straight t
   :init (require 'ess-site)
   :config (progn (setq inferior-julia-program "/bin/julia")
                  (eldoc-mode nil)))
@@ -23,17 +24,17 @@
 ;;; linting
 
 ;; (leaf flycheck-julia
-;;   :ensure t
+;;   :straight t
 ;;   :after flycheck julia-mode
 ;;   :config (progn (flycheck-julia-setup)))
 
 
 ;;; julia language server
 
-(quelpa '(lsp-julia :fetcher github
-                    :repo "non-Jedi/lsp-julia"))
 (leaf lsp-julia
-  :ensure t
+  :straight (lsp-julia :type git
+                       :host github
+                       :repo "non-Jedi/lsp-julia")
   :after lsp
   :init (require 'lsp-julia)
   :config (progn (setq lsp-julia-default-environment "~/.julia/environments/v1.2")

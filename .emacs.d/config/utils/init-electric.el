@@ -4,7 +4,7 @@
 
 
 ;; (leaf electric
-;;   :ensure t
+;;   :straight t
 ;;   :config (progn (electric-pair-mode)))
 
 

@@ -6,7 +6,7 @@
 ;;; ein config
 
 (leaf ein
-  :ensure t
+  :straight t
   :config (progn (require 'ein-timestamp)
                  (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
                    (add-hook notebook

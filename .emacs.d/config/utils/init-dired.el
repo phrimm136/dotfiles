@@ -4,7 +4,7 @@
 
 
 (leaf dired-subtree
-  :ensure t
+  :straight t
   :setq ((dired-subtree-line-prefix . (lambda (depth) (make-string (* 2 depth) ?\s)))
          (dired-subtree-use-backgrounds . nil)
          (dired-auto-revert-buffer . t))

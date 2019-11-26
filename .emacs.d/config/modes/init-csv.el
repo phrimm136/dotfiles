@@ -4,7 +4,7 @@
 
 
 (leaf csv-mode
-  :ensure t)
+  :straight t)
 
 
 ;;; init-csv.el ends here

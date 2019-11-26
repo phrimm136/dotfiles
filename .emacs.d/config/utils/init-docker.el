@@ -6,7 +6,7 @@
 ;;; docker
 
 (leaf docker
-  :ensure t
+  :straight t
   :leaf-defer nil
   :config (progn (evil-leader/set-key
                    "d" 'docker))

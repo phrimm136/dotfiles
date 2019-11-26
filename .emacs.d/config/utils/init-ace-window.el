@@ -4,7 +4,7 @@
 
 
 (leaf ace-window
-  :ensure t
+  :straight t
   :config (progn (evil-leader/set-key
                    "w" 'ace-window)))
 

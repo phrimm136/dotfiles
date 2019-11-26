@@ -4,7 +4,7 @@
 
 
 (leaf company
-  :ensure t
+  :straight t
   :leaf-defer nil
   :hook ((prog-mode-hook org-mode-hook) . company-mode)
   :setq ((company-idle-delay . 0)
@@ -23,19 +23,19 @@
 
 
 ;; (leaf company-tabnine
-;;   :ensure t
+;;   :straight t
 ;;   :after company
 ;;   :config (progn (add-to-list 'company-backends 'company-tabnine))) ; 1GB ram for a little time :thinking:
 
 
 (leaf company-math
-  :ensure t
+  :straight t
   :after company
   :config (progn (add-to-list 'company-backends 'company-math-symbols-unicode)))
 
 
 (leaf company-lsp
-  :ensure t
+  :straight t
   :after company lsp
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
@@ -44,7 +44,7 @@
 
 
 ;; (leaf company-quickhelp
-;;   :ensure t
+;;   :straight t
 ;;   :after company
 ;;   :hook (company-mode-hook . company-quickhelp-mode)
 ;;   :setq ((pos-tip-background-color . "#2b2b2b")
@@ -52,7 +52,7 @@
 
 
 ;; (leaf company-box
-;;   :ensure t
+;;   :straight t
 ;;   :after company
 ;;   :hook (company-mode-hook . company-box-mode)
 ;;   :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)

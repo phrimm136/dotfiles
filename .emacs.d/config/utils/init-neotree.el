@@ -4,7 +4,7 @@
 
 
 ;; (leaf neotree
-;;   :ensure t
+;;   :straight t
 ;;   :leaf-defer nil
 ;;   :setq ((neo-autorefresh . nil)
 ;;          (neo-theme . 'ascii))

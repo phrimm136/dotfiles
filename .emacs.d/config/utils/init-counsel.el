@@ -6,12 +6,12 @@
 ;;; counsel
 
 (leaf counsel
-  :ensure t
+  :straight t
   :config (progn (evil-define-key 'normal 'global
                    (kbd "C-SPC") 'counsel-M-x)))
 
 (leaf counsel-projectile
-  :ensure t
+  :straight t
   :leaf-defer nil
   :after projectile
   :config (progn (counsel-projectile-mode t))
@@ -28,7 +28,7 @@
 ;;; swiper
 
 (leaf swiper
-  :ensure t
+  :straight t
   :config (progn (evil-define-key 'normal 'global
                    "\C-s" 'swiper)))
 
@@ -36,7 +36,7 @@
 ;;; ivy
 
 (leaf ivy
-  :ensure t
+  :straight t
   :leaf-defer nil
   :setq ((ivy-wrap . t)
          (ivy-re-builders-alist . '((swiper . ivy--regex)
@@ -55,7 +55,7 @@
 ;;; more information for ivy
 
 (leaf ivy-rich
-  :ensure t
+  :straight t
   :after ivy
   :config (progn (ivy-rich-mode 1)))
 

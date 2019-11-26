@@ -6,7 +6,7 @@
 ;;; quick-peek
 
 (leaf quick-peek
-  :ensure t
+  :straight t
   :setq ((quick-peek-add-spacer . nil))
   :config ())
 
@@ -14,7 +14,7 @@
 ;;; all-the-icons
 
 (leaf all-the-icons
-  :ensure t)
+  :straight t)
 
 
 ;;; init-misc.el ends here

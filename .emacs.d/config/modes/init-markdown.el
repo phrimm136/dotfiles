@@ -6,7 +6,7 @@
 ;;; markdown mode settings
 
 (leaf markdown-mode
-  :ensure t)
+  :straight t)
 
 
 ;;; markdown.el ends here

@@ -4,7 +4,7 @@
 
 
 (leaf evil
-  :ensure t
+  :straight t
   :init (setq evil-want-keybinding nil)
   :config (progn (evil-mode 1)
                  (evil-define-key 'normal 'global
@@ -18,17 +18,17 @@
 
 
 (leaf evil-collection
-  :ensure t
+  :straight t
   :after evil
   :config (evil-collection-init))
 
 
 (leaf evil-multiedit
-  :ensure t
+  :straight t
   :leaf-defer nil
   :after evil
   :config (progn (leaf iedit
-                   :ensure t
+                   :straight t
                    :leaf-defer nil)
                  (defvar custom-evil-multiedit-keymap
                    (let ((map (make-sparse-keymap)))
@@ -45,12 +45,12 @@
 
 
 (leaf evil-surround
-  :ensure t
+  :straight t
   :config (global-evil-surround-mode))
 
 
 (leaf evil-nerd-commenter
-  :ensure t
+  :straight t
   :config (progn (defvar custom-evil-nerd-comment-keymap
                    (let ((map (make-sparse-keymap)))
                      (define-key map "i" 'evilnc-comment-or-uncomment-lines)
@@ -66,19 +66,19 @@
 
 
 (leaf evil-magit
-  :ensure t
+  :straight t
   :after magit
   :config (progn (evil-magit-init)))
 
 
 (leaf evil-smartparens
-  :ensure t
+  :straight t
   :after smartparens
   :hook (smartparens-enabled-hook . evil-smartparens-mode))
 
 
 (leaf evil-leader
-  :ensure t
+  :straight t
   :after evil
   :config (progn (global-evil-leader-mode t)
                  (evil-leader/set-leader "<SPC>")

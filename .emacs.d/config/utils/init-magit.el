@@ -4,7 +4,7 @@
 
 
 (leaf magit
-  :ensure t
+  :straight t
   :config (progn (evil-define-key 'normal magit-mode-map
                    "j" 'magit-section-forward
                    "k" 'magit-section-backward
@@ -16,7 +16,7 @@
 
 
 (leaf forge
-  :ensure t
+  :straight t
   :after magit)
 
 

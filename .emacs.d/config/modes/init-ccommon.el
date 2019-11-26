@@ -8,33 +8,35 @@
 
 (unless (fboundp 'levenshtein-distance)
   (leaf levenshtein
-    :ensure t))
+    :straight t))
 
 ;;; cmake mode
 
 (leaf cmake-mode
-  :ensure t
+  :straight t
   :mode ("CMakeLists.txt" . cmake-mode)
   :init (setq cmake-tab-width 4))
 
 
 ;;; auto completion for cmake
 
-(leaf company-cmake
-  :ensure t
-  :after company cmake
-  :hook (cmake-mode-hook . (lambda ()
-                             (add-to-list (make-local-variable 'company-backends)
-                                          'company-cmake)))
-  :config ())
+(add-hook 'cmake-mode-hook
+          (lambda ()
+            (add-to-list (make-local-variable 'company-backends)
+                         'company-cmake)))
 
 
 ;;; linting cmake files
 
-(quelpa '(cmake-compile-commands :fetcher github
-                                 :repo "xwl/cmake-compile-commands"))
-(quelpa '(flycheck-cmake :fetcher github
-                         :repo "xwl/flycheck-cmake"))
+(leaf cmake-compile-commands
+  :straight (cmake-compile-commands :type git
+                                    :host github
+                                    :repo "xwl/cmake-compile-commands"))
+
+(leaf flycheck-cmake
+  :straight (flycheck-cmake :type git
+                            :host github
+                            :repo "xwl/flycheck-cmake"))
 
 
 ;;; c/++ common style
@@ -43,10 +45,10 @@
       c-basic-offset 4)
 
 (leaf clang-format
-  :ensure t
+  :straight t
   :config (progn (setq clang-format-style "Microsoft")))
 (leaf clang-format+
-  :ensure t
+  :straight t
   :hook (c-mode-common-hook . clang-format+-mode)
   :config (progn (setq clang-format+-offset-modified-region 4)))
 
@@ -54,7 +56,7 @@
 ;;; c/++ header completion
 
 ;; (leaf company-c-headers
-;;   :ensure t
+;;   :straight t
 ;;   :after company
 ;;   :config (progn (add-hook 'c-mode-common-hook
 ;;                            (lambda ()
@@ -65,7 +67,7 @@
 ;;; c/++ language server
 
 ;; (leaf ccls
-;;   :ensure t
+;;   :straight t
 ;;   :init (require 'ccls))
 
 
@@ -78,7 +80,7 @@
 ;;; static analysis with clang
 
 (leaf flycheck-clang-analyzer
-  :ensure t
+  :straight t
   :after flycheck
   :config (flycheck-clang-analyzer-setup))
 
@@ -86,7 +88,7 @@
 ;;; tidying code with clang format
 
 (leaf flycheck-clang-tidy
-  :ensure t
+  :straight t
   :after flycheck
   :config (flycheck-clang-tidy-setup))
 
@@ -94,7 +96,7 @@
 ;;; cmake-ide
 
 (leaf cmake-ide
-  :ensure t
+  :straight t
   :init (require 'cmake-ide)
   :config (progn (dolist (ccommon '(c-mode-hook c++-mode-hook cmake-mode-hook))
                    (add-hook ccommon
@@ -225,7 +227,7 @@
 ;;; object dump
 
 (leaf disaster
-  :ensure t)
+  :straight t)
 
 (defun cmake-ide-objdump-disaster (file-name)
   (let* ((objdump-cmd (format "%s %s" disaster-objdump (shell-quote-argument file-name)))

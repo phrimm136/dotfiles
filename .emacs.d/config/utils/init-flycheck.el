@@ -4,7 +4,7 @@
 
 
 (leaf flycheck
-  :ensure t
+  :straight t
   :hook (prog-mode-hook . flycheck-mode)
   :setq ((flycheck-errors-function . nil)
          (flycheck-idle-change-delay . 0.1)
@@ -18,7 +18,7 @@
 ;;; inline error message
 
 (leaf flycheck-inline
-  :ensure t
+  :straight t
   :after flycheck quick-peek
   :setq ((flycheck-inline-display-function . (lambda (msg pos)
                                                (let* ((ov (quick-peek-overlay-ensure-at pos))
@@ -34,7 +34,7 @@
 ;;; fancy modeline for flycheck
 
 (leaf flycheck-indicator
-  :ensure t
+  :straight t
   :after flycheck
   :hook (flycheck-mode-hook . flycheck-indicator-mode))
 

@@ -16,7 +16,7 @@
 ;;; additional linters
 
 (leaf flycheck-pycheckers
-  :ensure t
+  :straight t
   :after flycheck
   :hook (python-mode-hook . flycheck-pycheckers-setup)
   :setq ((flycheck-pycheckers-checkers . '(bandit))))
@@ -25,13 +25,13 @@
 ;;; virtual environment
 
 (leaf virtualenvwrapper
-  :ensure t
+  :straight t
   :setq ((venv-location . (directory-file-name buffer-file-name)))
   :config (progn (venv-initialize-interactive-shells)
                  (venv-initialize-eshell)))
 
 (leaf auto-virtualenvwrapper
-  :ensure t
+  :straight t
   :after virtualenvwrapper
   :hook (python-mode-hook . auto-virtualenvwrapper-activate))
 
@@ -39,11 +39,11 @@
 ;;; pip in emacs
 
 (leaf pippel
-  :ensure t
+  :straight t
   :config (progn ()))
 
 (leaf pip-requirements
-  :ensure t)
+  :straight t)
 
 
 ;;; code style

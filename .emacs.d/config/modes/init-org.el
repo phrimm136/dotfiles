@@ -4,7 +4,7 @@
 
 
 (leaf org
-  :ensure t
+  :straight t
   :setq ((org-confirm-babel-evaluate . nil)
          (org-src-tab-acts-natively . t)
          (org-src-fontify-natively . t)
@@ -25,17 +25,18 @@
                                                 (jupyter . t)
                                                 (latex . t)))))
 
-(defun org-ctrl-c-ctrl-c-move-next ()
-  "Move to next block after org-ctrl-c-ctrl-c."
-  (interactive)
-  (org-ctrl-c-ctrl-c)
-  (org-next-block 1))
+(eval-when-compile
+  (defun org-ctrl-c-ctrl-c-move-next ()
+    "Move to next block after org-ctrl-c-ctrl-c."
+    (interactive)
+    (org-ctrl-c-ctrl-c)
+    (org-next-block 1)))
 
 
 ;;; evil keymap
 
 (leaf org-evil
-  :ensure t
+  :straight t
   :after org
   :leaf-defer nil)
 
@@ -43,14 +44,14 @@
 ;;; sticky header
 
 ;; (leaf org-sticky-header
-;;   :ensure t
+;;   :straight t
 ;;   :hook ((org-mode-hook . org-sticky-header-prefix)))
 
 
 ;;; export github flavored markdown
 
 (leaf ox-gfm
-  :ensure t
+  :straight t
   :after org
   :leaf-defer nil
   :config ())
@@ -59,7 +60,7 @@
 ;;; org-jupyter integration
 
 (leaf jupyter
-  :ensure t
+  :straight t
   :after org)
 
 ;;; To use virtual env with emacs-jupyter. make a venv kernel by typing
@@ -67,30 +68,30 @@
 ;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel
 
 (leaf ox-ipynb
-  :ensure t
-  :after org
-  :init (progn (quelpa '(ox-ipynb :fetcher github
-                                  :repo "jkitchin/ox-ipynb"))
-               (require 'ox-ipynb)
-               (with-eval-after-load 'jupyter
-                 (setq ox-ipynb-images jupyter-org-resource-directory))))
+  :straight (ox-ipynb :type git
+                      :host github
+                      :repo "jkitchin/ox-ipynb")
+  :after org jupyter
+  :init (progn (require 'ox-ipynb)
+               (setq ox-ipynb-images jupyter-org-resource-directory)))
 
 ;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
 ;;; See snippets/org-mode/jupyter block.
 
-(defun org-babel-edit-prep:jupyter-python (babel-info)
-  "Prepare the local buffer environment for Org source block."
-  (let* ((params (nth 2 babel-info))
-         (session (alist-get :session params))
-         (client-buffer (org-babel-jupyter-initiate-session session params))
-         (lsp-file (or (->> babel-info caddr (alist-get :file))
-                       buffer-file-name)))
-    (jupyter-repl-associate-buffer client-buffer)
-    (when (jupyter-tramp-file-name-p session)
-      (setq default-directory (concat (file-remote-p session) "/")))
-    (setq-local buffer-file-name lsp-file)
-    (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
-    (lsp-python-enable)))
+(eval-when-compile
+  (defun org-babel-edit-prep:jupyter-python (babel-info)
+    "Prepare the local buffer environment for Org source block."
+    (let* ((params (nth 2 babel-info))
+           (session (alist-get :session params))
+           (client-buffer (org-babel-jupyter-initiate-session session params))
+           (lsp-file (or (->> babel-info caddr (alist-get :file))
+                         buffer-file-name)))
+      (jupyter-repl-associate-buffer client-buffer)
+      (when (jupyter-tramp-file-name-p session)
+        (setq default-directory (concat (file-remote-p session) "/")))
+      (setq-local buffer-file-name lsp-file)
+      (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
+      (lsp-python-enable))))
 
 
 ;;; org-LaTeX integration

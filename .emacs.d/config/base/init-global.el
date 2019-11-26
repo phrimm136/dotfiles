@@ -10,7 +10,7 @@
 ;;; session manager
 
 ;; (leaf workgroups2
-;;   :ensure t
+;;   :straight t
 ;;   :setq ((wg-session-file . "/home/user/.emacs.d/workgroups")
 ;;          (wg-emacs-exit-save-behavior . nil)
 ;;          (wg-workgroups-mode-exit-save-behavior . nil)

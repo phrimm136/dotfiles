@@ -4,13 +4,10 @@
 
 
 (leaf smex
-  :ensure t
-  :after ivy
+  :straight t
   :setq ((smex-save-file . "~/.emacs.d/smex-items")
          (smex-history-length . 10))
-  :config (progn (smex-initialize)
-                 (quelpa '(ivy-smex :fetcher github
-                                    :repo "purcell/ivy-smex"))))
+  :config (progn (smex-initialize)))
 
 
 ;;; init-smex.el ends here

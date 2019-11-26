@@ -4,7 +4,7 @@
 
 
 (leaf aggressive-indent
-  :ensure t
+  :straight t
   :config (global-aggressive-indent-mode t))
 
 

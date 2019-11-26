@@ -4,7 +4,7 @@
 
 
 (leaf lsp-mode
-  :ensure t
+  :straight t
   :leaf-defer nil
   :after flycheck eldoc
   :hook ((prog-mode-hook . lsp-deferred))
@@ -22,13 +22,17 @@
 ;;; ui
 
 (leaf lsp-ui
-  :ensure t
+  :straight t
   :leaf-defer nil
   :after lsp-mode
-  :hook (lsp-mode-hook . lsp-ui-mode)
-  :setq ((lsp-ui-doc-enable . nil)
+  :hook ((lsp-mode-hook . lsp-ui-mode)
+         (lsp-ui-imenu-mode-hook . (lambda ()
+                                     (with-current-buffer "*lsp-ui-imenu*"
+                                       (setq-local face-remapping-alist
+                                                   `((default . (:background "#121212"))))))))
+  :setq ((lsp-ui-doc-enable . t)
          (lsp-ui-doc-header . t)
-         (lsp-ui-doc-delay . 0.1)
+         (lsp-ui-doc-delay . 0.5)
          (lsp-ui-doc-position . 'at-point)
          (lsp-ui-doc-border . "black")
          (lsp-ui-doc-use-childframe . t)
@@ -50,9 +54,10 @@
           ("C-l" . lsp-ui-peek--select-next-file))))
 
 
-(with-eval-after-load "lsp-mode"
-  (quelpa `(lsp-ivy :fetcher github
-                    :repo "emacs-lsp/lsp-ivy")))
+(leaf lsp-ivy
+  :straight (lsp-ivy :type git
+                     :host github
+                     :repo "emacs-lsp/lsp-ivy"))
 
 
 ;;; keymap
@@ -74,7 +79,7 @@
 (defalias 'language-server custom-lsp-keymap)
 
 (evil-leader/set-key
-  "l" 'lsp)
+  "l" 'language-server)
 
 
 ;;; init-lsp.el ends here

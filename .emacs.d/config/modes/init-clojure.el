@@ -5,14 +5,14 @@
 ;;; autostart
 
 (leaf clojure-mode
-  :ensure t
+  :straight t
   :hook (clojure-mode-hook . cider-jack-in))
 
 
 ;;; colorful parenthesis
 
 (leaf rainbow-delimiters
-  :ensure t
+  :straight t
   :hook (clojure-mode-hook . rainbow-delimiters-mode))
 
 
@@ -25,7 +25,7 @@
 ;;; linter
 
 (leaf flycheck-clojure
-  :ensure t
+  :straight t
   :after flycheck clojure-mode
   :config (progn (flycheck-clojure-setup)))
 
@@ -44,7 +44,7 @@
 ;;; snippets for clojure
 
 (leaf clojure-snippets
-  :ensure t)
+  :straight t)
 
 
 ;;; keymap

@@ -4,7 +4,7 @@
 
 
 (leaf treemacs
-  :ensure t
+  :straight t
   :leaf-defer nil
   :hook (treemacs-mode-hook . (lambda ()
                                 (with-current-buffer (treemacs-get-local-buffer)
@@ -21,16 +21,16 @@
 
 
 (leaf treemacs-evil
-  :ensure t
+  :straight t
   :init (require 'treemacs-evil))
 
 
 (leaf treemacs-magit
-  :ensure t)
+  :straight t)
 
 
 (leaf treemacs-projectile
-  :ensure t)
+  :straight t)
 
 
 ;;; init-treemacs.el ends here
