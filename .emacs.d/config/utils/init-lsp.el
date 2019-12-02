@@ -10,13 +10,9 @@
   :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
-         (lsp-enable-snippet . t)
          (lsp-prefer-flymake . nil)
          (lsp-log-io . nil)
-         (lsp-json-use-lists . nil)
-         (lsp-eldoc-render-all . t)
-         (lsp-enable-indentation . nil)
-         (lsp-enable-on-type-formatting . nil)))
+         (lsp-json-use-lists . nil)))
 
 
 ;;; ui
