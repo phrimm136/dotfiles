@@ -36,7 +36,7 @@
 (leaf flycheck-indicator
   :straight t
   :after flycheck
-  :hook (flycheck-mode-hook . flycheck-indicator-mode))
+  :config (flycheck-indicator-mode))
 
 
 ;;; keymap

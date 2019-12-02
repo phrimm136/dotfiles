@@ -14,8 +14,7 @@
 
 (leaf rainbow-mode
   :straight t
-  :hook (emacs-lisp-mode-hook . rainbow-mode)
-  :setq ((rainbow-x-colors . nil)))
+  :hook (emacs-lisp-mode-hook . rainbow-mode))
 
 
 ;;; highlight current line

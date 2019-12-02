@@ -78,20 +78,19 @@
 ;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
 ;;; See snippets/org-mode/jupyter block.
 
-(eval-when-compile
-  (defun org-babel-edit-prep:jupyter-python (babel-info)
-    "Prepare the local buffer environment for Org source block."
-    (let* ((params (nth 2 babel-info))
-           (session (alist-get :session params))
-           (client-buffer (org-babel-jupyter-initiate-session session params))
-           (lsp-file (or (->> babel-info caddr (alist-get :file))
-                         buffer-file-name)))
-      (jupyter-repl-associate-buffer client-buffer)
-      (when (jupyter-tramp-file-name-p session)
-        (setq default-directory (concat (file-remote-p session) "/")))
-      (setq-local buffer-file-name lsp-file)
-      (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
-      (lsp-python-enable))))
+(defun org-babel-edit-prep:jupyter-python (babel-info)
+  "Prepare the local buffer environment for Org source block."
+  (let* ((params (nth 2 babel-info))
+         (session (alist-get :session params))
+         (client-buffer (org-babel-jupyter-initiate-session session params))
+         (lsp-file (or (->> babel-info caddr (alist-get :file))
+                       buffer-file-name)))
+    (jupyter-repl-associate-buffer client-buffer)
+    (when (jupyter-tramp-file-name-p session)
+      (setq default-directory (concat (file-remote-p session) "/")))
+    (setq-local buffer-file-name lsp-file)
+    (setq-local lsp-buffer-uri (lsp--path-to-uri buffer-file-name))
+    (lsp-python-enable)))
 
 
 ;;; org-LaTeX integration
