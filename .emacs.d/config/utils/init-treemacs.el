@@ -5,7 +5,6 @@
 
 (leaf treemacs
   :straight t
-  :leaf-defer nil
   :hook (treemacs-mode-hook . (lambda ()
                                 (with-current-buffer (treemacs-get-local-buffer)
                                   (setq-local face-remapping-alist

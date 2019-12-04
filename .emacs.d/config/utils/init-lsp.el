@@ -5,7 +5,6 @@
 
 (leaf lsp-mode
   :straight t
-  :leaf-defer nil
   :after flycheck eldoc
   :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . nil)
@@ -19,7 +18,6 @@
 
 (leaf lsp-ui
   :straight t
-  :leaf-defer nil
   :after lsp-mode
   :hook ((lsp-mode-hook . lsp-ui-mode)
          (lsp-ui-imenu-mode-hook . (lambda ()

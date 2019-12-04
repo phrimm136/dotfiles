@@ -16,6 +16,7 @@
          (org-startup-truncated . t)
          (org-startup-with-inline-images . t)
          (org-startup-with-latex-preview . t)
+         (org-babel-min-lines-for-block-output . 10000000)
          (org-table-convert-region-max-lines . 1000000))
   :hook ((org-babel-after-execute-hook . org-display-inline-images))
   :config (progn (org-babel-do-load-languages 'org-babel-load-languages
@@ -51,10 +52,7 @@
 ;;; export github flavored markdown
 
 (leaf ox-gfm
-  :straight t
-  :after org
-  :leaf-defer nil
-  :config ())
+  :straight t)
 
 
 ;;; org-jupyter integration
@@ -64,7 +62,7 @@
   :after org)
 
 ;;; To use virtual env with emacs-jupyter. make a venv kernel by typing
-;;; /path/to/virtualenv/bin/python -m ipykernel install --name some-name --display-name some-dis-name
+;;; /path/to/virtualenv/bin/python -m ipykernel install --name proper-name --display-name proper-display-name
 ;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel
 
 (leaf ox-ipynb
@@ -72,8 +70,7 @@
                       :host github
                       :repo "jkitchin/ox-ipynb")
   :after org jupyter
-  :init (progn (require 'ox-ipynb)
-               (setq ox-ipynb-images jupyter-org-resource-directory)))
+  :setq ((ox-ipynb-images . jupyter-org-resource-directory)))
 
 ;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
 ;;; See snippets/org-mode/jupyter block.

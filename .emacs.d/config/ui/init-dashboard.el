@@ -9,9 +9,9 @@
   :straight t
   :setq ((dashboard-banner-logo-title . "Welcome back to Emacs!")
          (dashboard-startup-banner . 'logo)
-         (dashboard-items . '((recents  . 5)
+         (dashboard-items . '((recents  . 10)
                               (bookmarks . 5)
-                              (projects . 5)
+                              (projects . 10)
                               (agenda . 5))))
   :config (progn (dashboard-setup-startup-hook)
                  (evil-set-initial-state 'dashboard-mode 'insert)
