@@ -10,20 +10,6 @@
   :config (progn (evil-define-key 'normal 'global
                    (kbd "C-SPC") 'counsel-M-x)))
 
-(leaf counsel-projectile
-  :straight t
-  :leaf-defer nil
-  :after projectile
-  :config (progn (counsel-projectile-mode t))
-  :bind ((:projectile-command-map
-          ("f" . counsel-projectile-find-file)
-          ("g" . counsel-projectile-find-file-dwim)
-          ("d" . counsel-projectile-find-dir)
-          ("b" . counsel-projectile-switch-to-buffer)
-          ("sg" . counsel-projectile-grep)
-          ("ss" . counsel-projectile-ag)
-          ("sr" . counsel-projectile-rg))))
-
 
 ;;; swiper
 

@@ -15,6 +15,16 @@
                    "r" 'magit-refresh)))
 
 
+;;; evil-mode integration
+
+(leaf evil-magit
+  :straight t
+  :after magit
+  :config (progn (evil-magit-init)))
+
+
+;;; remote repo control
+
 (leaf forge
   :straight t
   :after magit)

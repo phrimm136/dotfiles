@@ -18,4 +18,12 @@
                  (sp-local-pair 'emacs-lisp-mode "`" nil :actions nil)))
 
 
+;;; evil-mode integration
+
+(leaf evil-smartparens
+  :straight t
+  :after smartparens
+  :hook (smartparens-enabled-hook . evil-smartparens-mode))
+
+
 ;;; init-smartparens.el ends here

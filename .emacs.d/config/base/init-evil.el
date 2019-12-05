@@ -65,18 +65,6 @@
                  (defalias 'evil-nerd-comment custom-evil-nerd-comment-keymap)))
 
 
-(leaf evil-magit
-  :straight t
-  :after magit
-  :config (progn (evil-magit-init)))
-
-
-(leaf evil-smartparens
-  :straight t
-  :after smartparens
-  :hook (smartparens-enabled-hook . evil-smartparens-mode))
-
-
 (leaf evil-leader
   :straight t
   :after evil
