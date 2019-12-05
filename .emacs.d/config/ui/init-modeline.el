@@ -12,9 +12,21 @@
 
 ;;; attributes
 
+(defun custom-evil-region-line-number nil
+  "Show region line number on the modeline."
+  (if (and (bound-and-true-p evil-mode)
+           (eq evil-state 'visual))
+      (format " %s lines " (let ((begin (region-beginning))
+                                 (end (region-end)))
+                             (cond ((>= begin end) (+ 1 (count-lines begin end)))
+                                   (t (count-lines begin end)))))))
+
+
+;;; modeline makeup
+
 ;;; https://emacs.stackexchange.com/a/16658
 
-(eval-when-compile
+(eval-and-compile
   (defun mode-line-fill-right (face reserve)
     "Return empty space using FACE and leaving RESERVE space on the right."
     (unless reserve
@@ -24,7 +36,7 @@
     (propertize " "
                 'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve))))))
 
-(eval-when-compile
+(eval-and-compile
   (defun mode-line-fill-center (face reserve)
     "Return empty space using FACE to the center of remaining space leaving RESERVE space on the right."
     (unless reserve
@@ -35,11 +47,11 @@
                 'display `((space :align-to (- (+ center (.5 . right-margin)) ,reserve
                                                (.5 . left-margin)))))))
 
-(eval-when-compile
+(eval-and-compile
   (defun reserve-left/middle (line)
     (/ (length (format-mode-line line)) 2)))
 
-(eval-when-compile
+(eval-and-compile
   (defun reserve-middle/right (line)
     (length (format-mode-line line))))
 
@@ -53,8 +65,11 @@
 
 (defvar mode-line-align-middle ;; 3rd parth package states
   '((:properlize evil-mode-line-tag) ;; evil state
-    (:properlize flycheck-mode-line) ;; flycheck errors - error / warning / info
-    (:properlize (:eval (if (bound-and-true-p lsp-mode)
+    (:properlize (:eval (if (bound-and-true-p flycheck-mode)
+                            flycheck-mode-line
+                          ""))) ;; flycheck errors - error / warning / info
+    (:properlize (:eval (if (and (bound-and-true-p lsp-mode)
+                                 (lsp--find-clients))
                             (concat " "
                                     (lsp-mode-line))
                           ""))) ;; language server status
@@ -62,19 +77,15 @@
                             (concat " "
                                     (wg-mode-line-string))
                           ""))) ;; workgroups statue
-    (:properlize (:eval (if (bound-and-true-p projectile-mode)
-                            (concat " "
-                                    (projectile-default-mode-line)
-                                    " ") ;; projectile status
-                          "")))
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
                             iedit-mode-line
                           ""))) ;; iedit candidates
-    ))
+    (:properlize (:eval (custom-evil-region-line-number)))))
 
 (defvar mode-line-align-right ;; editing status
   '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
-                              (t (concat " %4l : %3c " ;; cursor position - row : column
+                              (t (concat " %Ib " ;; file size
+                                         " %4l : %3c " ;; cursor position - row : column
                                          " %6p " ;; percentage of the buffer text above the top of the window
                                          (let ((encoding (coding-system-plist buffer-file-coding-system)))
                                            (cond ((memq (plist-get encoding :category)
@@ -112,7 +123,6 @@
     (pdf-view-mode . "PDF")
     (emacs-lisp-mode . "ELisp")
     (lisp-interaction-mode . "[Lisp]")
-    (inferiror-emacs-lisp-mode . "[ELisp]")
     (cider-repl-mode . "[Clojure]")))
 
 (defun clean-mode-line ()
