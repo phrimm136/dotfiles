@@ -10,9 +10,23 @@
                    "k" 'magit-section-backward
                    "<escape>" 'nil)
                  (evil-leader/set-key
-                   "g" 'magit-status)
-                 (evil-leader/set-key-for-mode 'magit-mode
-                   "r" 'magit-refresh)))
+                   "a" 'magit-status)))
+
+
+;;; remote repo control
+
+(leaf forge
+  :straight t
+  :after magit
+  :setq ((bug-reference-mode . 0)))
+
+
+;;; TODOs on magit
+
+(leaf magit-todos
+  :straight t
+  :after magit
+  :hook (magit-mode-hook . magit-todos-mode))
 
 
 ;;; evil-mode integration
@@ -21,13 +35,6 @@
   :straight t
   :after magit
   :config (progn (evil-magit-init)))
-
-
-;;; remote repo control
-
-(leaf forge
-  :straight t
-  :after magit)
 
 
 ;;; init-magit.el ends here

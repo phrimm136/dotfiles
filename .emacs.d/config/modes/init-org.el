@@ -34,14 +34,6 @@
     (org-next-block 1)))
 
 
-;;; evil keymap
-
-(leaf org-evil
-  :straight t
-  :after org
-  :leaf-defer nil)
-
-
 ;;; sticky header
 
 ;; (leaf org-sticky-header
@@ -52,7 +44,9 @@
 ;;; export github flavored markdown
 
 (leaf ox-gfm
-  :straight t)
+  :straight t
+  :after org
+  :init (require 'ox-gfm))
 
 
 ;;; org-jupyter integration
@@ -69,7 +63,8 @@
   :straight (ox-ipynb :type git
                       :host github
                       :repo "jkitchin/ox-ipynb")
-  :after org jupyter
+  :after org
+  :init (require 'ox-ipynb)
   :setq ((ox-ipynb-images . jupyter-org-resource-directory)))
 
 ;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
@@ -92,12 +87,24 @@
 
 ;;; org-LaTeX integration
 
-(require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "minted")) ;; need to install pygmentize - reminder
-(setq org-latex-listings 'minted
-      org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-                              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-                              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(leaf ox-latex
+  :setq ((org-latex-listings . 'minted)
+         (org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                                  "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                                  "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+  :config (progn (with-eval-after-load 'ox-latex
+                   (add-to-list 'org-latex-packages-alist '("" "minted")))
+                 ;; need to install pygmentize - reminder
+                 ))
+
+
+;;; evil keymap
+
+(leaf org-evil
+  :straight t
+  :after org
+  :init (require 'org-evil))
+
 
 
 ;;; keymap

@@ -7,8 +7,7 @@
 
 (leaf ein
   :straight t
-  :config (progn (require 'ein-timestamp)
-                 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
+  :config (progn (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
                    (add-hook notebook
                              (lambda ()
                                (add-to-list (make-local-variable 'company-backends)
@@ -37,7 +36,7 @@
                  ))
 
 
-;;; connect language server to jupyter notebook
+;;; connect language server to jupyter-notebook
 
 (add-to-list 'lsp-language-id-configuration '(ein:notebook-python-mode . "ein:notebook-python"))
 (add-to-list 'lsp-language-id-configuration '(ein:notebook-multilang-mode . "ein:notebook-multilang"))
@@ -51,7 +50,7 @@
 (defvar custom-jupyter-keymap
   (let ((map (make-sparse-keymap)))
     map))
-(defalias 'jupyter custom-jupyter-keymap)
+(defalias 'ein custom-jupyter-keymap)
 
 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
   (add-hook notebook
@@ -60,7 +59,7 @@
                 "gg" 'evil-goto-first-line ; bug on default setting
                 )))
   (evil-leader/set-key-for-mode notebook
-    "<SPC>" 'jupyter))
+    "<SPC>" 'ein))
 
 
 ;;; init-jupyter.el ends here

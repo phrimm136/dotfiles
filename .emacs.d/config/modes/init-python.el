@@ -26,13 +26,12 @@
 
 (leaf virtualenvwrapper
   :straight t
-  :setq ((venv-location . (directory-file-name buffer-file-name)))
-  :config (progn (venv-initialize-interactive-shells)
-                 (venv-initialize-eshell)))
+  :hook ((python-mode-hook . (lambda ()
+                               (unless (eq buffer-file-name nil)
+                                 (setq-local venv-location (directory-file-name buffer-file-name)))))))
 
 (leaf auto-virtualenvwrapper
   :straight t
-  :after virtualenvwrapper
   :hook (python-mode-hook . auto-virtualenvwrapper-activate))
 
 

@@ -14,19 +14,28 @@
          (treemacs-show-cursor . nil)
          (treemacs-silent-filewatch . t)
          (treemacs-silent-refresh . t))
-  :config (progn (treemacs-resize-icons 12))
+  :config (progn (treemacs-resize-icons 12)
+                 (declare counsel-M-x "init.counsel.el" (&optional iniial-input)))
   :bind ((:evil-normal-state-map
-          ("C-<tab>" . treemacs))))
+          ("C-<tab>" . treemacs))
+         (:treemacs-mode-map
+          ("C-<SPC>" . counsel-M-x))))
 
+
+;;; evil-mode integration
 
 (leaf treemacs-evil
   :straight t
   :init (require 'treemacs-evil))
 
 
+;;; magit integration
+
 (leaf treemacs-magit
   :straight t)
 
+
+;;; projectile integration
 
 (leaf treemacs-projectile
   :straight t)

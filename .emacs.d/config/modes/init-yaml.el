@@ -6,8 +6,7 @@
 ;;; yaml mode
 
 (leaf yaml-mode
-  :straight t
-  :hook (yaml-mode-hook . display-line-numbers-mode))
+  :straight t)
 
 
 ;;; language server

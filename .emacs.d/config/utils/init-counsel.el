@@ -65,7 +65,7 @@
 (defalias 'counsel custom-counsel-keymap)
 
 (evil-leader/set-key
-  "r" 'counsel)
+  "g" 'counsel)
 
 
 ;;; init-counsel.el ends here

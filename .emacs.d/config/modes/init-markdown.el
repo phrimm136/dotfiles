@@ -9,4 +9,4 @@
   :straight t)
 
 
-;;; markdown.el ends here
+;;; init-markdown.el ends here

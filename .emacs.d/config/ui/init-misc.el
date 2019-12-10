@@ -17,16 +17,16 @@
 
 ;;; Line number
 
-(dolist (source-code '(prog-mode-hook org-mode-hook))
-  (add-hook source-code
+(dolist (editor '(prog-mode-hook org-mode-hook text-mode-hook yaml-mode-hook))
+  (add-hook editor
             (lambda ()
               (setq display-line-numbers 'relative))))
 
 
 ;;; eof indicator
 
-(dolist (source-code '(prog-mode-hook org-mode-hook))
-  (add-hook source-code
+(dolist (editor '(prog-mode-hook org-mode-hook text-mode-hook yaml-mode-hook))
+  (add-hook editor
             (lambda ()
               (setq indicate-empty-lines t))))
 

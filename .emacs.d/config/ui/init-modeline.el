@@ -67,9 +67,9 @@
   '((:properlize evil-mode-line-tag) ;; evil state
     (:properlize (:eval (if (bound-and-true-p flycheck-mode)
                             flycheck-mode-line
-                          ""))) ;; flycheck errors - error / warning / info
+                          ""))) ;; flycheck errors
     (:properlize (:eval (if (and (bound-and-true-p lsp-mode)
-                                 (lsp--find-clients))
+                                 (ignore-errors (lsp--find-clients)))
                             (concat " "
                                     (lsp-mode-line))
                           ""))) ;; language server status

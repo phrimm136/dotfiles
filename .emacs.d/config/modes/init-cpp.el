@@ -7,7 +7,7 @@
 
 (leaf modern-cpp-font-lock
   :straight t
-  :config (progn (modern-c++-font-lock-global-mode)))
+  :hook (c++-mode-hook . modern-c++-font-lock-mode))
 
 
 ;;; init-cpp.el ends here

@@ -26,19 +26,6 @@
                          'company-cmake)))
 
 
-;;; linting cmake files
-
-(leaf cmake-compile-commands
-  :straight (cmake-compile-commands :type git
-                                    :host github
-                                    :repo "xwl/cmake-compile-commands"))
-
-(leaf flycheck-cmake
-  :straight (flycheck-cmake :type git
-                            :host github
-                            :repo "xwl/flycheck-cmake"))
-
-
 ;;; c/++ common style
 
 (setq c-default-style "bsd"
@@ -75,6 +62,19 @@
 
 (require 'dap-lldb)
 (setq dap-lldb-debugged-program-function 'cmake-ide-find-exe-files)
+
+
+;;; linting with cmake
+
+(leaf cmake-compile-commands
+  :straight (cmake-compile-commands :type git
+                                    :host github
+                                    :repo "xwl/cmake-compile-commands"))
+
+(leaf flycheck-cmake
+  :straight (flycheck-cmake :type git
+                            :host github
+                            :repo "xwl/flycheck-cmake"))
 
 
 ;;; static analysis with clang

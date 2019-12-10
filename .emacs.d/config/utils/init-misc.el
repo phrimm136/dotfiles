@@ -40,4 +40,14 @@
     "n" 'narrow))
 
 
+;;; smooth scrolling
+
+(setq redisplay-dont-pause t
+      scroll-margin 1
+      scroll-step 1
+      scroll-conservatively 10000
+      scroll-preserve-screen-position 1
+      mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
+
 ;;; init-misc.el ends here
