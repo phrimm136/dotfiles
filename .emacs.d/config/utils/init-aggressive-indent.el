@@ -5,7 +5,7 @@
 
 (leaf aggressive-indent
   :straight t
-  :hook ((emacs-lisp-mode-hook) . aggressive-indent-mode))
+  :hook ((prog-mode-hook) . aggressive-indent-mode))
 
 
 ;;; init-aggressive-indent.el ends here

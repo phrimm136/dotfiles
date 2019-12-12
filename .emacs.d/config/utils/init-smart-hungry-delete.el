@@ -8,8 +8,7 @@
   :leaf-defer nil
   :config (progn (smart-hungry-delete-add-default-hooks))
   :bind ((:evil-insert-state-map
-          ("<backspace>" . smart-hungry-delete-backward-char)
-          ("<delete>" . smart-hungry-delete-forward-char))))
+          ("S-<backspace>" . smart-hungry-delete-backward-char))))
 
 
 ;;; init-smart-hungry-delete.el ends here
