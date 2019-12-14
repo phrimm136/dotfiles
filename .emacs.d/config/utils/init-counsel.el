@@ -23,7 +23,6 @@
 
 (leaf ivy
   :straight t
-  :leaf-defer nil
   :setq ((ivy-wrap . t)
          (ivy-re-builders-alist . '((swiper . ivy--regex)
                                     (t . ivy--regex-fuzzy)))
@@ -42,7 +41,6 @@
 
 (leaf ivy-rich
   :straight t
-  :after ivy
   :config (progn (ivy-rich-mode 1)))
 
 

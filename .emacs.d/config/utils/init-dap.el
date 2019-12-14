@@ -5,7 +5,6 @@
 
 (leaf dap-mode
   :straight t
-  :leaf-defer nil
   :hook (lsp-mode . (dap-mode dap-ui-mode dap-tooltip-mode))
   :config (progn (dap-mode 1)
                  (dap-ui-mode 1)

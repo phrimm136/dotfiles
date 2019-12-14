@@ -38,11 +38,12 @@
 
 ;;; connect language server to jupyter-notebook
 
-(add-to-list 'lsp-language-id-configuration '(ein:notebook-python-mode . "ein:notebook-python"))
-(add-to-list 'lsp-language-id-configuration '(ein:notebook-multilang-mode . "ein:notebook-multilang"))
-(lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
-                                      :major-modes '(ein:notebook-python-mode ein:notebook-multilang-mode python-mode)
-                                      :server-id 'pyls))
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-language-id-configuration '(ein:notebook-python-mode . "ein:notebook-python"))
+  (add-to-list 'lsp-language-id-configuration '(ein:notebook-multilang-mode . "ein:notebook-multilang"))
+  (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection "pyls")
+                                        :major-modes '(ein:notebook-python-mode ein:notebook-multilang-mode python-mode)
+                                        :server-id 'pyls)))
 
 
 ;;; keymap

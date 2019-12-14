@@ -10,7 +10,8 @@
 
 ;;; python debug adapter
 
-(require 'dap-python)
+(with-eval-after-load 'dap-mode
+  (require 'dap-python))
 
 
 ;;; additional linters
@@ -38,17 +39,16 @@
 ;;; pip in emacs
 
 (leaf pippel
-  :straight t
+  :straight (pippel :files ("pippel.el" "pippel.py"))
   :config (progn ()))
 
 (leaf pip-requirements
   :straight t)
 
 
-;;; code style
+;;; Stop spamming
 
-(setq python-indent-offset 4
-      python-indent-guess-indent-offset nil)
+(setq python-indent-guess-indent-offset nil)
 
 
 ;; keymaps
