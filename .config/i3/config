@@ -31,7 +31,7 @@ exec --no-startup-ed birdtray
 exec --no-startup-id xset r rate 250 40
 
 # start a terminal
-bindsym $super+Return exec termite -e 'zsh -c "neofetch && zsh"'
+bindsym $super+Return exec termite
 # bindsym $super+Shift+Return exec termite --title floating
 
 # start a launcher or menu
@@ -139,7 +139,7 @@ bindsym $super+Shift+q exec ~/.config/rofi/menu/powermenu.sh
 
 # modify window settings
 mode "modify" {
-	# resize window (you can also use the mouse for that)
+    # resize window (you can also use the mouse for that)
     bindsym Left resize shrink width 5 px
     bindsym Down resize grow height 5 px
     bindsym Up resize shrink height 5 px
@@ -148,18 +148,18 @@ mode "modify" {
     bindsym j resize grow height 5 px
     bindsym k resize shrink height 5 px
     bindsym l resize grow width 5 px
-	bindsym Escape mode "default"
+    bindsym Escape mode "default"
     bindsym Return mode "default"
-	# split in horizontal orientation
-	bindsym h split h
-	# split in vertical orientation
-	bindsym v split v
-	# enter fullscreen mode for the focused container
-	bindsym f fullscreen toggle
-	# change container layout split
-	bindsym s layout toggle split
-	# toggle tiling / floating
-	bindsym space floating toggle
+    # split in horizontal orientation
+    bindsym h split h
+    # split in vertical orientation
+    bindsym v split v
+    # enter fullscreen mode for the focused container
+    bindsym f fullscreen toggle
+    # change container layout split
+    bindsym s layout toggle split
+    # toggle tiling / floating
+    bindsym space floating toggle
 }
 bindsym $super+w mode "modify"
 
@@ -191,7 +191,7 @@ bindsym $super+w mode "modify"
 #    active_workspace	#2f343f	#2f343f	#d8dee8
 #    inactive_workspace	#2f343f	#2f343f	#d8dee8
 #    urgent_workspace	#2f343f	#ebcb06	#2f343f
-#    }	
+#    }
 #}
 
 # window rules, you can find the window class using xprop
@@ -208,10 +208,10 @@ for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp* title="^
 default_orientation horizontal
 for_window [class="^.*"] split toggle # fibonacci tilting as default
 for_window [class="^.*"] border pixel 0
-# class		            		border	backgr.	text	indica.	child_border
-client.focused      			#585858 #2f343f #d8dee8 #ffffff #585858
+# class	                    	border	backgr.	text	indica.	child_border
+client.focused              	#585858 #2f343f #d8dee8 #ffffff #585858
 client.focused_inactive	        #2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.unfocused	        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.urgent		        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.placeholder	        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent	            	#2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder	            #2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.background               #2f343f
