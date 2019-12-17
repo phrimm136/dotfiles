@@ -94,10 +94,10 @@ zplug load
 export ARCHFLAGS="-arch x86_64"
 
 # support 256 colors in terminal emulator
-export TERM=xterm-256color
+export TERM=screen-256color
 
 # powerlevel10k custom
-# based on https://gitlab.com/shanedora/arch_i3gaps_beach/blob/master/my_zshrc 
+# based on https://gitlab.com/shanedora/arch_i3gaps_beach/blob/master/my_zshrc
 # and default theme of https://github.com/romkatv/powerlevel10k.
 
 typeset -g POWERLEVEL9K_MODE='nerdfont-complete'
@@ -167,7 +167,7 @@ typeset -g POWERLEVEL9K_HISTORY_FOREGROUND=8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias a='clear'
-alias c='vim ~/.zshrc'
+alias c='nvim ~/.zshrc'
 alias h='htop'
 alias j='julia'
 alias n='neofetch'
