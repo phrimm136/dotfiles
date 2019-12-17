@@ -10,7 +10,7 @@
                    "k" 'magit-section-backward
                    "<escape>" 'nil)
                  (evil-leader/set-key
-                   "a" 'magit-status)))
+                   "m" 'magit-status)))
 
 
 ;;; remote repo control
