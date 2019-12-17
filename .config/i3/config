@@ -31,7 +31,7 @@ exec --no-startup-ed birdtray
 exec --no-startup-id xset r rate 250 40
 
 # start a terminal
-bindsym $super+Return exec termite
+bindsym $super+Return exec termite -e "zsh -c 'neofetch && zsh'"
 # bindsym $super+Shift+Return exec termite --title floating
 
 # start a launcher or menu
