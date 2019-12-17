@@ -56,15 +56,12 @@
     (length (format-mode-line line))))
 
 (defvar mode-line-align-left ;; file status
-  '((:properlize " %* ") ;; buffer R/W state - modified / read only / saved
-    (:properlize " %b ") ;; file name
+  '((:properlize " %b ") ;; file name
     (:properlize (:eval (if (bound-and-true-p vc-mode)
-                            (concat " Git: " (substring vc-mode 5) " ")
+                            (concat " Git:" (substring vc-mode 5) " ")
                           ""))) ;; version control system; need to show more information.
-    ))
-
-(defvar mode-line-align-middle ;; 3rd parth package states
-  '((:properlize evil-mode-line-tag) ;; evil state
+    (:properlize " %* ") ;; buffer R/W state - modified / read only / saved
+    (:properlize evil-mode-line-tag) ;; evil state
     (:properlize (:eval (if (bound-and-true-p flycheck-mode)
                             flycheck-mode-line
                           ""))) ;; flycheck errors
@@ -82,11 +79,13 @@
                           ""))) ;; iedit candidates
     (:properlize (:eval (custom-evil-region-line-number)))))
 
+(defvar mode-line-align-middle ;; 3rd parth package states
+  '())
+
 (defvar mode-line-align-right ;; editing status
   '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
-                              (t (concat " %Ib " ;; file size
-                                         " %4l : %3c " ;; cursor position - row : column
-                                         " %6p " ;; percentage of the buffer text above the top of the window
+                              (t (concat " %l : %c " ;; cursor position - row : column
+                                         " %p / %Ib " ;; percentage of the buffer text above the top of the window / file size
                                          (let ((encoding (coding-system-plist buffer-file-coding-system)))
                                            (cond ((memq (plist-get encoding :category)
                                                         '(coding-category-undecided coding-category-utf-8))
