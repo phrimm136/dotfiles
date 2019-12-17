@@ -5,8 +5,7 @@
 ;;; autostart
 
 (leaf clojure-mode
-  :straight t
-  :hook (clojure-mode-hook . cider-jack-in))
+  :straight t)
 
 
 ;;; colorful parenthesis
@@ -22,11 +21,18 @@
   (add-to-list 'lsp-language-id-configuration '(clojure-mode . "clojure-mode")))
 
 
+;;; cider - homland of clojure
+
+(leaf cider
+  :straight t
+  :hook (clojure-mode-hook . cider-mode))
+
+
 ;;; linter
 
 (leaf flycheck-clojure
   :straight t
-  :after flycheck clojure-mode
+  :after flycheck
   :config (progn (flycheck-clojure-setup)))
 
 (add-hook 'cider-mode-hook
@@ -66,6 +72,7 @@
   (let ((map (make-sparse-keymap)))
     (define-key map "c" 'clojure-repl)
     (define-key map "d" 'clojure-debug)
+    (define-key map "r" 'cider-jack-in)
     map))
 (defalias 'clojure custom-clojure-keymap)
 
