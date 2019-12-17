@@ -9,10 +9,4 @@
   :straight t)
 
 
-;;; language server
-
-(leaf lsp-yaml
-  :after lsp)
-
-
 ;;; init-yaml.el ends here

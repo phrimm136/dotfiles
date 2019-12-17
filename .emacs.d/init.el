@@ -38,14 +38,14 @@
 (defvar utils-path (expand-file-name "config/utils" user-emacs-directory))
 (defvar modes-path (expand-file-name "config/modes" user-emacs-directory))
 (defvar term-path (expand-file-name "config/term" user-emacs-directory))
-(defvar ui-path (expand-file-name "config/ui" user-emacs-directory))
+(defvar visual-path (expand-file-name "config/visual" user-emacs-directory))
 
 (load-theme 'black t)
 (load-directory base-path)
 (load-directory utils-path)
 (load-directory modes-path)
 (load-directory term-path)
-(load-directory ui-path)
+(load-directory visual-path)
 
 
 (kill-buffer "*scratch*")
