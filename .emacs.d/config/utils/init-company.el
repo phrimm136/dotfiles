@@ -6,7 +6,7 @@
 (leaf company
   :straight t
   :leaf-defer nil
-  :hook ((prog-mode-hook org-mode-hook) . company-mode)
+  :hook (((prog-mode-hook org-mode-hook) . company-mode))
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
          (company-backends . '(company-files
@@ -17,7 +17,6 @@
                                company-dabbrev))
          (company-echo-truncate-lines . t)
          (company-tooltip-align-annotations . t))
-  :config ()
   :bind (:company-active-map
          ("<tab>" . company-complete)))
 
@@ -30,13 +29,12 @@
 
 (leaf company-math
   :straight t
-  :after company
   :config (progn (add-to-list 'company-backends 'company-math-symbols-unicode)))
 
 
 (leaf company-lsp
   :straight t
-  :after company lsp
+  :after lsp
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
@@ -51,12 +49,10 @@
 ;;          (pos-tip-foreground-color . "#ffffff")))
 
 
-;; (leaf company-box
-;;   :straight t
-;;   :after company
-;;   :hook (company-mode-hook . company-box-mode)
-;;   :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)
-;;          (company-box-show-single-candidate . t)))
+(leaf company-box
+  :straight t
+  :hook (company-mode-hook . company-box-mode)
+  :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)))
 
 
 ;;; init-company.el ends here

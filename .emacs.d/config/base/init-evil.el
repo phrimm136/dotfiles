@@ -7,14 +7,14 @@
   :straight t
   :init (setq evil-want-keybinding nil)
   :config (progn (evil-mode 1)
-                 (evil-define-key 'normal 'global
-                   "\C-j" 'forward-sexp
-                   "\C-k" 'backward-sexp)
                  ;; minibuffer keymap custom
                  (define-key minibuffer-local-map
                    "\C-j" 'next-line-or-history-element)
                  (define-key minibuffer-local-map
-                   "\C-k" 'previous-line-or-history-element)))
+                   "\C-k" 'previous-line-or-history-element))
+  :bind ((:evil-insert-state-map
+          ("C-k" . nil) ; conflict with other ^k bindings
+          )))
 
 
 (leaf evil-collection
@@ -127,7 +127,7 @@
 
 (leaf evil-quickscope
   :straight t
-  :config (global-evil-quickscope-always-mode 1))
+  :hook ((prog-mode-hook org-mode-hook text-mode-hook) . evil-quickscope-always-mode))
 
 
 ;;; init-evil.el ends here
