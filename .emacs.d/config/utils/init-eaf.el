@@ -29,7 +29,8 @@
                  :repo "manateelazycat/emacs-application-framework"
                  :files ("app" "core" "eaf.py" "eaf.el"))
   :init (require 'eaf)
-  :setq ((eaf-find-alternate-file-in-dired . t)))
+  :setq ((eaf-find-alternate-file-in-dired . t))
+  :config (progn (evil-set-initial-state 'eaf-mode 'emacs)))
 
 
 (provide 'init-eaf)
