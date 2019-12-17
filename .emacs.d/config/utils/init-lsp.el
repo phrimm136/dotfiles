@@ -23,7 +23,7 @@
          (lsp-ui-imenu-mode-hook . (lambda ()
                                      (with-current-buffer "*lsp-ui-imenu*"
                                        (setq-local face-remapping-alist
-                                                   `((default . (:background "#121212"))))))))
+                                                   `((default . (:background "#181818"))))))))
   :setq ((lsp-ui-doc-enable . t)
          (lsp-ui-doc-header . t)
          (lsp-ui-doc-delay . 0.5)

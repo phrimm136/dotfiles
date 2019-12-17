@@ -8,14 +8,13 @@
   :hook (treemacs-mode-hook . (lambda ()
                                 (with-current-buffer (treemacs-get-local-buffer)
                                   (setq-local face-remapping-alist
-                                              '((default . (:background "#121212")))))))
+                                              '((default . (:background "#181818")))))))
   :setq ((treemacs-defered-git-apply-delay . 0)
          (treemacs-file-follow-delay . 2)
          (treemacs-show-cursor . nil)
          (treemacs-silent-filewatch . t)
          (treemacs-silent-refresh . t))
-  :config (progn (treemacs-resize-icons 12)
-                 (declare counsel-M-x "init.counsel.el" (&optional iniial-input)))
+  :config (progn (treemacs-resize-icons 12))
   :bind ((:evil-normal-state-map
           ("C-<tab>" . treemacs))
          (:treemacs-mode-map
