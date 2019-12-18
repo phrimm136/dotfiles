@@ -40,12 +40,12 @@
 (defvar term-path (expand-file-name "config/term" user-emacs-directory))
 (defvar visual-path (expand-file-name "config/visual" user-emacs-directory))
 
-(load-theme 'black t)
 (load-directory base-path)
 (load-directory utils-path)
 (load-directory modes-path)
 (load-directory term-path)
 (load-directory visual-path)
+(load-theme 'black t)
 
 
 (kill-buffer "*scratch*")
