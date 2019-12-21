@@ -42,6 +42,9 @@
   :straight (pippel :files ("pippel.el" "pippel.py"))
   :config (progn ()))
 
+
+;;; make editing requirements.txt convenient
+
 (leaf pip-requirements
   :straight t)
 

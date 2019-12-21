@@ -56,8 +56,9 @@
   :after org)
 
 ;;; To use virtual env with emacs-jupyter. make a venv kernel by typing
-;;; /path/to/virtualenv/bin/python -m ipykernel install --name proper-name --display-name proper-display-name
-;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel
+;;; /path/to/virtualenv/bin/python -m ipykernel install --name proper-name --display-name proper-display-name --user
+;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel.
+;;; Or you can choose the kernel with :kernel block parameter.
 
 (leaf ox-ipynb
   :straight (ox-ipynb :type git
