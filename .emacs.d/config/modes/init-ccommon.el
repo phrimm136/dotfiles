@@ -14,7 +14,7 @@
 
 (leaf cmake-mode
   :straight t
-  :mode ("CMakeLists.txt" . cmake-mode)
+  :mode (("CMakeLists.txt" . cmake-mode))
   :init (setq cmake-tab-width 4))
 
 
@@ -36,7 +36,7 @@
   :config (progn (setq clang-format-style "Microsoft")))
 (leaf clang-format+
   :straight t
-  :hook (c-mode-common-hook . clang-format+-mode)
+  :hook ((c-mode-common-hook . clang-format+-mode))
   :config (progn (setq clang-format+-offset-modified-region 4)))
 
 
@@ -114,6 +114,7 @@
                                           (cmake-ide-setup))))))))
 
 (defun cmake-ide-compdb ()
+  "Make compile_commands.json for non-cmake projects."
   (interactive)
   (shell-command (concat "compdb -p "
                          (cide--build-dir)
@@ -121,14 +122,8 @@
                          (cide--locate-project-dir)
                          "compile_commands.json")))
 
-(defun cmake-ide-compile* ()
-  (interactive)
-  (let ((old-pw default-directory))
-    (cd (cide--build-dir))
-    (call-interactively 'compile)
-    (cd old-pw)))
-
 (defun cmake-ide-delete-build-dir ()
+  "Delete build directory in a cmake-ide project."
   (interactive)
   (let ((dir-name (cide--build-dir)))
     (when (yes-or-no-p (format "Delete directory %s ?" dir-name))
@@ -143,6 +138,7 @@
 
 ;; restore current layout when exiting gdb - https://stackoverflow.com/a/41326527
 (defun set-gdb-layout(&optional c-buffer)
+  "Layout for gdb."
   (if (not c-buffer)
       (setq c-buffer (window-buffer (selected-window)))) ;; save current buffer
   ;; from http://stackoverflow.com/q/39762833/846686
@@ -183,6 +179,7 @@
 ;;; cmake-ide + gdb/exec.
 
 (defun run-process-in-comint (cmd)
+  "Run CMD with comint."
   (let* ((name (format "Process: %s" cmd))
          (buf (set-buffer (generate-new-buffer name)))
          (proc nil)
@@ -201,6 +198,7 @@
     proc))
 
 (defun cmake-ide-find-exe-files ()
+  "Find executable files in a cmake-ide project."
   (interactive)
   (let* ((exec-files (seq-filter 'file-executable-p
                                  (directory-files-recursively (cide--locate-project-dir)
@@ -217,6 +215,7 @@
     (cons nearest exec-files)))
 
 (defun cmake-ide-run-gdb ()
+  "Debug a file with gdb in a cmake-ide project."
   (interactive)
   (ivy-read "Executable file to debug"
             (cmake-ide-find-exe-files)
@@ -224,6 +223,7 @@
                       (gdb (concat gud-gdb-command-name " " sel)))))
 
 (defun cmake-ide-run-exe ()
+  "Run a executable file in a camke-ide project."
   (interactive)
   (ivy-read "Executable file"
             (cmake-ide-find-exe-files)
@@ -236,8 +236,9 @@
 (leaf disaster
   :straight t)
 
-(defun cmake-ide-objdump-disaster (file-name)
-  (let* ((objdump-cmd (format "%s %s" disaster-objdump (shell-quote-argument file-name)))
+(defun cmake-ide-objdump-disaster (file)
+  "Dump FILE with disaster."
+  (let* ((objdump-cmd (format "%s %s" disaster-objdump (shell-quote-argument file)))
          (buf (set-buffer (generate-new-buffer objdump-cmd))))
     (shell-command objdump-cmd buf)
     (read-only-mode)
@@ -246,6 +247,7 @@
     (switch-to-buffer-other-window buf)))
 
 (defun cmake-ide-find-obj-files ()
+  "Find object files in a cmake-ide project."
   (interactive)
   (let* ((exec-files (seq-filter 'file-readable-p
                                  (directory-files-recursively
@@ -259,6 +261,7 @@
     (mapcar 'car distances)))
 
 (defun cmake-ide-objdump ()
+  "Dump a object file in a cmake-ide project."
   (interactive)
   (ivy-read "Object file to objdump"
             (cmake-ide-find-obj-files)
