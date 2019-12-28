@@ -7,7 +7,7 @@
 
 (leaf hide-mode-line
   :straight t
-  :hook ((dired-mode-hook org-agenda-mode-hook) . hide-mode-line-mode))
+  :hook ((org-agenda-mode-hook) . hide-mode-line-mode))
 
 
 ;;; attributes

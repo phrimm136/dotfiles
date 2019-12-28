@@ -10,6 +10,8 @@
   :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
          (lsp-prefer-flymake . nil)
+         (lsp-auto-configure . nil)
+         (lsp-enable-indentation . nil)
          (lsp-log-io . nil)
          (lsp-json-use-lists . nil)))
 
