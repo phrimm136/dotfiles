@@ -18,19 +18,14 @@
                        ein:jupyter-server-use-subcommand "lab")
                  ;; auto start ein when opening notebooks
                  (defun ein:run-with-file-open ()
-                   (let ((buffer (current-buffer))
-                         (venv (concat (file-name-directory buffer-file-name)
-                                       "venv/bin/jupyter")))
-                     (ein:jupyter-server-start (if (file-exists-p venv)
-                                                   venv
-                                                 "/usr/bin/jupyter")
-                                               (file-name-directory buffer-file-name)
-                                               nil)
-                     (ein:notebook-open ein:default-url-or-port
-                                        (buffer-name)
-                                        (ein:get-kernelspec ein:default-url-or-port
-                                                            buffer-file-name))
-                     (kill-buffer buffer)))
+                   (ein:jupyter-server-start "/usr/bin/jupyter"
+                                             (file-name-directory buffer-file-name)
+                                             nil)
+                   (ein:notebook-open ein:default-url-or-port
+                                      (buffer-name)
+                                      (ein:get-kernelspec ein:default-url-or-port
+                                                          buffer-file-name))
+                   (kill-buffer buffer))
                  (add-hook 'ein:ipynb-mode-hook 'ein:run-with-file-open)
                  (delete 'ein:company-backend company-backends) ; prevent from duplicate backends and breaking locality
                  ))
