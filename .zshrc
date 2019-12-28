@@ -182,7 +182,10 @@ alias ff='fasd -l | fzf'
 alias pp='sudo powerpill'
 alias lsa='ls -a'
 alias mtu='sudo ip link set wlp3s0 mtu'
+alias mnt='udisksctl mount -b /dev/sdb1'
+alias umnt='udisksctl unmount -b /dev/sdb1'
 
+# aliases for directories
 hash -d c=~/.config
 hash -d usb=/media/usb
 
