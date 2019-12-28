@@ -8,6 +8,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'mkitt/tabline.vim'
 Plug 'chrisbra/unicode.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
@@ -45,3 +46,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" clipboad integration
+set clipboard+=unnamedplus
