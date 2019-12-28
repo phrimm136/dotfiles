@@ -7,16 +7,16 @@
 
 (leaf counsel
   :straight t
-  :config (progn (evil-define-key 'normal 'global
-                   (kbd "C-SPC") 'counsel-M-x)))
+  :bind ((:evil-normal-state-map
+          ("C-SPC" . counsel-M-x))))
 
 
 ;;; swiper
 
 (leaf swiper
   :straight t
-  :config (progn (evil-define-key 'normal 'global
-                   "\C-s" 'swiper)))
+  :bind ((:evil-normal-state-map
+          ("C-s" . swiper))))
 
 
 ;;; ivy
@@ -34,7 +34,10 @@
           ("C-k" . ivy-previous-line))
          (:ivy-minibuffer-map
           ("C-j" . ivy-next-line)
-          ("C-k" . ivy-previous-line))))
+          ("C-k" . ivy-previous-line))
+         (:minibuffer-local-map
+          ("C-j" . next-line-or-history-element)
+          ("C-k" . previous-line-or-history-element))))
 
 
 ;;; more information for ivy
@@ -42,6 +45,12 @@
 (leaf ivy-rich
   :straight t
   :config (progn (ivy-rich-mode 1)))
+
+
+;;; hydra keymap for ivy
+
+(leaf ivy-hydra
+  :straight t)
 
 
 ;;; keymap
