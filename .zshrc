@@ -62,19 +62,25 @@ HIST_STAMPS="yyyy/mm/dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    alias-tips
+    extract
+    fzf-zsh
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-completions
+    zsh-autopair
+    # git
+    git
+    # docker
+    docker
+    # tmux
+    tmux
+    # python
+    zsh-pip-completion
+)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zplug/init.zsh
-
-# Zplug run
-
-zplug "wting/autojump"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting"
-
-zplug check || zplug install
-zplug load
 
 # User configuration
 
@@ -89,6 +95,12 @@ zplug load
 # else
 #   export EDITOR='mvim'
 # fi
+
+# Add ~/.local/bin to PATH
+local userbin="$HOME/.local/bin"
+if ! [[ $PATH =~ $userbin ]]; then
+    export PATH=$userbin:$PATH
+fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -176,20 +188,29 @@ alias q='exit'
 alias r='source ~/.zshrc'
 alias t='sudo ntpdate -u time.nist.gov'
 alias v='nvim'
-alias x='xcape -t 150 -e "Control_L=Escape"'
+alias xc='xcape -t 150 -e "Control_L=Escape"'
 alias y='yay --pacman powerpill'
 alias ff='fasd -l | fzf'
 alias pp='sudo powerpill'
-alias lsa='ls -a'
 alias mtu='sudo ip link set wlp3s0 mtu'
 alias mnt='udisksctl mount -b /dev/sdb1'
 alias umnt='udisksctl unmount -b /dev/sdb1'
 
 # aliases for directories
 hash -d c=~/.config
-hash -d usb=/media/usb
+hash -d usb=~/media/usb
 
 # texlive path configuration
-export PATH=/usr/local/texlive/2019/bin/x86_64-linux:$PATH
-export MANPATH=/usr/local/texlive/2019/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2019/texmf-dist/doc/info:$INFOPATH
+local texpath="/usr/local/texlive/2019/bin/x86_64-linux"
+local texmanpath="/usr/local/texlive/2019/texmf-dist/doc/man"
+local texinfopath="/usr/local/texlive/2019/texmf-dist/doc/info"
+
+if ! [[ $PATH =~ $texpath ]]; then
+    export PATH=$texpath:$PATH
+fi
+if ! [[ $PATH =~ $texmanpath ]]; then
+    export MANPATH=$texmanpath:$MANPATH
+fi
+if ! [[ $PATH =~ $texinfopath ]]; then
+    export INFOPATH=$texinfopath:$INFOPATH
+fi
