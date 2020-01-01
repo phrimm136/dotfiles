@@ -96,6 +96,7 @@
    `(which-key-key-face ((,class (:foreground ,fg1))))
    `(which-key-group-description-face ((,class (:foreground ,dir))))
    `(which-key-command-description-face ((,class (:foreground ,etc1))))
+   `(which-key-posframe ((,class (:inherit fringe))))
    `(org-code ((,class (:foreground ,fg1))))
    `(org-hide ((,class (:foreground ,fg4))))
    `(org-level-1 ((,class (:bold t :foreground ,fg2 :height 1.1))))
