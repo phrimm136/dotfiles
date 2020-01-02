@@ -38,7 +38,7 @@
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
-  :config ())
+  :config (progn (push 'company-lsp company-backends)))
 
 
 ;; (leaf company-quickhelp

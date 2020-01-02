@@ -5,13 +5,14 @@
 
 (leaf lsp-mode
   :straight t
-  :after flycheck eldoc
+  :after flycheck
   :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
          (lsp-prefer-flymake . nil)
          (lsp-auto-configure . nil)
          (lsp-enable-indentation . nil)
+         (lsp-eldoc-render-all . nil)
          (lsp-log-io . nil)
          (lsp-json-use-lists . nil)))
 
@@ -27,8 +28,8 @@
                                        (setq-local face-remapping-alist
                                                    `((default . (:background "#181818"))))))))
   :setq ((lsp-ui-doc-enable . t)
-         (lsp-ui-doc-header . t)
-         (lsp-ui-doc-delay . 0.5)
+         (lsp-ui-doc-header . nil)
+         (lsp-ui-doc-delay . 0.1)
          (lsp-ui-doc-position . 'at-point)
          (lsp-ui-doc-border . "black")
          (lsp-ui-doc-use-childframe . t)
@@ -40,7 +41,7 @@
          (lsp-ui-sideline-show-hover . t)
          (lsp-ui-sideline-update-mode . 'line)
          (lsp-ui-sideline-show-diagnostics . t)
-         (lsp-ui-sideline-display . 1)
+         (lsp-ui-sideline-display . 0.5)
          (lsp-ui-flycheck-enable . t)
          (lsp-ui-imenu-kind-position . 'left))
   :bind ((:lsp-ui-peek-mode-map
