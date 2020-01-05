@@ -38,7 +38,7 @@
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
-  :config (progn (push 'company-lsp company-backends)))
+  :config (progn (add-to-list 'company-backends 'company-lsp)))
 
 
 ;; (leaf company-quickhelp
@@ -49,10 +49,10 @@
 ;;          (pos-tip-foreground-color . "#ffffff")))
 
 
-(leaf company-box
-  :straight t
-  :hook (company-mode-hook . company-box-mode)
-  :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)))
+;; (leaf company-box
+;;   :straight t
+;;   :hook (company-mode-hook . company-box-mode)
+;;   :setq ((company-box-icons-alist . 'company-box-icons-all-the-icons)))
 
 
 ;;; init-company.el ends here
