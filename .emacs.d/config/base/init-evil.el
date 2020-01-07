@@ -14,7 +14,22 @@
 
 (leaf evil-collection
   :straight t
-  :config (evil-collection-init))
+  :config (progn (evil-collection-init '(ag
+                                         calender
+                                         comint
+                                         company
+                                         compile
+                                         dired
+                                         docker
+                                         eshell
+                                         flycheck
+                                         ivy
+                                         lsp-ui-imenu
+                                         magit
+                                         magit-todos
+                                         man
+                                         which-key
+                                         xref))))
 
 
 (leaf evil-leader
@@ -121,7 +136,7 @@
   "6" '2C-command
   "8" 'iso-transl-ctl-x-8-map
   "c" 'evil-exchange
-  "C" 'evil-exchange-cancle
+  "C" 'evil-exchange-cancel
   "e" 'evil-multiedit
   "h" 'help-command
   "q" 'save-buffers-kill-terminal
