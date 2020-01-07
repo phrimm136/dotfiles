@@ -53,7 +53,7 @@
                                                     (lambda (cand) (get-buffer cand)))
                                                    counsel-M-x
                                                    (:columns
-                                                    ((counsel-M-x-transformer (:width 35))
+                                                    ((counsel-M-x-transformer (:width 75))
                                                      (ivy-rich-counsel-function-docstring (:width 94 :face font-lock-doc-face))))
                                                    counsel-describe-function
                                                    (:columns
@@ -80,7 +80,8 @@
          (ivy-posframe-height-alist . '((t . 15)))
          (ivy-posframe-parameters . '((internal-border-width . 0)
                                       (left-fringe . 8)
-                                      (right-fringe . 8))))
+                                      (right-fringe . 8)))
+         (ivy-posframe-width . 170))
   :config (progn (ivy-posframe-mode 1)))
 
 

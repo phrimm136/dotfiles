@@ -26,13 +26,13 @@
 (straight-use-package 'bind-key)
 
 
-;; Set load pathes and load configures.
-(eval-and-compile
-  (defun load-directory (dir)
-    "Load all Emacs Lisp files in DIR."
-    (let ((load-it (lambda (f)
-		     (load-file (concat (file-name-as-directory dir) f)))))
-      (mapc load-it (directory-files dir nil "\\.el$")))))
+;;; Set load pathes and load configures.
+
+(defun load-directory (dir)
+  "Load all Emacs Lisp files in DIR."
+  (let ((load-it (lambda (f)
+		   (load-file (concat (file-name-as-directory dir) f)))))
+    (mapc load-it (directory-files dir nil "\\.el$"))))
 
 (defvar base-path (expand-file-name "config/base" user-emacs-directory))
 (defvar utils-path (expand-file-name "config/utils" user-emacs-directory))
@@ -50,7 +50,7 @@
 
 (kill-buffer "*scratch*")
 (kill-buffer "*Messages*")
-;; To hook functions to message buffer correctly, I had to kill it ans leave it opened again.
+;; To hook functions to message buffer correctly, I had to kill it and leave it opened again.
 ;; Weird method, losing startup log but simple.
 
 

@@ -127,7 +127,7 @@ song_status_format = "{(%l) }{%a - }{%t}|{%f}"
 #
 #fancy_scrolling = "yes"
 #
-#follow_now_playing_lyrics = "no"
+follow_now_playing_lyrics = "yes"
 #
 #ncmpc_like_songs_adding = "no" (enabled - add/remove, disabled - always add)
 #
