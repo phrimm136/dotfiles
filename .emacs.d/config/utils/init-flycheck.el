@@ -5,7 +5,7 @@
 
 (leaf flycheck
   :straight t
-  :hook (prog-mode-hook . flycheck-mode)
+  :hook ((prog-mode-hook . flycheck-mode))
   :setq ((flycheck-errors-function . nil)
          (flycheck-idle-change-delay . 0.1)
          (flycheck-display-errors-delay . 0.1))
@@ -25,8 +25,7 @@
                                                  (setf (quick-peek-overlay-contents ov)
                                                        (concat contents (when contents "\n") msg))
                                                  (quick-peek-update ov))))
-         (flycheck-inline-clear-function 'quick-peek-hide))
-  :config ())
+         (flycheck-inline-clear-function 'quick-peek-hide)))
 (add-hook 'emacs-lisp-mode-hook 'flycheck-inline-mode)
 
 
@@ -35,14 +34,6 @@
 (leaf flycheck-indicator
   :straight t
   :config (flycheck-indicator-mode))
-
-
-;;; spelling check
-
-(leaf flycheck-aspell
-  :straight (flycheck-aspell :type git
-                             :host github
-                             :repo "leotaku/flycheck-aspell"))
 
 
 ;;; keymap
