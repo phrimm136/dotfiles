@@ -65,7 +65,7 @@ HIST_STAMPS="yyyy/mm/dd"
 plugins=(
     alias-tips
     extract
-    fzf-zsh
+    fzf
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-completions
@@ -168,6 +168,12 @@ typeset -g POWERLEVEL9K_ROOT_INDICATOR_BACKGROUND=none
 typeset -g POWERLEVEL9K_HISTORY_BACKGROUND=none
 typeset -g POWERLEVEL9K_HISTORY_FOREGROUND=8
 
+# Set fzf installation directory path
+export FZF_BASE=/usr/bin/fzf
+# Uncomment the following line to disable fuzzy completion
+export DISABLE_FZF_AUTO_COMPLETION="true"
+# Uncomment the following line to disable key bindings (CTRL-T, CTRL-R, ALT-C)
+#export DISABLE_FZF_KEY_BINDINGS="true"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -206,11 +212,11 @@ local texmanpath="/usr/local/texlive/2019/texmf-dist/doc/man"
 local texinfopath="/usr/local/texlive/2019/texmf-dist/doc/info"
 
 if ! [[ $PATH =~ $texpath ]]; then
-    export PATH=$texpath:$PATH
+    export PATH="$texpath:$PATH"
 fi
 if ! [[ $PATH =~ $texmanpath ]]; then
-    export MANPATH=$texmanpath:$MANPATH
+    export MANPATH="$texmanpath:$MANPATH"
 fi
 if ! [[ $PATH =~ $texinfopath ]]; then
-    export INFOPATH=$texinfopath:$INFOPATH
+    export INFOPATH="$texinfopath:$INFOPATH"
 fi
