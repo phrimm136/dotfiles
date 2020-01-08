@@ -31,7 +31,7 @@
 
 (leaf dired-ranger
   :straight t
-  :config (progn (evil-define-key 'normal 'dired-mode-map
+  :config (progn (evil-define-key 'normal dired-mode-map
                    "C" 'dired-ranger-copy
                    "P" 'dired-ranger-paste
                    "M" 'dired-ranger-move)))
@@ -48,8 +48,9 @@
 
 (leaf dired-git-info
   :straight t
-  :hook ((dired-after-readin-hook . dired-git-info-auto-enable))
-  :setq ((dgi-auto-hide-details-p . nil)))
+  :setq ((dgi-auto-hide-details-p . nil))
+  :config (progn (evil-define-key 'normal dired-mode-map
+                   ")" 'dired-git-info-mode)))
 
 
 ;;; init-dired.el ends here
