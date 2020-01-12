@@ -85,7 +85,6 @@
    `(isearch ((,class (:bold t :foreground ,bg1 :background ,fg1))))
    `(ivy-current-match ((,class (:extend t :foreground ,bg1 :background ,fg1))))
    `(ivy-org ((,class (:extend t :inherit org-level-3))))
-   `(ivy-posframe ((,class (:inherit fringe))))
    `(swiper-line-face ((,class (:extend t :inherit highlight))))
    `(mode-line ((,class (:bold t :foreground ,fg1 :background ,bg3))))
    `(mode-line-inactive ((,class (:foreground ,fg3 :background ,bg2 :weight normal))))
