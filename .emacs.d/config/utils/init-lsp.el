@@ -14,7 +14,8 @@
          (lsp-enable-indentation . nil)
          (lsp-eldoc-render-all . nil)
          (lsp-log-io . nil)
-         (lsp-json-use-lists . nil)))
+         (lsp-json-use-lists . nil)
+         (lsp-signature-auto-activate . nil)))
 
 
 ;;; ui
@@ -27,7 +28,7 @@
                                      (with-current-buffer "*lsp-ui-imenu*"
                                        (setq-local face-remapping-alist
                                                    `((default . (:background "#181818"))))))))
-  :setq ((lsp-ui-doc-enable . t)
+  :setq ((lsp-ui-doc-enable . nil)
          (lsp-ui-doc-header . nil)
          (lsp-ui-doc-delay . 0.1)
          (lsp-ui-doc-position . 'at-point)
@@ -67,6 +68,7 @@
     (define-key map "w" 'lsp-describe-thing-at-point)
     (define-key map "e" 'lsp-execute-code-action)
     (define-key map "n" 'lsp-rename)
+    (define-key map "h" 'lsp-ui-doc-glance)
     (define-key map "fr" 'lsp-ui-peek-find-references)
     (define-key map "fd" 'lsp-ui-peek-find-definitions)
     (define-key map "fi" 'lsp-ui-peek-find-implementation)

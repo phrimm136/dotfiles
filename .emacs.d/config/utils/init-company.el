@@ -34,7 +34,6 @@
 
 (leaf company-lsp
   :straight t
-  :after lsp
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
