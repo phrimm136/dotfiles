@@ -55,12 +55,13 @@
 
 ;;; keymap
 
-(defvar custom-clojure-repl-keymap
+(defvar custom-clojure-eval-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'cider-eval-region)
-    (define-key map "f" 'cider-eval-buffer)
+    (define-key map "r" 'cider-eval-region)
+    (define-key map "b" 'cider-eval-buffer)
+    (define-key map "f" 'cider-eval-file)
     map))
-(defalias 'clojure-repl custom-clojure-repl-keymap)
+(defalias 'clojure-eval custom-clojure-eval-keymap)
 
 (defvar custom-clojure-debug-keymap
   (let ((map (make-sparse-keymap)))
@@ -70,7 +71,7 @@
 
 (defvar custom-clojure-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'clojure-repl)
+    (define-key map "e" 'clojure-eval)
     (define-key map "d" 'clojure-debug)
     (define-key map "r" 'cider-jack-in)
     map))

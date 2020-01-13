@@ -56,17 +56,18 @@
 
 ;; keymaps
 
-(defvar custom-python-repl-keymap
+(defvar custom-python-eval-keymap
   (let ((map(make-sparse-keymap)))
     ;; repl
     (define-key map "r" 'python-shell-send-region)
-    (define-key map "c" 'python-shell-send-buffer)
+    (define-key map "b" 'python-shell-send-buffer)
+    (define-key map "f" 'python-shell-send-file)
     map))
-(defalias 'python-repl custom-python-repl-keymap)
+(defalias 'python-eval custom-python-eval-keymap)
 
 (defvar custom-python-keymap
   (let ((map(make-sparse-keymap)))
-    (define-key map "c" 'python-repl)
+    (define-key map "e" 'python-eval)
     (define-key map "r" 'run-python)
     map))
 (defalias 'python custom-python-keymap)

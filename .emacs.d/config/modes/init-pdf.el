@@ -7,7 +7,7 @@
 
 (leaf pdf-tools
   :straight t
-  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :mode (("\\.pdf\\'" . pdf-view-mode))
   :config (progn (evil-set-initial-state 'pdf-view-mode 'normal)))
 
 

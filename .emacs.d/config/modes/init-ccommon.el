@@ -269,31 +269,18 @@
                       (cmake-ide-objdump-disaster sel))))
 
 
-;; keymaps
-
-(defvar custom-cc-cmake-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map "r" 'cmake-ide-run-cmake)
-    (define-key map "c" 'cmake-ide-compile)
-    (define-key map "C" 'cmake-ide-compile*)
-    (define-key map "d" 'cmake-ide-delete-file)
-    (define-key map "D" 'cmake-ide-delete-build-dir)
-    (define-key map "b" 'cmake-ide-compdb)
-    map))
-(defalias 'cc-cmake custom-cc-cmake-keymap)
-
-(defvar custom-cc-debug-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map "b" 'cmake-ide-run-gdb)
-    (define-key map "x" 'cmake-ide-run-exe)
-    (define-key map "o" 'cmake-ide-objdump)
-    map))
-(defalias 'cc-debug custom-cc-debug-keymap)
+;; keymap
 
 (defvar custom-cc-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'cc-cmake)
-    (define-key map "d" 'cc-debug)
+    (define-key map "r" 'cmake-ide-run-cmake)
+    (define-key map "c" 'cmake-ide-compile)
+    (define-key map "d" 'cmake-ide-delete-file)
+    (define-key map "D" 'cmake-ide-delete-build-dir)
+    (define-key map "b" 'cmake-ide-compdb)
+    (define-key map "g" 'cmake-ide-run-gdb)
+    (define-key map "x" 'cmake-ide-run-exe)
+    (define-key map "o" 'cmake-ide-objdump)
     map))
 (defalias 'c custom-cc-keymap)
 (defalias 'c++ custom-cc-keymap)

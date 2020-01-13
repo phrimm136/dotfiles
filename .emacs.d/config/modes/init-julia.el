@@ -45,13 +45,12 @@
 
 ;;; keymap
 
-(defvar custom-julia-repl-keymap
+(defvar custom-julia-eval-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "j" 'run-ess-julia)
     (define-key map "r" 'ess-eval-region)
-    (define-key map "c" 'ess-eval-buffer)
+    (define-key map "b" 'ess-eval-buffer)
     map))
-(defalias 'julia-repl custom-julia-repl-keymap)
+(defalias 'julia-eval custom-julia-eval-keymap)
 
 (defvar custom-julia-debug-keymap
   (let ((map (make-sparse-keymap)))
@@ -78,8 +77,9 @@
 
 (defvar custom-julia-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map "c" 'julia-repl)
+    (define-key map "e" 'julia-eval)
     (define-key map "d" 'julia-debug)
+    (define-key map "j" 'run-ess-julia)
     map))
 (defalias 'julia custom-julia-keymap)
 

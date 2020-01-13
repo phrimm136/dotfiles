@@ -49,13 +49,12 @@
 (defalias 'ein custom-jupyter-keymap)
 
 (dolist (notebook '(ein:notebook-multilang-mode-hook ein:notebook-python-mode-hook))
-  (add-hook notebook
-            (lambda ()
-              (evil-define-key 'normal ein:notebook-mode-map
-                "gg" 'evil-goto-first-line ; bug on default setting
-                )))
   (evil-leader/set-key-for-mode notebook
     "<SPC>" 'ein))
+
+(evil-define-key 'normal ein:notebook-mode-map
+  "gg" 'evil-goto-first-line ; bug on default setting
+  )
 
 
 ;;; init-jupyter.el ends here
