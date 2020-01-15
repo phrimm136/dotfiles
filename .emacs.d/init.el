@@ -18,6 +18,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(setq straight-fix-org nil) ;; Solved on 28 version
 (straight-use-package 'benchmark-init)
 (benchmark-init/activate)
 (straight-use-package 'leaf)

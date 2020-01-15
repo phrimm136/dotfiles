@@ -1,4 +1,5 @@
-# i3-gaps configure
+# i3-gaps configuration
+
 #smart_gaps on
 gaps inner 10
 gaps outer 10
@@ -19,7 +20,7 @@ exec --no-startup-id xsettingsd &
 exec --no-startup-id compton -bc
 exec --no-startup-id xcape -t 150 -e "Control_L=Escape"
 exec --no-startup-id sleep 1
-exec --no-startup-id setxkbmap -option korean:ralt_rctrl -option ctrl:swapcaps
+exec --no-startup-id setxkbmap -option ctrl:swapcaps
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
@@ -41,14 +42,18 @@ bindsym $super+r exec rofi -no-auto-select -matching normal -show run -run-shell
 bindsym $super+f exec ~/.config/rofi/menu/find.sh
 bindsym $super+p exec ~/.config/rofi/menu/display.sh # fn + <F7> is aligned to S-p. ...?
 
-# common apps keybinds
+# screenshot
 bindsym Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -e 'feh $f'
-bindsym $super+Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -c 5 -e 'feh $f'
-#bindsym $super+Ctrl+l exec i3lock -i ~/Downloads/238803.png
+bindsym $super+Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -d 5 -e 'feh $f'
+
+# common apps keybinds
 bindsym $super+Shift+e exec emacs
 bindsym $super+Shift+c exec google-chrome-stable
 #bindsym $super+Shift+d exec discord
-bindsym $super+Shift+m exec neomutt
+
+# change brightness
+bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessUp exec light -A 10
 
 # change volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+

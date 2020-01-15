@@ -64,6 +64,7 @@ HIST_STAMPS="yyyy/mm/dd"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     alias-tips
+    autojump
     extract
     fzf
     zsh-autosuggestions
@@ -170,10 +171,12 @@ typeset -g POWERLEVEL9K_HISTORY_FOREGROUND=8
 
 # Set fzf installation directory path
 export FZF_BASE=/usr/bin/fzf
-# Uncomment the following line to disable fuzzy completion
 export DISABLE_FZF_AUTO_COMPLETION="true"
-# Uncomment the following line to disable key bindings (CTRL-T, CTRL-R, ALT-C)
-#export DISABLE_FZF_KEY_BINDINGS="true"
+export FZF_COMPLETION_TRIGGER="*"
+
+# keybinds
+bindkey "^K" up-line-or-history
+bindkey "^J" down-line-or-history
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -187,7 +190,7 @@ export DISABLE_FZF_AUTO_COMPLETION="true"
 alias a='clear'
 alias c='nvim ~/.zshrc'
 alias h='htop'
-alias j='julia'
+alias jl='julia'
 alias n='neofetch'
 alias p='python'
 alias q='exit'
@@ -214,9 +217,9 @@ local texinfopath="/usr/local/texlive/2019/texmf-dist/doc/info"
 if ! [[ $PATH =~ $texpath ]]; then
     export PATH="$texpath:$PATH"
 fi
-if ! [[ $PATH =~ $texmanpath ]]; then
+if ! [[ $MANPATH =~ $texmanpath ]]; then
     export MANPATH="$texmanpath:$MANPATH"
 fi
-if ! [[ $PATH =~ $texinfopath ]]; then
+if ! [[ $INFOPATH =~ $texinfopath ]]; then
     export INFOPATH="$texinfopath:$INFOPATH"
 fi

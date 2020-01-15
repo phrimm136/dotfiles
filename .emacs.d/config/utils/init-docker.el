@@ -7,7 +7,6 @@
 
 (leaf docker
   :straight t
-  :leaf-defer nil
   :config (progn (evil-leader/set-key
                    "d" 'docker))
   :bind ((:image-mode-map

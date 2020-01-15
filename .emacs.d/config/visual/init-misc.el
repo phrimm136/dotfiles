@@ -12,23 +12,17 @@
 ;;; goto-line preview
 
 (leaf goto-line-preview
-  :straight t) ; goto-line preview
+  :straight t)
 
 
-;;; Line number
-
-(dolist (editor '(prog-mode-hook org-mode-hook text-mode-hook yaml-mode-hook))
-  (add-hook editor
-            (lambda ()
-              (setq display-line-numbers 'relative))))
-
-
-;;; eof indicator
+;;; For source files
 
 (dolist (editor '(prog-mode-hook org-mode-hook text-mode-hook yaml-mode-hook))
   (add-hook editor
             (lambda ()
-              (setq indicate-empty-lines t))))
+              (setq indicate-empty-lines t) ;; Line number
+              (setq display-line-numbers 'relative) ;; EOF indicator
+              )))
 
 
 ;;; init-misc.el ends here
