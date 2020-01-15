@@ -5,7 +5,13 @@
 
 ;;; python language server
 
-(setq lsp-pyls-plugins-pylint-enabled nil)
+(with-eval-after-load 'lsp-mode
+  (require 'lsp-pyls)
+  (setq lsp-pyls-plugins-flake8-enabled nil
+        lsp-pyls-plugins-pyflakes-enabled nil
+        lsp-pyls-plugins-pylint-enabled t
+        lsp-pyls-plugins-pylint-args ["-j" "4"]
+        lsp-pyls-plugins-pycodestyle-enabled nil))
 
 
 ;;; python debug adapter
@@ -14,7 +20,7 @@
   (require 'dap-python))
 
 
-;;; additional linters
+;;; additional linter
 
 (leaf flycheck-pycheckers
   :straight t
@@ -54,11 +60,16 @@
 (setq python-indent-guess-indent-offset nil)
 
 
-;; keymaps
+;;; pytest integration
+
+(leaf python-pytest
+  :straight t)
+
+
+;;; keymap
 
 (defvar custom-python-eval-keymap
   (let ((map(make-sparse-keymap)))
-    ;; repl
     (define-key map "r" 'python-shell-send-region)
     (define-key map "b" 'python-shell-send-buffer)
     (define-key map "f" 'python-shell-send-file)
