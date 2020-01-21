@@ -16,6 +16,7 @@
   :straight t
   :config (progn (evil-collection-init '(ag
                                          calender
+                                         cider
                                          comint
                                          company
                                          compile
