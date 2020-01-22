@@ -5,10 +5,10 @@
 
 ;;; cmake-ide and its dependents.
 
-
 (unless (fboundp 'levenshtein-distance)
   (leaf levenshtein
     :straight t))
+
 
 ;;; cmake mode
 
@@ -67,8 +67,9 @@
 ;;; c/++ debug server
 
 (with-eval-after-load 'dap-mode
-  (require 'dap-lldb)
-  (setq dap-lldb-debugged-program-function 'cmake-ide-find-exe-files))
+  (leaf dap-lldb
+    :require t
+    :setq ((dap-lldb-debugged-program-function . 'cmake-ide-find-exe-files))))
 
 
 ;;; linting with cmake
@@ -104,7 +105,7 @@
 
 (leaf cmake-ide
   :straight t
-  :init (require 'cmake-ide)
+  :require t
   :config (progn (dolist (ccommon '(c-mode-hook c++-mode-hook cmake-mode-hook))
                    (add-hook ccommon
                              (lambda ()

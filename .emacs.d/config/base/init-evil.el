@@ -140,7 +140,7 @@
   "C" 'evil-exchange-cancel
   "e" 'evil-multiedit
   "h" 'help-command
-  "q" 'save-buffers-kill-terminal
+  "q" 'quit-window
   "v" 'mark-defun
   ":" 'eval-expression
   ";" 'evil-nerd-comment

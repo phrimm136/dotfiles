@@ -6,8 +6,9 @@
 (leaf lsp-mode
   :straight t
   :after flycheck
+  :init (require 'lsp-clients)
   :hook ((prog-mode-hook . lsp-deferred))
-  :setq ((lsp-enable-semantic-highlighting . nil)
+  :setq ((lsp-enable-semantic-highlighting . t)
          (lsp-keep-workspace-alive . nil)
          (lsp-prefer-flymake . nil)
          (lsp-auto-configure . nil)

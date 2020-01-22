@@ -20,7 +20,8 @@
 
 ;;; redirect backup to separate directory; not more #
 
-(setq-default backup-directory-alist '(("." . "~/.emacs.d/backup")))
+(setq-default backup-directory-alist '((".*" . "~/.emacs.d/backups/"))
+              auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 
 
 ;;; narrow codes
@@ -48,6 +49,11 @@
       scroll-conservatively 10000
       scroll-preserve-screen-position 1
       mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
+
+;;; No issue link needed
+
+(bug-reference-mode nil)
 
 
 ;;; init-misc.el ends here

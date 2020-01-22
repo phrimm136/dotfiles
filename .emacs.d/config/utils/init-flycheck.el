@@ -22,10 +22,9 @@
   :setq ((flycheck-inline-display-function . (lambda (msg pos)
                                                (let* ((ov (quick-peek-overlay-ensure-at pos))
                                                       (contents (quick-peek-overlay-contents ov)))
-                                                 (setf (quick-peek-overlay-contents ov)
-                                                       (concat contents (when contents "\n") msg))
+                                                 (setf (quick-peek-overlay-contents ov) (concat contents (when contents "\n") msg))
                                                  (quick-peek-update ov))))
-         (flycheck-inline-clear-function 'quick-peek-hide)))
+         (flycheck-inline-clear-function . 'quick-peek-hide)))
 (add-hook 'emacs-lisp-mode-hook 'flycheck-inline-mode)
 
 

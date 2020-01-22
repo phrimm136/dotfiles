@@ -36,7 +36,8 @@
   :straight t
   :setq ((company-lsp-async . t)
          (company-lsp-cache-candidates . t)
-         (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix))
+         (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix)
+         (company-lsp-enable-snippet . t))
   :config (progn (add-to-list 'company-backends 'company-lsp)))
 
 

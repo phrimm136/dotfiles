@@ -5,7 +5,7 @@
 (leaf async
   :straight t
   :setq ((async-bytecomp-allowed-packages . '(all)))
-  :config (progn (async-bytecomp-package-mode 1)))
+  :config (progn (dired-async-mode 1)))
 
 
 ;;; init-async.el ends here

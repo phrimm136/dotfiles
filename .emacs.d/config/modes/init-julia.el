@@ -34,8 +34,8 @@
   :straight (lsp-julia :type git
                        :host github
                        :repo "non-Jedi/lsp-julia")
+  :require t
   :after lsp
-  :init (require 'lsp-julia)
   :config (progn (setq lsp-julia-default-environment "~/.julia/environments/v1.3")
                  (add-to-list 'lsp-language-id-configuration '(ess-julia-mode . "ess-julia"))
                  (lsp-register-client (make-lsp-client :new-connection (lsp-stdio-connection 'lsp-julia--rls-command)
