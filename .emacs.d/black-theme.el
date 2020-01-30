@@ -52,7 +52,7 @@
       (etc4     "#4169e1"))
   (custom-theme-set-faces
    'black
-   `(default ((,class (:background ,bg1 :foreground ,fg1))))
+   `(default ((,class (:foreground ,fg1 :background ,bg1))))
    ;;; font locks
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:foreground ,comment))))
@@ -80,9 +80,8 @@
    `(line-number ((,class (:foreground ,fg3 :background ,bg2))))
    `(line-number-current-line ((,class (:foreground ,fg1 :background ,bg3))))
    `(cursor ((,class (:background ,fg1))))
-   `(show-paren-match ((,class (:background ,fg3 :foreground ,bg1))))
-   `(show-paren-mismatch ((,class (:background ,bg1))))
-   `(show-paren-matchface ((,class (:background ,warning))))
+   `(show-paren-match ((,class (:foreground ,bg1 :background ,fg3))))
+   `(show-paren-mismatch ((,class (:background ,warning))))
    `(isearch ((,class (:bold t :background ,bg3))))
    `(warning ((,class (:foreground ,warning))))
    `(info-quoted-name ((,class (:foreground ,builtin))))
@@ -108,7 +107,7 @@
    `(org-footnote  ((,class (:underline t :foreground ,fg4))))
    `(org-link ((,class (:underline t :foreground ,type))))
    `(org-special-keyword ((,class (:foreground ,func))))
-   `(org-block ((,class (:extend t :background ,bg4 :foreground ,fg1))))
+   `(org-block ((,class (:extend t :foreground ,fg1 :background ,bg4))))
    `(org-quote ((,class (:inherit org-block :slant italic))))
    `(org-verse ((,class (:inherit org-block :slant italic))))
    `(org-todo ((,class (:box (:line-width 1 :color ,fg3) :foreground ,keyword :bold t))))
@@ -160,7 +159,7 @@
    `(rainbow-delimiters-depth-8-face ((,class :foreground ,var)))
    `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))
    ;;; term
-   `(term ((,class (:foreground ,fg1 :background ,bg1))))
+   `(term ((,class (:foreground ,fg1))))
    `(term-color-black ((,class (:foreground "#000000"))))
    `(term-color-blue ((,class (:foreground "#0088ff"))))
    `(term-color-red ((,class (:foreground "#ff0000"))))

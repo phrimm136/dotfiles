@@ -3,15 +3,15 @@ menu=$(echo -e "program\nsearch\nweb\ncalc\nclipboard\npower" | rofi -theme ~/.c
 
 case $menu in
     program)
-	rofi -show drun -p "program " ;;
+    rofi -show drun -p "program " ;;
     search)
-	exec ~/.config/rofi/menu/find.sh ;;
+    exec ~/.config/rofi/menu/find.sh ;;
     web)
     exec ~/.config/rofi/menu/web.sh ;;
     calc)
-	rofi -show calc -modi calc ;;
+    rofi -show calc -modi calc -no-show-match -no-sort -no-bold -calc-command "echo '{result}' | xclip" ;;
     clipboard)
-	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' ;;
+    rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' ;;
     power)
-	exec ~/.config/rofi/menu/powermenu.sh ;;
+    exec ~/.config/rofi/menu/powermenu.sh ;;
 esac

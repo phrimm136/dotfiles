@@ -5,8 +5,7 @@
 
 (leaf lsp-mode
   :straight t
-  :after flycheck
-  :init (require 'lsp-clients)
+  :require lsp-clients
   :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . t)
          (lsp-keep-workspace-alive . nil)
@@ -23,7 +22,6 @@
 
 (leaf lsp-ui
   :straight t
-  :after lsp-mode
   :hook ((lsp-mode-hook . lsp-ui-mode)
          (lsp-ui-imenu-mode-hook . (lambda ()
                                      (with-current-buffer "*lsp-ui-imenu*"

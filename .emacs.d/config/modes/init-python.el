@@ -5,13 +5,13 @@
 
 ;;; python language server
 
-(with-eval-after-load 'lsp-mode
-  (require 'lsp-pyls)
-  (setq lsp-pyls-plugins-flake8-enabled nil
-        lsp-pyls-plugins-pyflakes-enabled nil
-        lsp-pyls-plugins-pylint-enabled t
-        lsp-pyls-plugins-pylint-args ["-j" "4"]
-        lsp-pyls-plugins-pycodestyle-enabled nil))
+(leaf lsp-pyls
+  :after lsp-mode
+  :setq ((lsp-pyls-plugins-flake8-enabled . nil)
+         (lsp-pyls-plugins-pyflakes-enabled . nil)
+         (lsp-pyls-plugins-pylint-enabled . t)
+         (lsp-pyls-plugins-pylint-args . ["-j" "4"])
+         (lsp-pyls-plugins-pycodestyle-enabled . nil)))
 
 
 ;;; python debug adapter

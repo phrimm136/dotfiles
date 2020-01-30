@@ -56,8 +56,8 @@
 ;; (leaf ccls
 ;;   :straight t
 ;;   :init (require 'ccls))
+
 (setq lsp-clients-clangd-args '("--all-scopes-completion"
-                                "--clang-tidy"
                                 "--completion-style=detailed"
                                 "--header-insertion=iwyu"
                                 "--suggest-missing-includes"
