@@ -8,9 +8,9 @@
 (leaf docker
   :straight t
   :config (progn (evil-leader/set-key
-                   "d" 'docker))
-  :bind ((:image-mode-map
-          ("k" . evil-next-line))))
+                   "d" 'docker)
+                 (dolist (docker-modes '(docker-image-mode docker-container-mode docker-network-mode docker-volume-mode))
+                   (evil-set-initial-state docker-modes 'motion))))
 
 
 ;;; init-docker.el ends here

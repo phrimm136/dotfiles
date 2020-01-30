@@ -8,6 +8,8 @@
 (leaf counsel
   :straight t
   :bind ((:evil-normal-state-map
+          ("C-SPC" . counsel-M-x))
+         (:evil-motion-state-map
           ("C-SPC" . counsel-M-x))))
 
 
@@ -16,6 +18,8 @@
 (leaf swiper
   :straight t
   :bind ((:evil-normal-state-map
+          ("C-s" . swiper))
+         (:evil-motion-state-map
           ("C-s" . swiper))))
 
 

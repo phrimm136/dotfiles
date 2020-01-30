@@ -24,8 +24,7 @@
                                                                          :face 'font-lock-constant-face)
                                                (propertize ">" 'face 'dashboard-footer)))
                  (dashboard-setup-startup-hook)
-                 (evil-set-initial-state 'dashboard-mode 'insert)
-                 (define-key dashboard-mode-map "\C-w" evil-window-map)))
+                 (evil-set-initial-state 'dashboard-mode 'motion)))
 
 (leaf dashboard-hackernews
   :straight t)
