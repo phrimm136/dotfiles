@@ -10,7 +10,7 @@
   :hook ((prog-mode-hook org-mode-hook) . highlight-numbers-mode))
 
 
-;;; color color hex
+;;; colorize color hex
 
 (leaf rainbow-mode
   :straight t
@@ -21,6 +21,13 @@
 
 (leaf hl-line
   :config (progn (global-hl-line-mode t)))
+
+
+;;; colorful parenthesis
+
+(leaf rainbow-delimiters
+  :straight t
+  :hook ((prog-mode-hook org-mode-hook) . rainbow-delimiters-mode))
 
 
 ;;; init-highlight.el ends here

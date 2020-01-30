@@ -12,16 +12,8 @@
 
 ;;; clojure language server
 
-(with-eval-after-load 'lsp-mode
-  (leaf lsp-clojure
-    :require t))
-
-
-;;; colorful parenthesis
-
-(leaf rainbow-delimiters
-  :straight t
-  :hook (clojure-mode-hook . rainbow-delimiters-mode))
+;; (leaf lsp-clojure
+;;   :after lsp-mode)
 
 
 ;;; cider - homeland of clojure
