@@ -16,11 +16,10 @@ floating_modifier $super
 
 # autostart
 exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
-exec --no-startup-id xsettingsd &
+exec --no-startup-id xsettingsd
 exec --no-startup-id compton -bc
+exec --no-startup-id xkbcomp ~/.xkb/keymap/hangul.xkb $DISPLAY
 exec --no-startup-id xcape -t 150 -e "Control_L=Escape"
-exec --no-startup-id sleep 1
-exec --no-startup-id setxkbmap -option ctrl:swapcaps
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
@@ -28,7 +27,7 @@ exec --no-startup-id ~/.config/polybar/scripts/start.sh
 exec --no-startup-id uim-toolbar-gtk3-systray
 exec --no-startup-id greenclip daemon
 exec --no-startup-id ntpdate -u time.nist.gov
-exec --no-startup-ed birdtray
+exec --no-startup-id birdtray
 exec --no-startup-id xset r rate 250 40
 
 # start a terminal
