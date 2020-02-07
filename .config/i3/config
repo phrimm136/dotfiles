@@ -209,7 +209,7 @@ for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
 for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px,  move to position 560 240
 # terminal with rofi run_command
 for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp* title="^(?!floating$)"] focus
-default_orientation horizontal
+default_orientation vertical
 for_window [class="^.*"] split toggle # fibonacci tilting as default
 for_window [class="^.*"] border pixel 0
 # class	                    	border	backgr.	text	indica.	child_border
