@@ -23,7 +23,7 @@
                                               '((emacs-lisp . t)
                                                 (shell . t)
                                                 (org . t)
-                                                (jupyter . t)
+                                                (ein . t)
                                                 (latex . t)))))
 
 (eval-when-compile
@@ -46,27 +46,26 @@
 (leaf ox-gfm
   :straight t
   :after org
-  :init (require 'ox-gfm))
+  :require t)
 
 
 ;;; org-jupyter integration
 
-(leaf jupyter
-  :straight t
-  :after org)
+;; (leaf jupyter
+;;   :straight t
+;;   :after org)
 
-;;; To use virtual env with emacs-jupyter. make a venv kernel by typing
-;;; /path/to/virtualenv/bin/python -m ipykernel install --name proper-name --display-name proper-display-name --user
-;;; in a virtualenv, then execute jupyter-run-repl and choose the kernel.
-;;; Or you can choose the kernel with :kernel block parameter.
+;; To use virtual env with emacs-jupyter. make a venv kernel by typing
+;; /path/to/virtualenv/bin/python -m ipykernel install --name proper-name --display-name proper-display-name --user
+;; in a virtualenv, then execute jupyter-run-repl and choose the kernel.
+;; Or you can choose the kernel with :kernel block parameter.
 
 (leaf ox-ipynb
   :straight (ox-ipynb :type git
                       :host github
                       :repo "jkitchin/ox-ipynb")
-  :after org
-  :init (require 'ox-ipynb)
-  :setq ((ox-ipynb-images . jupyter-org-resource-directory)))
+  :require t
+  :setq ((ox-ipynb-images . "./jupyter")))
 
 ;;; To integrate jupyter with lsp, you should put :file-name argument into a code block.
 ;;; See snippets/org-mode/jupyter block.
