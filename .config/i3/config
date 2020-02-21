@@ -17,7 +17,7 @@ floating_modifier $super
 # autostart
 exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
 exec --no-startup-id xsettingsd
-exec --no-startup-id compton -bc
+exec --no-startup-id picom -bc
 exec --no-startup-id xkbcomp ~/.xkb/keymap/hangul.xkb $DISPLAY
 exec --no-startup-id xcape -t 150 -e "Control_L=Escape"
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
@@ -42,8 +42,8 @@ bindsym $super+f exec ~/.config/rofi/menu/find.sh
 bindsym $super+p exec ~/.config/rofi/menu/display.sh # fn + <F7> is aligned to S-p. ...?
 
 # screenshot
-bindsym Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -e 'feh $f'
-bindsym $super+Print exec scrot ~/Pictures/Screenshots/Screenshot_%Y%m%d_%H%M%S.png -d 5 -e 'feh $f'
+bindsym Print exec flameshot gui -p ~/Pictures/Screenshots
+bindsym $super+Print exec flameshot gui -p ~/Pictures/Screenshots -d 3000
 
 # common apps keybinds
 bindsym $super+Shift+e exec emacs
