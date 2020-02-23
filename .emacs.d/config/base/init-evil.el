@@ -55,7 +55,9 @@
 
 
 (leaf evil-nerd-commenter
-  :straight t)
+  :straight t
+  :bind ((:evil-visual-state-map
+          ("C-;" . evilnc--comment-or-uncomment-region))))
 
 
 ;; (leaf evil-args)
@@ -120,10 +122,10 @@
     (define-key map "l" 'evilnc-quick-comment-or-uncomment-to-the-line)
     (define-key map "c" 'evilnc-copy-and-comment-lines)
     (define-key map "p" 'evilnc-comment-or-uncomment-paragraphs)
-    (define-key map "r" 'comment-or-uncomment-region)
     (define-key map "v" 'evilnc-toggle-invert-comment-line-by-line)
     (define-key map "o" 'evilnc-copy-and-comment-operator)
     (define-key map "k" 'evilnc-comment-and-kill-ring-save)
+    (define-key map ";" 'evilnc-comment-operator)
     map))
 (defalias 'evil-nerd-comment custom-evil-nerd-comment-keymap)
 
