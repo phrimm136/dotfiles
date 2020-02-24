@@ -45,7 +45,7 @@
 
 (leaf ox-gfm
   :straight t
-  :after org
+  :after ox
   :require t)
 
 
@@ -61,6 +61,7 @@
 ;; Or you can choose the kernel with :kernel block parameter.
 
 (leaf ox-ipynb
+  :after ox
   :straight (ox-ipynb :type git
                       :host github
                       :repo "jkitchin/ox-ipynb")
@@ -88,6 +89,7 @@
 ;;; org-LaTeX integration
 
 (leaf ox-latex
+  :after ox
   :setq ((org-latex-listings . 'minted)
          (org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
                                   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -96,6 +98,13 @@
                    (add-to-list 'org-latex-packages-alist '("" "minted")))
                  ;; need to install pygmentize - reminder
                  ))
+
+
+;;; org-hugo integration
+
+(leaf ox-hugo
+  :straight t
+  :after ox)
 
 
 ;;; evil keymap
