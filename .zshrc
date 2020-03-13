@@ -63,10 +63,12 @@ HIST_STAMPS="yyyy/mm/dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+    autoupdate
     alias-tips
     autojump
     extract
     fzf
+    fzf-tab
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-completions
@@ -172,7 +174,21 @@ typeset -g POWERLEVEL9K_HISTORY_FOREGROUND=8
 # Set fzf installation directory path
 export FZF_BASE=/usr/bin/fzf
 export DISABLE_FZF_AUTO_COMPLETION="true"
-export FZF_COMPLETION_TRIGGER="*"
+export FZF_COMPLETION_TRIGGER="**"
+
+# fzf-tab settings
+FZF_TAB_COMMAND=(
+    fzf
+    --ansi
+    --expect='/'
+    '--color=hl:$(($#headers == 0 ? 108 : 255))'
+    --nth=2,3 --delimiter='\0'
+    --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
+    --tiebreak=begin -m --bind=tab:down,ctrl-j:down,change:top,ctrl-space:toggle --cycle
+    '--query=$query'
+    '--header-lines=$#headers'
+)
+zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
 # keybinds
 bindkey "^K" up-line-or-history
