@@ -10,7 +10,7 @@
   :config (progn (evil-leader/set-key
                    "d" 'docker)
                  (dolist (docker-modes '(docker-image-mode docker-container-mode docker-network-mode docker-volume-mode))
-                   (evil-set-initial-state docker-modes 'motion))))
+                   (evil-set-initial-state docker-modes 'normal))))
 
 
 ;;; init-docker.el ends here

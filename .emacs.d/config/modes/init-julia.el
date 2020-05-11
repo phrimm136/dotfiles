@@ -32,8 +32,14 @@
                        :repo "non-Jedi/lsp-julia")
   :require t
   :after lsp-mode
-  :setq ((lsp-julia-default-environment .  "~/.julia/environments/v1.3"))
+  :setq ((lsp-julia-default-environment .  "~/.julia/environments/v1.4"))
   :config (progn ))
+
+
+(leaf julia-snail
+  :straight (julia-snail :type git
+                         :host github
+                         :repo "gcv/julia-snail"))
 
 
 ;;; keymap

@@ -102,7 +102,13 @@
 
 
 (leaf evil-snipe
-  :straight t)
+  :straight t
+  :config (evil-snipe-mode))
+
+
+(leaf evil-easymotion
+  :straight t
+  :require t)
 
 
 ;;; keymap
@@ -138,6 +144,7 @@
   "5" 'ctl-x-5-prefix
   "6" '2C-command
   "8" 'iso-transl-ctl-x-8-map
+  "a" evilem-map
   "c" 'evil-exchange
   "C" 'evil-exchange-cancel
   "e" 'evil-multiedit

@@ -25,4 +25,9 @@
               )))
 
 
+;;; truncate exceeding lines
+
+(setq truncate-lines 0)
+
+
 ;;; init-misc.el ends here

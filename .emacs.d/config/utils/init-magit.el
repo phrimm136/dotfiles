@@ -5,11 +5,7 @@
 
 (leaf magit
   :straight t
-  :config (progn (evil-define-key 'normal magit-mode-map
-                   "j" 'magit-section-forward
-                   "k" 'magit-section-backward
-                   "<escape>" 'nil)
-                 (evil-leader/set-key
+  :config (progn (evil-leader/set-key
                    "m" 'magit-status)))
 
 

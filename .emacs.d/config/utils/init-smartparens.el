@@ -45,7 +45,7 @@ _L_: forward     ^ ^               ^ ^
   ("l" sp-end-of-sexp)
   ("H" sp-backward-sexp)
   ("J" sp-down-sexp)
-  ("K" sp-up-sexp)
+  ("K" sp-backward-up-sexp)
   ("L" sp-forward-sexp)
   ("f" sp-forward-slurp-sexp)
   ("b" sp-backward-slurp-sexp)

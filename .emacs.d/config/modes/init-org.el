@@ -4,7 +4,6 @@
 
 
 (leaf org
-  :straight t
   :setq ((org-confirm-babel-evaluate . nil)
          (org-src-tab-acts-natively . t)
          (org-src-fontify-natively . t)
@@ -104,7 +103,10 @@
 
 (leaf ox-hugo
   :straight t
-  :after ox)
+  :after ox
+  :require t
+  :setq ((org-hugo-date-format . "%Y-%m-%dT%T")
+         (org-hugo-suppress-lastmod-period . 86400.0)))
 
 
 ;;; evil keymap

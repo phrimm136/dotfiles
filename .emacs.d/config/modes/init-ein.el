@@ -15,7 +15,8 @@
                  (setq ein:default-url-or-port "http://127.0.0.1:8888"
                        ein:worksheet-enable-undo t
                        ein:completion-backend 'ein:use-none-backend
-                       ein:jupyter-server-use-subcommand "lab")
+                       ein:jupyter-server-use-subcommand "lab"
+                       ein:output-area-inlined-images t)
                  ;; auto start ein when opening notebooks
                  (defun ein:run-with-file-open ()
                    (ein:jupyter-server-start "/usr/bin/jupyter"

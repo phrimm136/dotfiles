@@ -99,10 +99,10 @@
    ;;; org
    `(org-code ((,class (:foreground ,fg1))))
    `(org-hide ((,class (:foreground ,fg4))))
-   `(org-level-1 ((,class (:bold t :foreground ,fg2 :height 1.1))))
-   `(org-level-2 ((,class (:bold nil :foreground ,fg3))))
-   `(org-level-3 ((,class (:bold t :foreground ,fg4))))
-   `(org-level-4 ((,class (:bold nil :foreground ,bg4))))
+   `(org-level-1 ((,class (:bold t :foreground ,etc1 :height 1.1))))
+   `(org-level-2 ((,class (:bold nil :foreground ,etc2))))
+   `(org-level-3 ((,class (:bold t :foreground ,etc3))))
+   `(org-level-4 ((,class (:bold nil :foreground ,etc4))))
    `(org-date ((,class (:underline t :foreground ,var))))
    `(org-footnote  ((,class (:underline t :foreground ,fg4))))
    `(org-link ((,class (:underline t :foreground ,type))))
@@ -168,7 +168,7 @@
    `(term-color-magenta ((,class (:foreground "#ff00ff"))))
    `(term-color-cyan ((,class (:foreground "#00ffff"))))
    `(term-color-white ((,class (:foreground "#ffffff"))))
-   ;; company
+   ;;; company
    `(company-echo-common ((,class (:foreground ,bg1 :background ,fg1))))
    `(company-preview ((,class (:foreground ,var :background ,bg3))))
    `(company-preview-common ((,class (:foreground ,fg3 :background ,bg4))))

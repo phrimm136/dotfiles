@@ -71,7 +71,6 @@
     (define-key map "d" 'delete-file)
     (define-key map "m" 'manual-entry)
     (define-key map "y" 'counsel-yank-pop)
-    (define-key map "h" 'counsel-rhythmbox)
     map))
 (defalias 'counsel custom-counsel-keymap)
 

@@ -87,18 +87,10 @@
 
 ;;; static analysis with clang
 
-(leaf flycheck-clang-analyzer
-  :straight t
-  :after flycheck
-  :config (flycheck-clang-analyzer-setup))
-
-
-;;; tidying code with clang format
-
-(leaf flycheck-clang-tidy
-  :straight t
-  :after flycheck
-  :config (flycheck-clang-tidy-setup))
+;; (leaf flycheck-clang-analyzer
+;;   :straight t
+;;   :after flycheck
+;;   :config (flycheck-clang-analyzer-setup))
 
 
 ;;; cmake-ide

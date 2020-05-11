@@ -9,7 +9,8 @@
   :hook (((prog-mode-hook org-mode-hook) . company-mode))
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
-         (company-backends . '(company-files
+         (company-backends . '((company-dabbrev-code :separate company-capf company-keywords)
+                               company-files
                                company-keywords
                                company-capf
                                company-yasnippet
