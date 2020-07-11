@@ -111,11 +111,14 @@
 
 ;;; evil keymap
 
-(leaf org-evil
+(leaf evil-org
   :straight t
   :after org
-  :init (require 'org-evil))
-
+  :require evil-org-agenda
+  :hook ((org-mode-hook . evil-org-mode)
+         (evil-org-mode-hook . (lambda ()
+                                 (evil-org-set-key-theme))))
+  :config (evil-org-agenda-set-keys))
 
 
 ;;; keymap

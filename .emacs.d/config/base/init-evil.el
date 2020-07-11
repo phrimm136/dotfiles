@@ -5,7 +5,8 @@
 
 (leaf evil
   :straight t
-  :init (setq evil-want-keybinding nil)
+  :init (progn (setq evil-want-keybinding nil)
+               (setq evil-want-C-i-jump nil))
   :config (progn (evil-mode 1))
   :bind ((:evil-insert-state-map
           ("C-k" . nil) ; conflict with other ^k bindings
