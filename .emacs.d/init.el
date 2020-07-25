@@ -46,8 +46,6 @@
 (load-directory modes-path)
 (load-directory term-path)
 (load-directory visual-path)
-(load-theme 'black t)
-
 
 (kill-buffer "*scratch*")
 (kill-buffer "*Messages*")

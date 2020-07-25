@@ -8,9 +8,11 @@
 (leaf counsel
   :straight t
   :bind ((:evil-normal-state-map
-          ("C-SPC" . counsel-M-x))
+          ("C-SPC" . counsel-M-x)
+          ("M-x" . counsel-M-x))
          (:evil-motion-state-map
-          ("C-SPC" . counsel-M-x))))
+          ("C-SPC" . counsel-M-x)
+          ("M-x" . counsel-M-x))))
 
 
 ;;; swiper
