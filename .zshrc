@@ -1,103 +1,50 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Initialize zplug
+if [ ! -d ~/.zplug ]; then
+    git clone https://github.com/zplug/zplug ~/.zplug
+fi
 
-# Path to your oh-my-zsh installation.
-export ZSH="/home/user/.oh-my-zsh"
+source ~/.zplug/init.zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+zplug 'djui/alias-tips'
+zplug 'plugins/autojump', from:oh-my-zsh
+zplug 'plugins/command-not-found', from:oh-my-zsh
+zplug 'plugins/common-aliases', from:oh-my-zsh
+zplug 'lib/completion', from:oh-my-zsh
+zplug 'lib/correct', from:oh-my-zsh
+zplug 'plugins/copybuffer', from:oh-my-zsh
+zplug 'lib/directories', from:oh-my-zsh
+zplug 'lib/history', from:oh-my-zsh
+zplug 'lib/key-bindings', from:oh-my-zsh
+zplug 'hlissner/zsh-autopair'
+zplug 'zsh-users/zsh-autosuggestions'
+zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zsh-syntax-highlighting'
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+zplug 'junegunn/fzf-bin', from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
+zplug 'junegunn/fzf', from:github, use:"shell/*.zsh", defer:2
+zplug 'Aloxaf/fzf-tab', defer:2
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+zplug 'plugins/git', from:oh-my-zsh
+zplug 'plugins/gitfast', from:oh-my-zsh
+zplug 'wfxr/forgit'
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+zplug 'plugins/docker', from:oh-my-zsh
+zplug 'plugins/extract', from:oh-my-zsh
+zplug 'plugins/tmux', from:oh-my-zsh
 
-# Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=1
+zplug 'plugins/python', from:oh-my-zsh
+zplug 'plugins/pip', from:oh-my-zsh
+zplug 'srijanshetty/zsh-pip-completion'
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+zplug "romkatv/powerlevel10k", as:theme
 
-# Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+if ! zplug check; then
+    zplug install
+fi
 
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-HIST_STAMPS="yyyy/mm/dd"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    autoupdate
-    alias-tips
-    autojump
-    extract
-    fzf
-    fzf-tab
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    zsh-completions
-    zsh-autopair
-    # git
-    git
-    # docker
-    docker
-    # tmux
-    tmux
-    # python
-    zsh-pip-completion
-)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+zplug load 
 
 # Add ~/.local/bin to PATH
 local userbin="$HOME/.local/bin"
@@ -108,8 +55,8 @@ fi
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
-# support 256 colors in terminal emulator
-export TERM=screen-256color
+# Support true color in terminal emulator
+export TERM=screen-24bits
 
 # powerlevel10k custom
 # based on https://gitlab.com/shanedora/arch_i3gaps_beach/blob/master/my_zshrc
@@ -180,29 +127,34 @@ export FZF_COMPLETION_TRIGGER="**"
 FZF_TAB_COMMAND=(
     fzf
     --ansi
-    --expect='/'
+    --expect='$continuous_trigger,$print_query'
     '--color=hl:$(($#headers == 0 ? 108 : 255))'
     --nth=2,3 --delimiter='\0'
     --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
     --tiebreak=begin -m --bind=tab:down,ctrl-j:down,change:top,ctrl-space:toggle --cycle
     '--query=$query'
     '--header-lines=$#headers'
+    '--print-query'
 )
 zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
-# keybinds
+# forgit configures
+forgit_log=glo
+forgit_diff=gd
+forgit_add=ga
+forgit_reset_head=grh
+forgit_ignore=gi
+forgit_restore=gcf
+forgit_clean=gclean
+forgit_stash_show=gss
+forgit_cherry_pick=gcp
+
+# Key bindings
 bindkey "^K" up-line-or-history
 bindkey "^J" down-line-or-history
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# Aliases
+alias _='sudo '
 alias a='clear'
 alias c='nvim ~/.zshrc'
 alias h='htop'
@@ -215,13 +167,13 @@ alias xc='xcape -t 150 -e "Control_L=Escape"'
 alias y='yay --pacman powerpill'
 alias py='python'
 alias jl='julia'
-alias ff='fasd -l | fzf'
 alias pp='sudo powerpill'
+alias vf='nvim $(fasd -l | fzf)'
 alias mtu='sudo ip link set wlp3s0 mtu'
 alias mnt='udisksctl mount -b /dev/sdb1'
 alias umnt='udisksctl unmount -b /dev/sdb1'
 
-# aliases for directories
+# Aliases for directories
 hash -d c=~/.config
 hash -d usb=~/media/usb
 
