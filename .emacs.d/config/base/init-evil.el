@@ -62,8 +62,9 @@
 
 (leaf evil-args
   :straight t
+  :require t
   :hook ((emacs-lisp-mode-hook clojure-mode-hook) . (lambda ()
-                                                      (setq evil-args-delimiters " ")))
+                                                      (setq-local evil-args-delimiters '(" "))))
   :bind ((:evil-inner-text-objects-map
           ("a" . evil-inner-arg))
          (:evil-outer-text-objects-map
