@@ -5,8 +5,8 @@
 
 (leaf evil
   :straight t
-  :init (progn (setq evil-want-keybinding nil)
-               (setq evil-want-C-i-jump nil))
+  :init (progn (setq evil-want-keybinding nil
+                     evil-want-C-i-jump nil))
   :config (progn (evil-mode 1))
   :bind ((:evil-insert-state-map
           ("C-k" . nil) ; conflict with other ^k bindings
@@ -55,13 +55,27 @@
   :config (global-evil-surround-mode))
 
 
-(leaf evil-nerd-commenter
+(leaf evil-commentary
   :straight t
-  :bind ((:evil-visual-state-map
-          ("C-;" . evilnc--comment-or-uncomment-region))))
+  :config (evil-commentary-mode))
 
 
-;; (leaf evil-args)
+(leaf evil-args
+  :straight t
+  :hook ((emacs-lisp-mode-hook clojure-mode-hook) . (lambda ()
+                                                      (setq evil-args-delimiters " ")))
+  :bind ((:evil-inner-text-objects-map
+          ("a" . evil-inner-arg))
+         (:evil-outer-text-objects-map
+          ("a" . evil-outer-arg))
+         (:evil-normal-state-map
+          ("L" . evil-forward-arg)
+          ("H" . evil-backward-arg)
+          ("K" . evil-jump-out-args))
+         (:evil-normal-state-map
+          ("L" . evil-forward-arg)
+          ("H" . evil-backward-arg)
+          ("K" . evil-jump-out-args))))
 
 
 (leaf evil-exchange
@@ -75,7 +89,7 @@
 
 (leaf evil-numbers
   :straight t
-  :leaf-defer nil
+  :require t
   :bind ((:evil-normal-state-map
           ("+" . evil-numbers/inc-at-pt)
           ("-" . evil-numbers/dec-at-pt))
@@ -90,11 +104,6 @@
   :config (global-evil-visualstar-mode))
 
 
-(leaf evil-lion
-  :straight t
-  :config (evil-lion-mode))
-
-
 ;; (leaf evil-quickscope
 ;;   :straight t
 ;;   :hook (((prog-mode-hook org-mode-hook text-mode-hook) . evil-quickscope-always-mode)
@@ -104,12 +113,13 @@
 
 (leaf evil-snipe
   :straight t
-  :config (evil-snipe-mode))
+  :config (evil-snipe-override-mode))
 
 
 (leaf evil-easymotion
   :straight t
-  :require t)
+  :require t
+  :config (evilem-default-keybindings "\\"))
 
 
 ;;; keymap
@@ -123,18 +133,6 @@
     map))
 (defalias 'evil-multiedit custom-evil-multiedit-keymap)
 
-(defvar custom-evil-nerd-comment-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map "i" 'evilnc-comment-or-uncomment-lines)
-    (define-key map "l" 'evilnc-quick-comment-or-uncomment-to-the-line)
-    (define-key map "c" 'evilnc-copy-and-comment-lines)
-    (define-key map "p" 'evilnc-comment-or-uncomment-paragraphs)
-    (define-key map "v" 'evilnc-toggle-invert-comment-line-by-line)
-    (define-key map "o" 'evilnc-copy-and-comment-operator)
-    (define-key map "k" 'evilnc-comment-and-kill-ring-save)
-    (define-key map ";" 'evilnc-comment-operator)
-    map))
-(defalias 'evil-nerd-comment custom-evil-nerd-comment-keymap)
 
 (evil-leader/set-key
   "0" 'delete-window
@@ -145,7 +143,6 @@
   "5" 'ctl-x-5-prefix
   "6" '2C-command
   "8" 'iso-transl-ctl-x-8-map
-  "a" evilem-map
   "c" 'evil-exchange
   "C" 'evil-exchange-cancel
   "e" 'evil-multiedit
@@ -153,7 +150,7 @@
   "q" 'quit-window
   "v" 'mark-defun
   ":" 'eval-expression
-  ";" 'evil-nerd-comment
+  ";" 'evil-commentary-line
   "[" 'beginning-of-defun
   "]" 'end-of-defun
   "<RET>" 'revert-buffer)
