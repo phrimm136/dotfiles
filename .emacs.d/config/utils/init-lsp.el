@@ -5,7 +5,6 @@
 
 (leaf lsp-mode
   :straight t
-  :require lsp-clients
   :hook ((prog-mode-hook . lsp-deferred))
   :setq ((lsp-enable-semantic-highlighting . t)
          (lsp-keep-workspace-alive . nil)
