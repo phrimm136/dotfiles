@@ -112,4 +112,4 @@
   )
 
 
-;;; init-jupyter.el ends here
+;;; init-ein.el ends here

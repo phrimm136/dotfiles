@@ -5,10 +5,6 @@
 
 (leaf treemacs
   :straight t
-  :hook (treemacs-mode-hook . (lambda ()
-                                (with-current-buffer (treemacs-get-local-buffer)
-                                  (setq-local face-remapping-alist
-                                              '((default . (:background "#181818")))))))
   :setq ((treemacs-defered-git-apply-delay . 0)
          (treemacs-file-follow-delay . 2)
          (treemacs-show-cursor . nil)
@@ -25,7 +21,7 @@
 
 (leaf treemacs-evil
   :straight t
-  :init (require 'treemacs-evil))
+  :require t)
 
 
 ;;; magit integration

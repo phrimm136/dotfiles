@@ -55,21 +55,25 @@
 
 ;; (leaf ccls
 ;;   :straight t
-;;   :init (require 'ccls))
+;;   :require t)
 
-(setq lsp-clients-clangd-args '("--all-scopes-completion"
-                                "--completion-style=detailed"
-                                "--header-insertion=iwyu"
-                                "--suggest-missing-includes"
-                                "-j=4"))
+(leaf lsp-clangd
+  :after lsp-mode
+  :require t
+  :setq ((lsp-clients-clangd-args . '("--all-scopes-completion"
+                                      "--completion-style=detailed"
+                                      "--header-insertion=iwyu"
+                                      "--suggest-missing-includes"
+                                      "-j=4"))))
+
 
 
 ;;; c/++ debug server
 
-(with-eval-after-load 'dap-mode
-  (leaf dap-lldb
-    :require t
-    :setq ((dap-lldb-debugged-program-function . 'cmake-ide-find-exe-files))))
+(leaf dap-lldb
+  :after dap-mode
+  :require t
+  :setq ((dap-lldb-debugged-program-function . 'cmake-ide-find-exe-files)))
 
 
 ;;; linting with cmake
@@ -87,10 +91,10 @@
 
 ;;; static analysis with clang
 
-;; (leaf flycheck-clang-analyzer
-;;   :straight t
-;;   :after flycheck
-;;   :config (flycheck-clang-analyzer-setup))
+(leaf flycheck-clang-analyzer
+  :straight t
+  :after flycheck
+  :config (flycheck-clang-analyzer-setup))
 
 
 ;;; cmake-ide

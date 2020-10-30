@@ -33,21 +33,19 @@
   :config (progn (add-to-list 'company-backends 'company-math-symbols-unicode)))
 
 
-(leaf company-lsp
-  :straight t
-  :setq ((company-lsp-async . t)
-         (company-lsp-cache-candidates . t)
-         (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix)
-         (company-lsp-enable-snippet . t))
-  :config (progn (add-to-list 'company-backends 'company-lsp)))
+;; (leaf company-lsp
+;;   :straight t
+;;   :setq ((company-lsp-async . t)
+;;          (company-lsp-cache-candidates . t)
+;;          (company-lsp-match-candidate-predicate . 'company-lsp-match-candidate-prefix)
+;;          (company-lsp-enable-snippet . t))
+;;   :config (progn (add-to-list 'company-backends 'company-lsp)))
 
 
 ;; (leaf company-quickhelp
 ;;   :straight t
 ;;   :after company
-;;   :hook (company-mode-hook . company-quickhelp-mode)
-;;   :setq ((pos-tip-background-color . "#2b2b2b")
-;;          (pos-tip-foreground-color . "#ffffff")))
+;;   :hook (company-mode-hook . company-quickhelp-mode))
 
 
 ;; (leaf company-box

@@ -22,9 +22,9 @@
 
 ;;; python debug adapter
 
-(with-eval-after-load 'dap-mode
-  (require 'dap-python))
-
+(leaf dap-python
+  :after dap-mode
+  :require t)
 
 ;;; additional linter
 
