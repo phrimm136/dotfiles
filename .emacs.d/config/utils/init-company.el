@@ -29,8 +29,7 @@
 
 
 (leaf company-math
-  :straight t
-  :config (progn (add-to-list 'company-backends 'company-math-symbols-unicode)))
+  :straight t)
 
 
 ;; (leaf company-lsp

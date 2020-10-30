@@ -17,6 +17,12 @@
 ;;   :config (progn (flycheck-julia-setup)))
 
 
+;;; math symbol candidates
+
+(add-hook 'julia-mode-hook (lambda ()
+                             (add-to-list (make-local-variable 'company-backends) 'company-math-symbols-unicode)))
+
+
 ;;; better repl setting
 
 (leaf julia-repl
@@ -32,14 +38,8 @@
                        :repo "non-Jedi/lsp-julia")
   :require t
   :after lsp-mode
-  :setq ((lsp-julia-default-environment .  "~/.julia/environments/v1.4"))
+  :setq ((lsp-julia-default-environment .  "~/.julia/environments/v1.5"))
   :config (progn ))
-
-
-(leaf julia-snail
-  :straight (julia-snail :type git
-                         :host github
-                         :repo "gcv/julia-snail"))
 
 
 ;;; keymap
