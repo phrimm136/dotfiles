@@ -73,12 +73,12 @@
     (define-key map "s" 'counsel-imenu)
     (define-key map "d" 'delete-file)
     (define-key map "m" 'manual-entry)
-    (define-key map "k" 'counsel-yank-pop)
+    (define-key map "y" 'counsel-yank-pop)
     map))
 (defalias 'counsel custom-counsel-keymap)
 
 (evil-leader/set-key
-"y" 'counsel)
+  "y" 'counsel)
 
 
 ;;; init-counsel.el ends here
