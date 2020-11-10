@@ -14,27 +14,6 @@
           )))
 
 
-(leaf evil-collection
-  :straight t
-  :config (progn (evil-collection-init '(ag
-                                         calender
-                                         cider
-                                         comint
-                                         company
-                                         compile
-                                         dired
-                                         docker
-                                         eshell
-                                         flycheck
-                                         ivy
-                                         lsp-ui-imenu
-                                         magit
-                                         magit-todos
-                                         man
-                                         which-key
-                                         xref))))
-
-
 (leaf evil-leader
   :straight t
   :config (progn (global-evil-leader-mode t)
@@ -151,6 +130,12 @@
 (leaf evil-lion
   :straight t
   :config (evil-lion-mode))
+
+
+(leaf evil-collection
+  :straight t
+  :setq ((evil-collection-setup-minibuffer . t))
+  :config (progn (evil-collection-init)))
 
 
 ;;; keymap

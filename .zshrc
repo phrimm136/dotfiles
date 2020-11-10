@@ -44,7 +44,7 @@ if ! zplug check; then
     zplug install
 fi
 
-zplug load 
+zplug load
 
 # Add ~/.local/bin to PATH
 local userbin="$HOME/.local/bin"

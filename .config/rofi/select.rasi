@@ -1,7 +1,7 @@
 configuration {
     modi             : [window,run,ssh,drun];
     lines            : 6;
-    font             : "SFNS 12";
+    font             : "NotoSans 12";
     auto-select      : true;
     matching         : "fuzzy";
     separator-style  : "solid";

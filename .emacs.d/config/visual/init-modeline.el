@@ -118,6 +118,7 @@
     (python-mode . "Python")
     (inferior-python-mode . "[Python]")
     (julia-mode . "Julia")
+    (julia-repl-mode . "[Julia]")
     (pdf-view-mode . "PDF")
     (emacs-lisp-mode . "ELisp")
     (lisp-interaction-mode . "[Lisp]")

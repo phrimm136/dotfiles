@@ -24,7 +24,6 @@
 (straight-use-package 'leaf)
 (straight-use-package 'leaf-keywords)
 (leaf-keywords-init)
-(straight-use-package 'bind-key)
 
 
 ;;; Set load pathes and load configures.

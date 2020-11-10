@@ -9,7 +9,7 @@
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-(setq-default scroll-bar-mode nil)
+(set-scroll-bar-mode nil)
 (toggle-scroll-bar nil)
 
 
@@ -31,14 +31,15 @@
 ;;; font
 
 (set-face-attribute 'default nil :family "DejaVuSansMono Nerd Font")
-(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :height 80)
 (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
 (setq-default face-font-rescale-alist
               '(("NanumGothicCoding" . 1.2307692307692308)))
 
+
 ;;; just one press for yes or no
 
-(defalias 'yes-or-no-p 'y-or-n-p)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 
 ;;; no tabs; only spaces
@@ -57,7 +58,7 @@
               auto-save-file-name-transforms '((".*" "~/.emacs.d/backups/" t)))
 
 
-;;; No issue link needed
+;;; No issue link is needed
 
 (bug-reference-mode nil)
 

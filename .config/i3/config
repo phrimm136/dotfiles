@@ -210,7 +210,7 @@ for_window [class="Termite" title="floating"] floating enable, resize set width 
 # terminal with rofi run_command
 for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp* title="^(?!floating$)"] focus
 default_orientation vertical
-for_window [class="^.*"] split toggle # fibonacci tilting as default
+for_window [class="^.*"] split toggle
 for_window [class="^.*"] border pixel 0
 # class	                    	border	backgr.	text	indica.	child_border
 client.focused              	#585858 #2f343f #d8dee8 #ffffff #585858

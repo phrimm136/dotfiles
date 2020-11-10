@@ -1,11 +1,17 @@
 #!/bin/sh
 
-if ! updates_arch=$(checkupdates 2> /dev/null | wc -l); then
-	updates_arch=0
+if pacman -Qi yay > /dev/null ; then
+    if pacman -Qi powerpill > /dev/null ; then
+        cmd="yay --pacman powerpill -Syu"
+    else
+        cmd="yay -Syu"
+    fi
+else
+    if pacman -Qi powerpill > dev/null ; then
+        cmd="sudo powerpill -Syu"
+    else
+        cmd="sudo pacman -Syu"
+    fi
 fi
 
-if ! updates_aur=$(yay -Qum 2> /dev/null | wc -l); then
-	updates_aur=0
-fi
-
-echo "$updates_arch  $updates_aur"
+termite --title=floating -e "$cmd"
