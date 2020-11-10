@@ -1,0 +1,137 @@
+#Use Xft?
+use_xft yes
+xftfont DejaVu Sans:size=7
+xftalpha 0.8
+
+# Update interval in seconds
+update_interval 1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Create own window instead of using desktop (required in nautilus)
+own_window  yes
+own_window_transparent yes
+#own_window_transparent no
+own_window_type normal
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager,below
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+# Minimum size of text area
+minimum_size 668 168
+maximum_size 966 168
+# Draw shades?
+draw_shades no
+
+# Draw outlines?
+draw_outline no
+
+# Draw borders around text
+draw_borders no
+
+# Stippled borders?
+stippled_borders 0
+
+# border width
+border_width 1
+
+# Default colors and also border colors
+default_color white
+default_shade_color 002200
+default_outline_color 22ee99
+#own_window_colour white
+#own_window_colour 1E1C1A
+
+short_units yes
+# Text alignment, other possible values are commented
+alignment top_left
+#alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 35
+gap_y 50
+
+# Subtract file system buffers from used memory?
+no_buffers yes
+
+# set to yes if you want all text to be in uppercase
+uppercase no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 2
+
+# number of net samples to average
+# set to 1 to disable averaging
+net_avg_samples 2
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale yes
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+#use_spacer none
+use_spacer left
+
+TEXT
+${color darkgreen}System${color}
+${offset 0}${color darkslategray}Kernel: ${color}${kernel}
+${offset 0}${color darkslategray}Uptime: ${color}${uptime}
+${offset 0}${color darkslategray}Load: ${color}${loadavg}
+${offset 0}${loadgraph 20,80 789e2d a7cc5c}
+
+${voffset -109}
+${offset 140}${color darkgreen}CPU${color}
+${offset 140}${color darkslategray}CPU0:${color} ${cpu cpu0}%${goto 250}${cpubar cpu0 5, 80}
+${offset 140}${color darkslategray}CPU1:${color} ${cpu cpu1}%${goto 250}${cpubar cpu1 5, 80}
+${offset 140}${color darkslategray}CPU2:${color} ${cpu cpu2}%${goto 250}${cpubar cpu2 5, 80}
+${offset 140}${color darkslategray}CPU3:${color} ${cpu cpu3}%${goto 250}${cpubar cpu3 5, 80}
+${offset 140}${cpugraph cpu0 20,90 789e2d a7cc5c}${goto 240}${cpugraph cpu1 20,90 789e2d a7cc5c}
+${offset 140}${cpugraph cpu2 20,90 789e2d a7cc5c}${goto 240}${cpugraph cpu3 20,90 789e2d a7cc5c}
+
+${voffset -157}
+${offset 350}${color darkgreen}Memory${color}
+${offset 350}${color darkslategray}Total: ${color} ${memmax}
+${offset 350}${color darkslategray}Active: ${color} ${mem}
+${offset 350}${color darkslategray}Easy: ${color} ${memeasyfree}
+${offset 350}${color darkslategray}Free: ${color} ${memfree}
+${offset 350}${membar 5,80}
+${offset 350}${memgraph 20,80 789e2d a7cc5c}
+
+${voffset -117}
+${offset 450}${color darkgreen}Disks${color}
+${offset 450}${color darkslategray}/${color} ${fs_used /}/${fs_size /}${goto 570}${fs_bar 5,80 /}
+${offset 450}${color darkslategray}/home${color} ${fs_used /home}/${fs_size /home}${goto 570}${fs_bar 5,80 /home}
+${offset 450}${color darkslategray}/boot${color} ${fs_used /boot}/${fs_size /boot}${goto 570}${fs_bar 5,80 /boot}
+
+${voffset -182}
+${offset 550}${color darkgreen}Network${color}
+${if_existing /proc/net/route eth0}${offset 550}eth0
+${offset 550}${color darkslategray}IP:${color}
+${offset 550}${addr eth0}
+${offset 550}${color darkslategray}Pub IP:${color}
+${offset 550}${color darkslategray}Tot. Tx:${color} ${totalup eth0}
+${offset 550}${color darkslategray}Tx:${color} ${upspeed eth0} kb/s
+${offset 550}${upspeedgraph eth0 12,90 789E2D A7CC5C}
+${offset 550}${color darkslategray}Rx:${color} ${downspeed eth0} kb/s
+${offset 550}${downspeedgraph eth0 12,90 789E2D A7CC5C}
+${else}
+${if_existing /proc/net/route eth1}${offset 550}eth1
+${offset 550}${color darkslategray}Signal:${color} ${wireless_link_qual eth1}%
+${offset 550}${wireless_link_bar 4,80 eth1}
+${offset 550}${color darkslategray}IP ${color}
+${offset 550}${addr eth1}
+${offset 550}${color darkslategray}Pub IP:${color}
+${offset 550}${color darkslategray}Tot. Tx:${color} ${totalup eth1}
+${offset 550}${color darkslategray}Tx:${color} ${upspeed eth1} kb/s
+${offset 550}${upspeedgraph eth1 12,90 789E2D A7CC5C}
+${offset 550}${color darkslategray}Rx:${color} ${downspeed eth1} kb/s
+${offset 550}${downspeedgraph eth1 12,90 789E2D A7CC5C}
+${else}${offset 550}Unavailable
+${endif}
+${endif}
