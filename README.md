@@ -3,14 +3,14 @@ emacs 27 or newer version is required.
 ------------------------------------
 
 i3 + polybar
-![Alt_text](./assets/polybar.png)
+![Alt_text](./polybar.png)
 
 termite + zsh + tmux
-![Alt text](./assets/terminal.png)
+![Alt text](./terminal.png)
 nvim / neofetch / htop
 
 emacs
-![Alt_text](./assets/emacs.png)
+![Alt_text](./emacs.png)
 
 rofi
-![Alt_text](./assets/rofi.png)
+![Alt_text](./rofi.png)
