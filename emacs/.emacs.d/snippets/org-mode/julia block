@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: julia block
+# key: jl
+
+#+BEGIN_SRC julia :kernel julia
+$0
+#+END_SRC

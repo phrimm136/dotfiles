@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: plot with dots
+# key: pldt
+# --
+@pgf $1 = TikPicture(
+{only_marks,}
+Table($2)
+Expression($3)
+)
+$0
