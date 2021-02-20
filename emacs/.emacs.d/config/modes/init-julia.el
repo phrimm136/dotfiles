@@ -47,6 +47,17 @@
   :config (progn ))
 
 
+;;; formatter
+
+(leaf julia-formatter
+  :straight (julia-formatter :type git
+                             :host github
+                             :repo "ki-chi/julia-formatter")
+  :hook ((julia-mode-hook . julia-formatter-server-start)
+         (julia-mode-hook . (lambda ()
+                              (add-hook 'before-save-hook 'julia-format-buffer nil 'local)))))
+
+
 ;;; keymap
 
 (defvar custom-julia-eval-keymap
