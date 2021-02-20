@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-yaml.el --- configuration for yaml format -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

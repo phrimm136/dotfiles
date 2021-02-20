@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-dired.el --- configuration for prompt -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

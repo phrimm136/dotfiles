@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-recentf --- configuration for recentf -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

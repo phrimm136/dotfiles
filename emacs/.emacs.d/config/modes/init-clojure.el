@@ -1,4 +1,5 @@
-;;; package --- summary:
+;;; init-clojure.el --- configuration for clojure language -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;;; Code:
 

@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-flyspell.el --- configuration for flyspell -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

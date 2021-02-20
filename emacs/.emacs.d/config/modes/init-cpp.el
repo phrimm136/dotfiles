@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-cpp.el --- configuration for c++ language -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

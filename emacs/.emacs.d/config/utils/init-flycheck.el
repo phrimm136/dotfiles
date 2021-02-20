@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-flycheck.el --- configuration for flycheck -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

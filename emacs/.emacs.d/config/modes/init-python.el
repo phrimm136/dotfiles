@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-python.el --- configuration for python language -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

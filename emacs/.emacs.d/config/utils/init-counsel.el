@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-counsel.el --- configuration for counsel, ivy, and swiper -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

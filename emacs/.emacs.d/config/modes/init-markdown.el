@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-markdown --- configuration for markdown -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-lsp.el --- configuration for lsp -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

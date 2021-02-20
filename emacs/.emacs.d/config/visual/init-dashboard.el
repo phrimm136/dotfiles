@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-dashboard.el --- configuration for dashboard -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

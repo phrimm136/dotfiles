@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-yasnippet.el --- configuration for yasnippet -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

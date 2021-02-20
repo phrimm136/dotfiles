@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-modeline.el --- configuration for modeline -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

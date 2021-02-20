@@ -1,4 +1,5 @@
-;;; package --- summary:
+;;; init-pdf.el --- configuration for pdf format -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;;; Code:
 

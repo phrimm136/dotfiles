@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-undo-tree.el --- configuration for undo-tree -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

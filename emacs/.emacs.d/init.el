@@ -1,4 +1,5 @@
-;;; package --- summary:
+;;; init.el --- initialize emacs configurations -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;;; Code:
 

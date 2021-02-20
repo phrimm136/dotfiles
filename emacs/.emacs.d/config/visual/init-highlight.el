@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-highlight.el --- configuration for highlighting specific text format
+
 ;;; Commentary:
+
 ;;; Code:
 
 

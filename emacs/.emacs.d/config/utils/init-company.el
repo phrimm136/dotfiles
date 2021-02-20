@@ -1,12 +1,13 @@
-;;; package --- summary:
+;;; init-company.el --- configuration for company -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 
 (leaf company
   :straight t
   :leaf-defer nil
-  :hook (((prog-mode-hook org-mode-hook) . company-mode))
   :setq ((company-idle-delay . 0)
          (company-minimum-prefix-length . 2)
          (company-backends . '((company-dabbrev-code :separate company-capf company-keywords)

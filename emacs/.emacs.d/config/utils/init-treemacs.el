@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init.treemacs.el --- configuration for treemacs -*- lexical-binding:t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

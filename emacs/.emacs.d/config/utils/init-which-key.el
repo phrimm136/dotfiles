@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-which-key.el --- configuration for which-key -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-org.el --- configuration for org-mode and related packages -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

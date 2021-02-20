@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-aggressive-indent.el --- configuration for agressive-indent -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

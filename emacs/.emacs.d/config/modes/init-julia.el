@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-julia.el --- configuration for julia language -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

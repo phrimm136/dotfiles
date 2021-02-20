@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-eldoc.el --- configuration for eldoc -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

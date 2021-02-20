@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-dap.el --- configuration for dap -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

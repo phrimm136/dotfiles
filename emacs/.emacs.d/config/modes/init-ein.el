@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-ein.el --- configuration for jupyter notebook with ein -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

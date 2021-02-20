@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-magit.el --- configuration for magit -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

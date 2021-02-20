@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-docker.el --- configuration for docker -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-projectile --- configuration for projectile -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

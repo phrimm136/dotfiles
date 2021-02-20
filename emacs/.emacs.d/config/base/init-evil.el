@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-evil.el --- configuration for evil -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

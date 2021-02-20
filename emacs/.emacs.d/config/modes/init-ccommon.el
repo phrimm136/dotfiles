@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-common.el --- configuration for c language family -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

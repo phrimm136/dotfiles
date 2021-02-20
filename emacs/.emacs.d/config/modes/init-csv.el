@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-csv.el --- configuration for csv format -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 

@@ -1,6 +1,9 @@
-;;; package --- summary:
-;;; Code:
+;;; init-theme.el --- configuration for theme -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
+;;; Code:
+
 
 ;;; Use theme
 
