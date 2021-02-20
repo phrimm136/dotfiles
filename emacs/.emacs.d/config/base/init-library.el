@@ -13,12 +13,6 @@
   :config ())
 
 
-;;; all-the-icons
-
-(leaf all-the-icons
-  :straight t)
-
-
 (provide 'init-library)
 
 ;;; init-library.el ends here
