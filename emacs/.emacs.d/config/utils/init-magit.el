@@ -27,12 +27,15 @@
   :hook (magit-mode-hook . magit-todos-mode))
 
 
-;;; evil-mode integration
+;;; use delta
 
-(leaf evil-magit
+(leaf magit-delta
   :straight t
   :after magit
-  :config (progn (evil-magit-init)))
+  :hook (magit-mode-hook . (lambda ()
+                             (magit-delta-mode 1))))
 
+
+(provide 'init-magit)
 
 ;;; init-magit.el ends here
