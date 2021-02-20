@@ -9,6 +9,13 @@
 
 (leaf counsel
   :straight t
+  :config (progn (defun phrimm/counsel-fzf-rg (&optional input dir)
+                   "Run `ripgrep' on `fzf' to find files in current the directory"
+                   (interactive)
+                   (let ((process-environment
+                          (cons (concat "FZF_DEFAULT_COMMAND=rg -Sn --color never --files --no-follow --hidden")
+                                process-environment)))
+                     (counsel-fzf input dir))))
   :bind ((:evil-normal-state-map
           ("C-SPC" . counsel-M-x)
           ("M-x" . counsel-M-x))
@@ -70,6 +77,7 @@
     (define-key map "d" 'delete-file)
     (define-key map "m" 'manual-entry)
     (define-key map "y" 'counsel-yank-pop)
+    (define-key map "z" 'phrimm/counsel-fzf-rg)
     map))
 (defalias 'counsel custom-counsel-keymap)
 
