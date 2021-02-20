@@ -18,8 +18,11 @@
          (org-startup-with-inline-images . t)
          (org-startup-with-latex-preview . t)
          (org-babel-min-lines-for-block-output . 10000000)
-         (org-table-convert-region-max-lines . 1000000))
-  :hook ((org-babel-after-execute-hook . org-display-inline-images))
+         (org-table-convert-region-max-lines . 1000000)
+         (org-latex-default-packages-alist . '(("AUTO" "amsmath" t))))
+  :hook ((org-babel-after-execute-hook . org-display-inline-images)
+         (org-mode-hook . (lambda ()
+                            (setq-local truncate-lines nil))))
   :config (progn (org-babel-do-load-languages 'org-babel-load-languages
                                               '((emacs-lisp . t)
                                                 (shell . t)
@@ -41,7 +44,15 @@
 ;;   :hook ((org-mode-hook . org-sticky-header-prefix)))
 
 
-;;; export github flavored markdown
+;;; org-mode as zettelkasten
+
+(leaf org-roam
+  :straight t
+  :setq ((org-roam-directory . "~/github/Study/Notes"))
+  :hook ((after-init-hook . org-roam-mode)))
+
+
+;;; export to github flavored markdown
 
 (leaf ox-gfm
   :straight t
