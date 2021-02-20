@@ -1,7 +1,18 @@
-;;; package --- summary:
+;;; init-parens.el --- configuration for parenthesis -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
+
+;;; show matching parenthesis
+
+(leaf paren
+  :setq ((show-paren-style . 'parenthesis))
+  :config (progn (show-paren-mode 1)))
+
+
+;;; smartparens
 
 (leaf smartparens
   :straight t
@@ -64,4 +75,6 @@ _L_: forward     ^ ^               ^ ^
   "s" 'hydra-smartparens-menu/body)
 
 
-;;; init-smartparens.el ends here
+(provide 'init-parens)
+
+;;; init-parens.el ends here

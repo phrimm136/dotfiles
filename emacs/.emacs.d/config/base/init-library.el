@@ -1,5 +1,7 @@
-;;; package --- summary:
+;;; init-library --- configuration for some libraries -*- lexical-binding: t -*-
+
 ;;; Commentary:
+
 ;;; Code:
 
 
@@ -17,4 +19,6 @@
   :straight t)
 
 
-;;; init-misc.el ends here
+(provide 'init-library)
+
+;;; init-library.el ends here
