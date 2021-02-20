@@ -18,9 +18,9 @@
                                company-abbrev
                                company-dabbrev))
          (company-echo-truncate-lines . t)
-         (company-tooltip-align-annotations . t))
-  :bind (:company-active-map
-         ("<tab>" . company-complete)))
+         (company-tooltip-align-annotations . t)
+         (company-tng-auto-configure . nil))
+  :config (progn (global-company-mode t)))
 
 
 ;; (leaf company-tabnine

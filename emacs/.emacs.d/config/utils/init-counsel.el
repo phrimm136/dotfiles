@@ -57,12 +57,6 @@
                          #'ivy-format-function-line)))
 
 
-;;; hydra keymap for ivy
-
-(leaf ivy-hydra
-  :straight t)
-
-
 ;;; keymap
 
 (defvar custom-counsel-keymap

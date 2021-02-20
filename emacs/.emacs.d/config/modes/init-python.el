@@ -16,17 +16,19 @@
 ;;          (lsp-pyls-plugins-pycodestyle-enabled . nil)))
 
 (leaf lsp-pyright
-  :after lsp-mode
   :straight t
+  :after lsp-mode
   :hook (python-mode-hook . (lambda ()
                               (require 'lsp-pyright)
                               (lsp))))
+
 
 ;;; python debug adapter
 
 (leaf dap-python
   :after dap-mode
   :require t)
+
 
 ;;; additional linter
 
@@ -57,7 +59,7 @@
   :config (progn ()))
 
 
-;;; make editing requirements.txt convenient
+;;; convenient editing requirements.txt
 
 (leaf pip-requirements
   :straight t)

@@ -30,7 +30,7 @@
 
 ;;; font
 
-(set-face-attribute 'default nil :family "DejaVuSansMono Nerd Font")
+(set-face-attribute 'default nil :family "DejaVuSansMono")
 (set-face-attribute 'default nil :height 80)
 (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
 (setq-default face-font-rescale-alist

@@ -8,7 +8,7 @@
 (leaf lsp-mode
   :straight t
   :hook ((prog-mode-hook . lsp-deferred))
-  :setq ((lsp-enable-semantic-highlighting . t)
+  :setq ((lsp-enable-semantic-highlighting . nil)
          (lsp-keep-workspace-alive . nil)
          (lsp-prefer-flymake . nil)
          (lsp-auto-configure . nil)
@@ -16,6 +16,8 @@
          (lsp-eldoc-render-all . nil)
          (lsp-log-io . nil)
          (lsp-json-use-lists . nil)
+         (lsp-enable-completion-at-point . t)
+         (lsp-enable-symbol-highlighting . t)
          (lsp-signature-auto-activate . nil)))
 
 

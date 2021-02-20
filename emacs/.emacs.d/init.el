@@ -1,13 +1,14 @@
 ;;; init.el --- initialize emacs configurations -*- lexical-binding: t -*-
 
 ;;; Commentary:
+
 ;;; Code:
 
 
 (setq gc-cons-threshold (* 50 1000 1000))
 
 
-(setq straight-repository-branch "develop")
+(defvar straight-repository-branch "develop")
 (defvar bootstrap-version)
 (let ((bootstrap-file (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
       (bootstrap-version 5))
@@ -20,8 +21,8 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-fix-org nil) ;; Solved on 28 version
-(straight-use-package 'benchmark-init)
-(benchmark-init/activate)
+;; (straight-use-package 'benchmark-init)
+;; (benchmark-init/activate)
 (straight-use-package 'leaf)
 (straight-use-package 'leaf-keywords)
 (leaf-keywords-init)

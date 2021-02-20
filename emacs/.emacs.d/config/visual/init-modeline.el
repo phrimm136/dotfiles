@@ -63,21 +63,24 @@
                             (concat " Git:" (substring vc-mode 5) " ")
                           ""))) ;; version control system; need to show more information.
     (:properlize " %* ") ;; buffer R/W state - modified / read only / saved
-    (:properlize evil-mode-line-tag) ;; evil state
+    (:properlize (:eval (if (bound-and-true-p evil-mode)
+                            evil-mode-line-tag
+                          ""))) ;; evil state
     (:properlize (:eval (if (bound-and-true-p flycheck-mode)
                             flycheck-mode-line
                           ""))) ;; flycheck errors
-    (:properlize (:eval (if (and (bound-and-true-p lsp-mode)
-                                 (ignore-errors (lsp--find-clients)))
-                            (concat " "
-                                    (lsp-mode-line))
-                          ""))) ;; language server status
+    ;; (:properlize (:eval (if (and (bound-and-true-p lsp-mode)
+    ;;                              (ignore-errors (lsp--find-clients)))
+    ;;                         (concat " "
+    ;;                                 (lsp-mode-line))
+    ;;""))) ;; language server status
     (:properlize (:eval (if (bound-and-true-p workgroups-mode)
                             (concat " "
                                     (wg-mode-line-string))
                           ""))) ;; workgroups statue
     (:properlize (:eval (if (bound-and-true-p iedit-mode)
-                            iedit-mode-line
+                            (concat " "
+                                    iedit-mode-line)
                           ""))) ;; iedit candidates
     (:properlize (:eval (custom-evil-region-line-number)))))
 
@@ -85,19 +88,21 @@
   '())
 
 (defvar mode-line-align-right ;; editing status
-  '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode) (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
-                              (t (concat " %l : %c " ;; cursor position - row : column
-                                         " %p / %Ib " ;; percentage of the buffer text above the top of the window / file size
-                                         (let ((encoding (coding-system-plist buffer-file-coding-system)))
-                                           (cond ((memq (plist-get encoding :category)
-                                                        '(coding-category-undecided coding-category-utf-8))
-                                                  " UTF-8 ")
-                                                 (t (upcase (symbol-name (plist-get encoding :name)))))) ;; encoding
-                                         (pcase (coding-system-eol-type buffer-file-coding-system)
-                                           (0 " LF ")
-                                           (1 " CRLF ")
-                                           (2 " CR ")) ;; EoL type
-                                         )))))
+  '((:properlize (:eval (cond ((eq major-mode 'pdf-view-mode)
+                               (format " %s P " (pdf-view-current-page))) ;; current page for pdfview mode
+                              (t
+                               (concat " %l : %c " ;; cursor position - row : column
+                                       " %p / %Ib " ;; percentage of the buffer text above the top of the window / file size
+                                       (let ((encoding (coding-system-plist buffer-file-coding-system)))
+                                         (cond ((memq (plist-get encoding :category)
+                                                      '(coding-category-undecided coding-category-utf-8))
+                                                " UTF-8 ")
+                                               (t (upcase (symbol-name (plist-get encoding :name)))))) ;; encoding
+                                       (pcase (coding-system-eol-type buffer-file-coding-system)
+                                         (0 " LF ")
+                                         (1 " CRLF ")
+                                         (2 " CR ")) ;; EoL type
+                                       )))))
     (:properlize " %m ") ;; major mode
     ))
 
@@ -137,7 +142,7 @@
              (when (eq mode major-mode)
                (setq mode-name mode-str)))))
 
-(add-hook 'after-change-major-mode-hook  'clean-mode-line)
+(add-hook 'after-change-major-mode-hook 'clean-mode-line)
 
 
 ;;; init-modeline.el ends here

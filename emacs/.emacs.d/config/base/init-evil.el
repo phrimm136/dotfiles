@@ -10,7 +10,10 @@
   :init (progn (setq evil-want-keybinding nil
                      evil-want-c-i-jump nil))
   :config (progn (evil-mode 1)
-                 (evil-set-undo-system 'undo-tree))
+                 (evil-set-undo-system 'undo-tree)
+                 (evil-ex-define-cmd "stp" 'straight-pull-all)
+                 (evil-ex-define-cmd "stb" 'straight-rebuild-all)
+                 (evil-ex-define-cmd "stc" 'straight-check-all))
   :bind ((:evil-insert-state-map
           ("C-k" . nil) ; conflict with other ^k bindings
           )))
@@ -25,6 +28,14 @@
 (leaf evil-multiedit
   :straight t
   :leaf-defer nil
+  :config (progn (defvar custom-evil-multiedit-keymap
+                   (let ((map (make-sparse-keymap)))
+                     (define-key map "a" 'evil-multiedit-match-all)
+                     (define-key map "e" 'evil-multiedit-match-and-next)
+                     (define-key map "r" 'evil-multiedit-restore)
+                     (define-key map "s" 'evil-multiedit-ex-match)
+                     map))
+                 (defalias 'evil-multiedit custom-evil-multiedit-keymap))
   :bind ((:evil-multiedit-state-map
           ("j" . iedit-next-occurrence)
           ("k" . iedit-prev-occurrence)
@@ -94,9 +105,9 @@
 ;;                               (evil-quickscope-always-mode 0)))))
 
 
-(leaf evil-snipe
-  :straight t
-  :config (evil-snipe-override-mode))
+;; (leaf evil-snipe
+;;   :straight t
+;;   :config (evil-snipe-override-mode))
 
 
 (leaf evil-easymotion
@@ -141,21 +152,6 @@
 
 
 ;;; keymap
-
-(evil-ex-define-cmd "stp" 'straight-pull-all)
-(evil-ex-define-cmd "stb" 'straight-rebuild-all)
-(evil-ex-define-cmd "stc" 'straight-check-all)
-
-
-(defvar custom-evil-multiedit-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map "a" 'evil-multiedit-match-all)
-    (define-key map "e" 'evil-multiedit-match-and-next)
-    (define-key map "r" 'evil-multiedit-restore)
-    (define-key map "s" 'evil-multiedit-ex-match)
-    map))
-(defalias 'evil-multiedit custom-evil-multiedit-keymap)
-
 
 (evil-leader/set-key
   "0" 'evil-window-delete

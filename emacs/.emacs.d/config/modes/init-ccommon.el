@@ -36,10 +36,11 @@
 (leaf clang-format
   :straight t
   :config (progn (setq clang-format-style "Microsoft")))
+
 (leaf clang-format+
   :straight t
-  :hook ((c-mode-common-hook . clang-format+-mode))
-  :config (progn (setq clang-format+-offset-modified-region 4)))
+  :setq ((clang-format+-offset-modified-region . 4))
+  :hook ((c-mode-common-hook . clang-format+-mode)))
 
 
 ;;; c/++ header completion
@@ -113,7 +114,7 @@
                                           (cmake-ide-setup))))))))
 
 (defun cmake-ide-compdb ()
-  "Make compile_commands.json for non-cmake projects."
+  "Create compile_commands.json for non-cmake projects."
   (interactive)
   (shell-command (concat "compdb -p "
                          (cide--build-dir)
@@ -136,6 +137,7 @@
       gdb-show-main t)
 
 ;; restore current layout when exiting gdb - https://stackoverflow.com/a/41326527
+
 (defun set-gdb-layout(&optional c-buffer)
   "Layout for gdb."
   (if (not c-buffer)
@@ -162,13 +164,16 @@
     (set-window-buffer w-gdb gud-comint-buffer)
     (select-window w-source)
     (set-window-buffer w-source c-buffer)))
+
 (defvar global-config-editing (current-window-configuration)) ;; to restore: (set-window-configuration c-editing)
+
 (defadvice gdb (around args activate)
   "Change the way to gdb works."
   (let ((c-buffer (window-buffer (selected-window))) ;; save current buffer
         )
     ad-do-it
     (set-gdb-layout c-buffer)))
+
 (defadvice gdb-reset (around args activate)
   "Change the way to gdb exit."
   ad-do-it
@@ -181,14 +186,10 @@
   "Run CMD with comint."
   (let* ((name (format "Process: %s" cmd))
          (buf (set-buffer (generate-new-buffer name)))
-         (proc nil)
-         (line-- (make-string 80 ?-))
-         (proc-sentinal-fn (lambda (proc evt)
-                             (insert (format "%s\n%s -- %s\n%s\n" line-- evt (current-time-string) line--))))
-         (comint-mode-result (comint-mode)))
+         (proc (start-process-shell-command name buf cmd))
+         (line-- (make-string 80 ?-)))
     (switch-to-buffer-other-window buf)
     (insert (format "Starting: %s\n%s\n" (current-time-string) line--))
-    (setq proc (start-process-shell-command name buf cmd))
     (set-process-sentinel proc (lambda (proc evt)
                                  (insert (format "==========\n%s -- (%s) %s\n"
                                                  evt

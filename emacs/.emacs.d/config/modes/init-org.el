@@ -27,12 +27,11 @@
                                                 (ein . t)
                                                 (latex . t)))))
 
-(eval-when-compile
-  (defun org-ctrl-c-ctrl-c-move-next ()
-    "Move to next block after org-ctrl-c-ctrl-c."
-    (interactive)
-    (org-ctrl-c-ctrl-c)
-    (org-next-block 1)))
+(defun org-ctrl-c-ctrl-c-move-next ()
+  "Move to next block after org-ctrl-c-ctrl-c."
+  (interactive)
+  (org-ctrl-c-ctrl-c)
+  (org-next-block 1))
 
 
 ;;; sticky header
@@ -58,8 +57,7 @@
          (org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
                                   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
                                   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
-  :config (progn (with-eval-after-load 'ox-latex
-                   (add-to-list 'org-latex-packages-alist '("" "minted")))
+  :config (progn (add-to-list 'org-latex-packages-alist '("" "minted"))
                  ;; need to install pygmentize - reminder
                  ))
 

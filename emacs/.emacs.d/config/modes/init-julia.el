@@ -5,7 +5,7 @@
 ;;; Code:
 
 
-;;; autostart
+;;; auto start
 
 (leaf julia-mode
   :straight t)
@@ -21,8 +21,11 @@
 
 ;;; math symbol candidates
 
-(add-hook 'julia-mode-hook (lambda ()
-                             (add-to-list (make-local-variable 'company-backends) 'company-math-symbols-unicode)))
+(if (bound-and-true-p company-math)
+    (with-eval-after-load 'company-math
+      (add-hook 'julia-mode-hook
+                (lambda ()
+                  (add-to-list (make-local-variable 'company-backends) 'company-math-symbols-unicode)))))
 
 
 ;;; better repl setting

@@ -1,10 +1,11 @@
 ;;; init-clojure.el --- configuration for clojure language -*- lexical-binding: t -*-
 
 ;;; Commentary:
+
 ;;; Code:
 
 
-;;; autostart
+;;; auto start
 
 (leaf clojure-mode
   :straight t
@@ -21,12 +22,16 @@
 
 (leaf cider
   :straight t
-  :hook ((cider-mode-hook . cider-enlighten-mode))
+  :hook ((cider-mode-hook . cider-enlighten-mode)
+         (cider-mode-hook . (lambda ()
+                              (add-hook 'before-save-hook 'cider-format-buffer))))
   :setq ((cider-show-error-buffer . nil)
          (cider-save-file-on-load . nil)
          (cider-repl-pop-to-buffer-on-connect . 'display-only)
          (cider-repl-warp-history . t)
-         (nrepl-log-messages . t)))
+         (nrepl-log-messages . t)
+         (cider-shadow-default-options . "app")
+         (cider-default-cljs-repl . shadow)))
 
 
 ;;; linter
@@ -109,6 +114,8 @@
 (defalias 'clojure custom-clojure-keymap)
 
 (evil-leader/set-key-for-mode 'clojure-mode
+  "<SPC>" 'clojure)
+(evil-leader/set-key-for-mode 'clojurescript-mode
   "<SPC>" 'clojure)
 (evil-leader/set-key-for-mode 'cider-repl-mode
   "<SPC>" 'clojure)
