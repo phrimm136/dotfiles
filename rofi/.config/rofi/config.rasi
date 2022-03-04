@@ -1,15 +1,17 @@
 configuration {
     modi             : [window,run,ssh,drun];
-    lines            : 6;
+    width            : 40;
+    lines            : 10;
     font             : "NotoSans 12";
-    auto-select      : true;
     matching         : "fuzzy";
     separator-style  : "solid";
     hide-scrollbar   : true;
+    yoffset          : -50;
     kb-remove-to-eol : "";
     kb-accept-entry  : "Return,KP_Enter";
     kb-row-up        : "Up,Control+k";
     kb-row-down      : "Down,Control+j";
+    terminal         : "alacritty";
     case-sensitive   : false;
 }
 
@@ -21,29 +23,58 @@ configuration {
     select-bg        : #202020;
     select-fg        : #dcdcdc;
 
-    background-color : #282828;
+    bg-color         : #282828;
     text-color       : #dcdcdc;
 }
 
 #window {
     padding          : 5;
-    background-color : #282828;
+    background-color : @bg-color;
     border-color     : #505050;
-    location         : center;
-    anchor           : center;
-    width            : 10%;
-    height           : 30%;
 }
 
 #mainbox {
     padding          : 5;
     background-color : inherit;
-    children         : [listview];
+}
+
+#inputbar {
+    padding          : 10 0 10;
+    text-color       : @text-color;
+}
+
+#prompt {
+    text-color       : @text-color;
+}
+
+#textbox-prompt-colon {
+    text-color       : @text-color;
+}
+
+#entry {
+    text-color       : @text-color;
+}
+
+#message {
+    border-color     : #787878;
+    text-color       : @text-color;
+}
+
+#textbox {
+    border-color     : #dcdcdc;
+    text-color       : inherit;
 }
 
 #listview {
     fixed-height     : 0;
+    border           : 2px 0px 0px;
+    border-color     : #dcdcdc;
+    padding          : 5 1% 5;
     spacing          : 2;
+}
+
+#scrollbar {
+    handle-color     : #585858;
 }
 
 #element {
