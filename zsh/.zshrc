@@ -8,7 +8,6 @@ source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug 'djui/alias-tips'
-zplug 'plugins/autojump', from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/common-aliases', from:oh-my-zsh
 zplug 'lib/completion', from:oh-my-zsh
@@ -22,13 +21,12 @@ zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 
-zplug 'junegunn/fzf-bin', from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
+zplug 'junegunn/fzf-bin', from:gh-r, rename-to:fzf, use:"*linux*amd64*"
 zplug 'junegunn/fzf', from:github, use:"shell/*.zsh", defer:2
 zplug 'Aloxaf/fzf-tab', defer:2
 
-zplug 'plugins/git', from:oh-my-zsh
 zplug 'plugins/gitfast', from:oh-my-zsh
-zplug 'wfxr/forgit'
+zplug 'plugins/git', from:oh-my-zsh
 
 zplug 'plugins/docker', from:oh-my-zsh
 zplug 'plugins/extract', from:oh-my-zsh
@@ -67,30 +65,32 @@ export DISABLE_FZF_AUTO_COMPLETION="true"
 export FZF_COMPLETION_TRIGGER="**"
 
 # fzf-tab settings
-FZF_TAB_COMMAND=(
-    fzf
-    --ansi
-    --expect='$continuous_trigger,$print_query'
-    '--color=hl:$(($#headers == 0 ? 108 : 255))'
-    --nth=2,3 --delimiter='\0'
-    --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,ctrl-j:down,change:top,ctrl-space:toggle --cycle
-    '--query=$query'
-    '--header-lines=$#headers'
-    '--print-query'
-)
-zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+	'git diff $word | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+	'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+	'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+	'case "$group" in
+	"commit tag") git show --color=always $word ;;
+	*) git show --color=always $word | delta ;;
+	esac'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+	'case "$group" in
+	"modified file") git diff $word | delta ;;
+	"recent commit object name") git show --color=always $word | delta ;;
+	*) git log --color=always $word ;;
+	esac'
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' show-group full
 
-# forgit configures
-forgit_log=glo
-forgit_diff=gd
-forgit_add=ga
-forgit_reset_head=grh
-forgit_ignore=gi
-forgit_restore=gcf
-forgit_clean=gclean
-forgit_stash_show=gss
-forgit_cherry_pick=gcp
+# zoxide configures
+eval "$(zoxide init zsh)"
 
 # Key bindings
 bindkey "^K" up-line-or-history
@@ -99,18 +99,22 @@ bindkey "^J" down-line-or-history
 # Aliases
 alias _='sudo '
 alias a='clear'
+alias b='btm'
 alias c='nvim ~/.zshrc'
-alias h='htop'
 alias n='neofetch'
+alias l='exa -lFh'
 alias q='exit'
 alias r='source ~/.zshrc'
 alias t='sudo ntpdate -u time.nist.gov'
 alias v='nvim'
 alias xc='xcape -t 150 -e "Control_L=Escape"'
-alias y='yay --pacman powerpill'
+alias y='yay'
 alias py='python'
 alias jl='julia'
-alias pp='sudo powerpill'
+alias pp='sudo pacman'
+alias kb='~/.config/i3/scripts/keyboard.sh'
+alias la='exa -alFh'
+alias pc='paccache -rk1 && paccache ruk0'
 alias vf='nvim $(fasd -l | fzf)'
 alias mtu='sudo ip link set wlp3s0 mtu'
 alias mnt='udisksctl mount -b /dev/sdb1'
