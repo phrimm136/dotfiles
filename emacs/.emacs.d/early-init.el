@@ -5,6 +5,12 @@
 ;;; Code:
 
 
+;;; native-comp configurations
+
+(setq comp-speed 3
+      comp-async-jobs-number 4)
+
+
 ;;; no more mouse
 
 (menu-bar-mode 0)
@@ -30,8 +36,9 @@
 
 ;;; font
 
-(set-face-attribute 'default nil :family "DejaVuSansMono")
-(set-face-attribute 'default nil :height 80)
+(set-face-attribute 'default nil
+                    :family "Fira Code"
+                    :height 70)
 (set-fontset-font t 'hangul (font-spec :name "NanumGothicCoding"))
 (setq-default face-font-rescale-alist
               '(("NanumGothicCoding" . 1.2307692307692308)))
@@ -83,13 +90,13 @@
 (setq truncate-lines 0)
 
 
-;;; For source files add line number indicator
+;;;  Add line number indicator for text/code files
 
 (dolist (editor '(prog-mode-hook org-mode-hook text-mode-hook yaml-mode-hook))
   (add-hook editor
             (lambda ()
-              (setq indicate-empty-lines t)
-              (setq display-line-numbers 'relative))))
+              (setq indicate-empty-lines t
+                    display-line-numbers 'relative))))
 
 
 ;;; Activate narrow

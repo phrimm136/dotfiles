@@ -20,7 +20,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-fix-org nil) ;; Solved on 28 version
+(setq straight-fix-org nil ;; Solved on 28 version
+      straight-check-for-modifications nil)
 ;; (straight-use-package 'benchmark-init)
 ;; (benchmark-init/activate)
 (straight-use-package 'leaf)
@@ -28,31 +29,41 @@
 (leaf-keywords-init)
 
 
-;;; Set load pathes and load configures.
+;;; Set load pathes and load configurations.
 
-(defun load-directory (dir)
-  "Load all Emacs Lisp files in DIR."
-  (let ((load-it (lambda (f)
-		   (load-file (concat (file-name-as-directory dir) f)))))
-    (mapc load-it (directory-files dir nil "\\.el$"))))
+(add-to-list 'load-path "~/.emacs.d/config/")
 
-(defvar base-path (expand-file-name "config/base" user-emacs-directory))
-(defvar utils-path (expand-file-name "config/utils" user-emacs-directory))
-(defvar modes-path (expand-file-name "config/modes" user-emacs-directory))
-(defvar term-path (expand-file-name "config/term" user-emacs-directory))
-(defvar visual-path (expand-file-name "config/visual" user-emacs-directory))
+;;; general config
+(require 'init-modeline)
+(require 'init-evil)
+(require 'init-library)
+(require 'init-theme)
+(require 'init-lsp)
+(require 'init-flycheck)
+(require 'init-git)
+(require 'init-completion)
+(require 'init-projectile)
+(require 'init-dashboard)
+(require 'init-visual-regexp)
+(require 'init-spell-fu)
+(require 'init-parens)
+(require 'init-highlight)
+(require 'init-undo-tree)
+(require 'init-which-key)
+(require 'init-ace-window)
+                                        ;(require 'init-counsel)
+(require 'init-M-x)
+(require 'init-eaf)
+(require 'init-feed)
 
-(load-directory base-path)
-(load-directory utils-path)
-(load-directory modes-path)
-(load-directory term-path)
-(load-directory visual-path)
-
-(kill-buffer "*scratch*")
-(kill-buffer "*Messages*")
-;; To hook functions to message buffer correctly, I had to kill it and leave it opened again.
-;; Weird method, losing startup log but simple.
-
+;;; modes-specific config
+(require 'init-ccommon)
+(require 'init-python)
+(require 'init-clojure)
+(require 'init-julia)
+(require 'init-latex)
+(require 'init-org)
+(require 'init-yaml)
 
 (setq gc-cons-threshold 800000)
 

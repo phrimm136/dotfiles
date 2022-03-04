@@ -1,0 +1,90 @@
+;;; init-counsel.el --- configuration for counsel, ivy, and swiper -*- lexical-binding: t -*-
+
+;;; Commentary:
+
+;;; Code:
+
+
+;;; counsel
+
+(leaf counsel
+  :straight t
+  :config (progn (defun phrimm/counsel-fzf-rg (&optional input dir)
+                   "Run `ripgrep' on `fzf' to find files in current the directory"
+                   (interactive)
+                   (let ((process-environment
+                          (cons (concat "FZF_DEFAULT_COMMAND=rg -Sn --color never --files --no-follow --hidden")
+                                process-environment)))
+                     (counsel-fzf input dir))))
+  :bind ((:evil-normal-state-map
+          ("C-SPC" . counsel-M-x)
+          ("M-x" . counsel-M-x))
+         (:evil-motion-state-map
+          ("C-SPC" . counsel-M-x)
+          ("M-x" . counsel-M-x))))
+
+
+;;; swiper
+
+(leaf swiper
+  :straight t
+  :bind ((:evil-normal-state-map
+          ("C-s" . swiper))
+         (:evil-motion-state-map
+          ("C-s" . swiper))))
+
+
+;;; ivy
+
+(leaf ivy
+  :straight t
+  :setq ((ivy-wrap . t)
+         (ivy-re-builders-alist . '((swiper . ivy--regex)
+                                    (t . ivy--regex-fuzzy)))
+         (ivy-count-format . "%d/%d ")
+         (ivy-use-selectable-prompt . t))
+  :config (progn (ivy-mode 1))
+  :bind ((:ivy-switch-buffer-map
+          ("C-j" . ivy-next-line)
+          ("C-k" . ivy-previous-line))
+         (:ivy-minibuffer-map
+          ("C-j" . ivy-next-line)
+          ("C-k" . ivy-previous-line))
+         (:minibuffer-local-map
+          ("C-j" . next-line-or-history-element)
+          ("C-k" . previous-line-or-history-element))))
+
+
+;;; more information for ivy
+
+(leaf ivy-rich
+  :straight t
+  :config (progn (ivy-rich-mode +1)
+                 (setcdr (assq t ivy-format-functions-alist)
+                         #'ivy-format-function-line)))
+
+
+;;; keymap
+
+(defvar custom-counsel-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map "f" 'counsel-find-file)
+    (define-key map "r" 'counsel-recentf)
+    (define-key map "b" 'counsel-switch-buffer)
+    (define-key map "B" 'counsel-switch-buffer-other-window)
+    (define-key map "k" 'kill-buffer)
+    (define-key map "s" 'counsel-imenu)
+    (define-key map "d" 'delete-file)
+    (define-key map "m" 'manual-entry)
+    (define-key map "y" 'counsel-yank-pop)
+    (define-key map "z" 'phrimm/counsel-fzf-rg)
+    map))
+(defalias 'counsel custom-counsel-keymap)
+
+(evil-leader/set-key
+  "f" 'counsel)
+
+
+(provide 'init-counsel)
+
+;;; init-counsel.el ends here
