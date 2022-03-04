@@ -27,9 +27,9 @@
   "50n" ""
   ""))
 
-(def key (slurp "/home/user/.private/weather-key"))
+(def weather-key (slurp "/home/user/.private/weather-key"))
 (def units "metric")
-(def symbol "°")
+(def degree "°")
 (def api "https://api.openweathermap.org/data/2.5")
 
 (defn get-location []
@@ -44,15 +44,15 @@
 (defn current-url [[location-lat location-lon]]
   (format "%s/weather?appid=%s&lat=%s&lon=%s&units=%s"
           api
-          key
+          weather-key
           location-lat
           location-lon
           units))
 
 (defn forecast-url [[location-lat location-lon]]
-  (format "%s/forecast?appid=%s&lat=%s&lon=%s&units=%s&cnt=1"
+  (format "%s/forecast?appid=%s&lat=%s&lon=%s&units=%s&cnt=2" ;; 6 hour forecast
           api 
-          key
+          weather-key
           location-lat
           location-lon
           units))
@@ -79,17 +79,17 @@
         current-temp (get-in current ["main" "temp"])
         current-icon (get-in current ["weather" 0 "icon"])
         forecast-temp (get-in forecast ["list" 0 "main" "temp"])
-        forecast-icon  (get-in forecast ["list" 0 "weather" 0 "icon"])
+        forecast-icon  (get-in forecast ["list" 1 "weather" 0 "icon"])
         trend (get-trend current-temp forecast-temp)
         daytime (get-daytime current)]
-     (print (format "%s  %s%s  %s  %s  %s%s   %s"
+     (print (format "%s  %s%s %s %s  %s%s  %s"
             (get-icon current-icon)
             current-temp
-            symbol
+            degree
             trend
             (get-icon forecast-icon)
             forecast-temp
-            symbol
+            degree
             daytime))))
 
 (show-weather)
