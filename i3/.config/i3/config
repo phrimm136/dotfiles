@@ -18,27 +18,25 @@ floating_modifier $super
 exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
 exec --no-startup-id xsettingsd
 exec --no-startup-id picom -bc
-exec --no-startup-id xkbcomp ~/.xkb/keymap/hangul.xkb $DISPLAY
-exec --no-startup-id xcape -t 150 -e "Control_L=Escape"
-exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
+exec --no-startup-id dunst #-config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
+exec --no-startup-id bluetoothctl power on
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
 exec --no-startup-id uim-toolbar-gtk3-systray
 exec --no-startup-id greenclip daemon
 exec --no-startup-id ntpdate -u time.nist.gov
-exec --no-startup-id birdtray
-exec --no-startup-id xset r rate 250 40
+exec --no-startup-id ~/.config/i3/scripts/keyboard.sh
 
 # start a terminal
-bindsym $super+Return exec termite -e "zsh -c 'neofetch && zsh'"
+bindsym $super+Return exec alacritty
 # bindsym $super+Shift+Return exec termite --title floating
 
 # start a launcher or menu
 bindcode 133 --release exec ~/.config/rofi/menu/menu.sh # $super
 bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'Noto Sans:size=8'"
 bindsym $super+r exec rofi -no-auto-select -matching normal -show run -run-shell-command "termite --title=floating -e '{cmd}'"
-bindsym $super+f exec ~/.config/rofi/menu/find.sh
+bindsym $super+f exec rofi -no-auto-select -matching normal -show filebrowser
 bindsym $super+p exec ~/.config/rofi/menu/display.sh # fn + <F7> is aligned to S-p. ...?
 
 # screenshot
@@ -48,6 +46,9 @@ bindsym $super+Print exec flameshot gui -p ~/Pictures/Screenshots -d 3000
 # common apps keybinds
 bindsym $super+Shift+e exec emacs
 bindsym $super+Shift+c exec google-chrome-stable
+bindsym $super+Shift+o exec obsidian
+bindsym $super+Shift+z exec zotero
+bindsym $super+Shift+v exec code
 #bindsym $super+Shift+d exec discord
 
 # change brightness
@@ -73,27 +74,20 @@ bindsym $super+q exec ~/.config/i3/scripts/alt-f4.sh
 bindsym $alt+F4 exec ~/.config/i3/scripts/alt-f4.sh # runs like windows
 
 # change focus
-bindsym $super+Left focus left
-bindsym $super+Down focus down
-bindsym $super+Up focus up
-bindsym $super+Right focus right
 bindsym $super+h focus left
 bindsym $super+j focus down
 bindsym $super+k focus up
 bindsym $super+l focus right
 
 # move focused window
-bindsym $super+Shift+Left move left
-bindsym $super+Shift+Down move down
-bindsym $super+Shift+Up move up
-bindsym $super+Shift+Right move right
-bindsym $super+Shift+h move left
-bindsym $super+Shift+j move down
-bindsym $super+Shift+k move up
-bindsym $super+Shift+l move right
-
-# change focus between tiling / floating windows
-bindsym $super+Shift+space focus mode_toggle
+#bindsym $super+Shift+Left move left
+#bindsym $super+Shift+Down move down
+#bindsym $super+Shift+Up move up
+#bindsym $super+Shift+Right move right
+#bindsym $super+Shift+h move left
+#bindsym $super+Shift+j move down
+#bindsym $super+Shift+k move up
+#bindsym $super+Shift+l move right
 
 # use workspaces on different monitors
 workspace "1: 1" output eDP1
@@ -108,10 +102,6 @@ workspace "9: 9" output HDMI1
 workspace "10: 10" output eDP1
 
 # switch to workspace
-bindsym $super+Control+Right workspace next
-bindsym $super+Control+Left workspace prev
-bindsym $super+Ctrl+h workspace prev
-bindsym $super+Ctrl+l workspace next
 bindsym $super+1 workspace 1
 bindsym $super+2 workspace 2
 bindsym $super+3 workspace 3
@@ -138,7 +128,7 @@ bindsym $super+Shift+0 move container to workspace 10
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $super+Shift+r exec ~/.config/i3/scripts/restart.sh
 
-# exit i3
+# power menu
 bindsym $super+Shift+q exec ~/.config/rofi/menu/powermenu.sh
 
 # modify window settings
@@ -200,22 +190,23 @@ bindsym $super+w mode "modify"
 
 # window rules, you can find the window class using xprop
 assign [class=Google-chrome] 1
-assign [class=Emacs] 2
-assign [class=Termite title="^(?!floating$)"] 3
-assign [class=Gimp*|Libre*] 4
-assign [Class=Thunderbird] 10
+assign [class=code] 2
+assign [class=Alacritty] 3
+assign [class=Gimp*|Libre*|obsidian|Zotero|Emacs] 4
+#assign [Class=Thunderbird] 10
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
-for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px,  move to position 560 240
+for_window [class=Emacs|obsidian|Zotero] layout stacking
 # terminal with rofi run_command
-for_window [class=Thunderbird|Google-chrome|Emacs|Termite|discord|Gimp* title="^(?!floating$)"] focus
+for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px,  move to position 560 240
+for_window [class=code|Google-chrome|Emacs|Alacritty|discord|Gimp*|obsidian|Zotero title="^(?!floating$)"] focus
 default_orientation vertical
-for_window [class="^.*"] split toggle
+for_window [class=Google-chrome|Alacritty] split toggle
 for_window [class="^.*"] border pixel 0
-# class	                    	border	backgr.	text	indica.	child_border
-client.focused              	#585858 #2f343f #d8dee8 #ffffff #585858
-client.focused_inactive	        #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.unfocused	        	#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.urgent	            	#2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.placeholder	            #2f343f #2f343f #d8dee8 #2f343f #2f343f
-client.background               #2f343f
+# class	                 border  backgr. text    indica. child_border
+client.focused           #585858 #2f343f #d8dee8 #ffffff #585858
+client.focused_inactive  #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.unfocused         #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.urgent            #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.placeholder       #2f343f #2f343f #d8dee8 #2f343f #2f343f
+client.background        #2f343f
