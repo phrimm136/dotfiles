@@ -16,17 +16,16 @@ floating_modifier $super
 
 # autostart
 exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
-exec --no-startup-id xsettingsd
 exec --no-startup-id picom -bc
 exec --no-startup-id dunst #-config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
-exec --no-startup-id bluetoothctl power on
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
 exec --no-startup-id uim-toolbar-gtk3-systray
 exec --no-startup-id greenclip daemon
 exec --no-startup-id ntpdate -u time.nist.gov
 exec --no-startup-id ~/.config/i3/scripts/keyboard.sh
+exec --no-startup-id bluetoothctl power on
 
 # start a terminal
 bindsym $super+Return exec alacritty
@@ -196,12 +195,12 @@ assign [class=Gimp*|Libre*|obsidian|Zotero|Emacs] 4
 #assign [Class=Thunderbird] 10
 for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
-for_window [class=Emacs|obsidian|Zotero] layout stacking
+for_window [class=Emacs|obsidian|Zotero] layout tabbed
 # terminal with rofi run_command
 for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px,  move to position 560 240
 for_window [class=code|Google-chrome|Emacs|Alacritty|discord|Gimp*|obsidian|Zotero title="^(?!floating$)"] focus
 default_orientation vertical
-for_window [class=Google-chrome|Alacritty] split toggle
+for_window [class=Google-chrome|Alacritty|Termite] split toggle
 for_window [class="^.*"] border pixel 0
 # class	                 border  backgr. text    indica. child_border
 client.focused           #585858 #2f343f #d8dee8 #ffffff #585858
