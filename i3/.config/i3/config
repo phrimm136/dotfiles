@@ -15,17 +15,18 @@ font pango: NotoSans 8
 floating_modifier $super
 
 # autostart
-exec --no-startup-id hsetroot -center ~/Pictures/wallpaper.png
+exec --no-startup-id hsetroot -solid "#131313"
+# exec --no-startup-id hsetroot -cover ~/Pictures/wallpaper.jpeg
 exec --no-startup-id picom -bc
-exec --no-startup-id dunst #-config ~/.config/dunst/dunstrc
+exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id lxsession
 #exec --no-startup-id i3-msg "workspace 3; append_layout ~/.i3/workspace-3.json"
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
-exec --no-startup-id uim-toolbar-gtk3-systray
+# exec --no-startup-id uim-toolbar-gtk3-systray
+exec --no-startup-id kime-daemon
 exec --no-startup-id greenclip daemon
 exec --no-startup-id ntpdate -u time.nist.gov
 exec --no-startup-id ~/.config/i3/scripts/keyboard.sh
-exec --no-startup-id bluetoothctl power on
 
 # start a terminal
 bindsym $super+Return exec alacritty
@@ -48,6 +49,8 @@ bindsym $super+Shift+c exec google-chrome-stable
 bindsym $super+Shift+o exec obsidian
 bindsym $super+Shift+z exec zotero
 bindsym $super+Shift+v exec code
+bindsym $super+Shift+u exec termite --title=floating -e 'yay'
+bindsym $super+Shift+n exec termite --title=floating -e 'nmtui'
 #bindsym $super+Shift+d exec discord
 
 # change brightness
@@ -189,16 +192,16 @@ bindsym $super+w mode "modify"
 
 # window rules, you can find the window class using xprop
 assign [class=Google-chrome] 1
-assign [class=code] 2
+assign [class=Code] 2
 assign [class=Alacritty] 3
 assign [class=Gimp*|Libre*|obsidian|Zotero|Emacs] 4
 #assign [Class=Thunderbird] 10
-for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick] floating enable
+for_window [class=Viewnior|feh|Audacious|File-roller|Lxappearance|Lxtask|Pavucontrol|Gpick|matplotlib] floating enable
 for_window [class="Yad" title="yad-calendar"] floating enable # polybar calendar
 for_window [class=Emacs|obsidian|Zotero] layout tabbed
 # terminal with rofi run_command
-for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px,  move to position 560 240
-for_window [class=code|Google-chrome|Emacs|Alacritty|discord|Gimp*|obsidian|Zotero title="^(?!floating$)"] focus
+for_window [class="Termite" title="floating"] floating enable, resize set width 800 px height 600 px, move to position 560 240
+for_window [class=Code|Google-chrome|Emacs|Alacritty|discord|Gimp*|obsidian|Zotero title="^(?!floating$)"] focus
 default_orientation vertical
 for_window [class=Google-chrome|Alacritty|Termite] split toggle
 for_window [class="^.*"] border pixel 0
