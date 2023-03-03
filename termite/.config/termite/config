@@ -4,7 +4,7 @@
 #bold_is_bright = true
 #clickable_url = true
 #dynamic_title = true
-font = DejaVu Sans Mono 7
+font = Fira Code 7
 #fullscreen = true
 #icon_name = terminal
 mouse_autohide = true
@@ -50,7 +50,7 @@ scrollbar = off
 #background = #3f3f3f
 
 # true background transparency (requires a compositor)
-background = rgba(0, 0, 0, 0)
+background = #242424
 
 # If unset, will reverse foreground and background
 highlight = #2f2f2f

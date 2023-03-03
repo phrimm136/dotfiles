@@ -1,0 +1,6 @@
+[submodule "awesome"]
+	path = awesome
+	url = https://github.com/HikariKnight/material-awesome.git
+[submodule "ranger/.config/ranger/plugins/ranger-zjumper"]
+	path = ranger/.config/ranger/plugins/ranger-zjumper
+	url = https://github.com/ask1234560/ranger-zjumper

@@ -1,0 +1,17 @@
+* Blogs
+** AI                                       :AI:
+*** https://deepmind.com/blog/feed/basic/
+** Mathmetics                               :math:
+*** https://terrytao.wordpress.com/feed/
+https://dansblog.netlify.app/index.xml :bayesian:
+** Software Development                     :dev:
+*** Julia                                  :julia:
+**** https://www.juliabloggers.com/feed/
+**** [[https://viralinstruction.com/feed.xml]]
+**** [[https://www.algebraicjulia.org/blog/feed.xml]]
+**** [[https://aviatesk.github.io/feed.xml]]
+*** C++                                    :C++:
+**** [[https://artificial-mind.net/feed.xml]]
+** emacs                                    :emacs:
+*** [[https://xenodium.com/rss.xml]]
+*** https://protesilaos.com/codelog.xml

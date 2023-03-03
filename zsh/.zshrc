@@ -8,20 +8,19 @@ source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug 'djui/alias-tips'
-zplug 'plugins/command-not-found', from:oh-my-zsh
-zplug 'plugins/common-aliases', from:oh-my-zsh
 zplug 'lib/completion', from:oh-my-zsh
-zplug 'lib/correct', from:oh-my-zsh
-zplug 'plugins/copybuffer', from:oh-my-zsh
+zplug 'lib/correction', from:oh-my-zsh
 zplug 'lib/directories', from:oh-my-zsh
 zplug 'lib/history', from:oh-my-zsh
 zplug 'lib/key-bindings', from:oh-my-zsh
+zplug 'plugins/command-not-found', from:oh-my-zsh
+zplug 'plugins/common-aliases', from:oh-my-zsh
+zplug 'plugins/copybuffer', from:oh-my-zsh
 zplug 'hlissner/zsh-autopair'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 
-zplug 'junegunn/fzf-bin', from:gh-r, rename-to:fzf, use:"*linux*amd64*"
 zplug 'junegunn/fzf', from:github, use:"shell/*.zsh", defer:2
 zplug 'Aloxaf/fzf-tab', defer:2
 
@@ -63,8 +62,11 @@ source ~/.p10k.zsh
 export FZF_BASE=/usr/bin/fzf
 export DISABLE_FZF_AUTO_COMPLETION="true"
 export FZF_COMPLETION_TRIGGER="**"
+bindkey "^f" fzf-cd-widget
+bindkey -r "\ec"
 
 # fzf-tab settings
+setopt globdots
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -93,12 +95,11 @@ zstyle ':fzf-tab:*' show-group full
 eval "$(zoxide init zsh)"
 
 # Key bindings
-bindkey "^K" up-line-or-history
-bindkey "^J" down-line-or-history
+bindkey "^K" up-line-or-beginning-search
+bindkey "^J" down-line-or-beginning-search
 
 # Aliases
 alias _='sudo '
-alias a='clear'
 alias b='btm'
 alias c='nvim ~/.zshrc'
 alias n='neofetch'
@@ -107,14 +108,14 @@ alias q='exit'
 alias r='source ~/.zshrc'
 alias t='sudo ntpdate -u time.nist.gov'
 alias v='nvim'
-alias xc='xcape -t 150 -e "Control_L=Escape"'
 alias y='yay'
+alias g='sudo mount /dev/sda2 ~/Games'
 alias py='python'
 alias jl='julia'
 alias pp='sudo pacman'
 alias kb='~/.config/i3/scripts/keyboard.sh'
 alias la='exa -alFh'
-alias pc='paccache -rk1 && paccache ruk0'
+alias pc='paccache -rk1 && paccache -ruk0 && paccache -rk1 -c ~/.cache/yay/ && paccache -ruk0 -c ~/.cache/yay/'
 alias vf='nvim $(fasd -l | fzf)'
 alias mtu='sudo ip link set wlp3s0 mtu'
 alias mnt='udisksctl mount -b /dev/sdb1'
@@ -138,3 +139,5 @@ fi
 if ! [[ $INFOPATH =~ $texinfopath ]]; then
     export INFOPATH="$texinfopath:$INFOPATH"
 fi
+
+

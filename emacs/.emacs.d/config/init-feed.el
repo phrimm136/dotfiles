@@ -11,7 +11,8 @@
 (leaf elfeed-org
   :straight t
   :setq ((elfeed-show-entry-switch . 'display-buffer)
-         (rmh-elfeed-org-files . '("~/.emacs.d/elfeed.org"))))
+         (rmh-elfeed-org-files . '("~/.emacs.d/elfeed.org")))
+  :config (elfeed-org))
 
 
 (provide 'init-feed)

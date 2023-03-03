@@ -24,6 +24,7 @@ exec --no-startup-id lxsession
 exec --no-startup-id ~/.config/polybar/scripts/start.sh
 # exec --no-startup-id uim-toolbar-gtk3-systray
 exec --no-startup-id kime-daemon
+exec --no-startup-id kime-xim
 exec --no-startup-id greenclip daemon
 exec --no-startup-id ntpdate -u time.nist.gov
 exec --no-startup-id ~/.config/i3/scripts/keyboard.sh

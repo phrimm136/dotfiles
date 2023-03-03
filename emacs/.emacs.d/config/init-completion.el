@@ -1,4 +1,4 @@
-;;; init-company.el --- configuration for company -*- lexical-binding: t -*-
+;;; init-completion.el --- configuration for code completion -*- lexical-binding: t -*-
 
 ;;; Commentary:
 

@@ -1,0 +1,12 @@
+[Unit]
+Description=GreenTunnel bypasses DPI (Deep Packet Inspection) systems
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/gt --port 8008
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
