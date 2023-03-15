@@ -4,7 +4,7 @@
 #bold_is_bright = true
 #clickable_url = true
 #dynamic_title = true
-font = Fira Code 7
+font = NotoSans Mono 8
 #fullscreen = true
 #icon_name = terminal
 mouse_autohide = true

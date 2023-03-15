@@ -59,9 +59,9 @@ bindsym XF86MonBrightnessDown exec light -U 10
 bindsym XF86MonBrightnessUp exec light -A 10
 
 # change volume
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+
-bindsym XF86AudioLowerVolume exec amixer -q set Master 5%-
-bindsym XF86AudioMute exec amixer set Master toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
 
 # music control
 bindsym XF86AudioNext exec mpc next
@@ -83,14 +83,14 @@ bindsym $super+k focus up
 bindsym $super+l focus right
 
 # move focused window
-#bindsym $super+Shift+Left move left
-#bindsym $super+Shift+Down move down
-#bindsym $super+Shift+Up move up
-#bindsym $super+Shift+Right move right
-#bindsym $super+Shift+h move left
-#bindsym $super+Shift+j move down
-#bindsym $super+Shift+k move up
-#bindsym $super+Shift+l move right
+bindsym $super+Shift+Left move left
+bindsym $super+Shift+Down move down
+bindsym $super+Shift+Up move up
+bindsym $super+Shift+Right move right
+bindsym $super+Shift+h move left
+bindsym $super+Shift+j move down
+bindsym $super+Shift+k move up
+bindsym $super+Shift+l move right
 
 # use workspaces on different monitors
 workspace "1: 1" output eDP1

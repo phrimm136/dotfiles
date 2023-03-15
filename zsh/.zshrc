@@ -7,7 +7,6 @@ source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-zplug 'djui/alias-tips'
 zplug 'lib/completion', from:oh-my-zsh
 zplug 'lib/correction', from:oh-my-zsh
 zplug 'lib/directories', from:oh-my-zsh
@@ -16,13 +15,12 @@ zplug 'lib/key-bindings', from:oh-my-zsh
 zplug 'plugins/command-not-found', from:oh-my-zsh
 zplug 'plugins/common-aliases', from:oh-my-zsh
 zplug 'plugins/copybuffer', from:oh-my-zsh
+zplug 'djui/alias-tips'
+zplug 'mdumitru/fancy-ctrl-z'
 zplug 'hlissner/zsh-autopair'
 zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
-
-zplug 'junegunn/fzf', from:github, use:"shell/*.zsh", defer:2
-zplug 'Aloxaf/fzf-tab', defer:2
 
 zplug 'plugins/gitfast', from:oh-my-zsh
 zplug 'plugins/git', from:oh-my-zsh
@@ -34,6 +32,9 @@ zplug 'plugins/tmux', from:oh-my-zsh
 zplug 'plugins/python', from:oh-my-zsh
 zplug 'plugins/pip', from:oh-my-zsh
 zplug 'srijanshetty/zsh-pip-completion'
+
+zplug 'junegunn/fzf', from:github, use:"shell/*.zsh", defer:2
+zplug 'Aloxaf/fzf-tab', defer:2
 
 zplug "romkatv/powerlevel10k", as:theme
 
@@ -52,8 +53,8 @@ fi
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
-# Support true color in terminal emulator
-export TERM=screen-24bits
+# Support true color in terminal emulator - disabling due to malfunctioning home and end key
+# export TERM=screen-24bits
 
 # Load powerlevel10k custom
 source ~/.p10k.zsh
@@ -139,5 +140,3 @@ fi
 if ! [[ $INFOPATH =~ $texinfopath ]]; then
     export INFOPATH="$texinfopath:$INFOPATH"
 fi
-
-

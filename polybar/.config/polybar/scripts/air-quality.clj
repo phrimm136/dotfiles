@@ -1,10 +1,11 @@
 #!/bin/bb
 
 (use '[clojure.java.shell :only [sh]])
+(use 'clojure.string)
 (require '[babashka.curl :as curl])
 (require '[cheshire.core :as json])
 
-(def token (slurp "/home/user/.private/pollution-key"))
+(def token (trim (slurp "/home/user/.private/pollution-key")))
 (def api "https://api.waqi.info/feed")
 
 (defn get-location []

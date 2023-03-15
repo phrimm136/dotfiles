@@ -27,7 +27,7 @@
   "50n" ""
   ""))
 
-(def weather-key (slurp "/home/user/.private/weather-key"))
+(def weather-key (trim (slurp "/home/user/.private/weather-key")))
 (def units "metric")
 (def degree "°")
 (def api "https://api.openweathermap.org/data/2.5")
