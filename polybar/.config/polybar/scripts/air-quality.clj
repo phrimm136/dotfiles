@@ -25,13 +25,13 @@
           token))
 
 (defn get-air-string [aqi]
-  (cond (= aqi "-") "%{F#ffffff}%{F-}"
-        (< aqi 50) (str "%{F#009966}%{F-} " aqi)
-        (< aqi 100) (str "%{F#ffde33}%{F-} " aqi)
-        (< aqi 150) (str "%{F#ff9933}%{F-} " aqi)
-        (< aqi 200) (str "%{F#cc0033}%{F-} " aqi)
-        (< aqi 300) (str "%{F#660099}%{F-} " aqi)
-        :else (str "%{F#7e0023}%{F-} " aqi)))
+  (cond (= aqi "-") "%{F#ffffff}󰌪%{F-}"
+        (< aqi 50) (str "%{F#009966}󰌪%{F-} " aqi)
+        (< aqi 100) (str "%{F#ffde33}󰌪%{F-} " aqi)
+        (< aqi 150) (str "%{F#ff9933}󰌪%{F-} " aqi)
+        (< aqi 200) (str "%{F#cc0033}󰌪%{F-} " aqi)
+        (< aqi 300) (str "%{F#660099}󰌪%{F-} " aqi)
+        :else (str "%{F#7e0023}󰌪%{F-} " aqi)))
 
 (defn show-air-quality []
   (let [air (-> (curl/get (air-url (get-location))) :body json/parse-string)]
