@@ -9,12 +9,11 @@
 (def api "https://api.waqi.info/feed")
 
 (defn get-location []
-  (let [location (-> (curl/get "https://location.services.mozilla.com/v1/geolocate?key=geoclue")
+  (let [location (-> (curl/get "http://ipwho.is/")
                      :body
-                     json/parse-string
-                     (get "location"))
-        location-lat (get location "lat")
-        location-lon (get location "lng")]
+                     json/parse-string)
+        location-lat (get location "latitude")
+        location-lon (get location "longitude")]
     [location-lat location-lon]))
 
 (defn air-url [[location-lat location-lon]]
